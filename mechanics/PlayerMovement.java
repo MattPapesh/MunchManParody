@@ -36,9 +36,13 @@ public class PlayerMovement extends MechanicBase
     public void execute() 
     {   
         Coordinates stage_coords = new Coordinates(munch_man.getStageCoords().getX() + delta_x, munch_man.getStageCoords().getY() + delta_y, 0);
-        munch_man.setStageCoords(stage_coords.getX(), stage_coords.getY());
-        munch_man.setCoordinates((stage_coords.getX() * Constants.STAGE_CHARACTERISTICS.STAGE_COORD_SCALER) + munch_man.getDisplacementCoords().getX(), 
-        (stage_coords.getY() * Constants.STAGE_CHARACTERISTICS.STAGE_COORD_SCALER) + munch_man.getDisplacementCoords().getY(), 0);
+        if(stage_coords.getX() >= 0 && stage_coords.getY() >= 0 &&  stage_coords.getX() < stage_data[0].length && stage_coords.getY() < stage_data.length
+        &&  stage_data[stage_coords.getY()][stage_coords.getX()] == 1)
+        {
+            munch_man.setStageCoords(stage_coords.getX(), stage_coords.getY());
+            munch_man.setCoordinates((stage_coords.getX() * Constants.STAGE_CHARACTERISTICS.STAGE_COORD_SCALER) + munch_man.getDisplacementCoords().getX(), 
+            (stage_coords.getY() * Constants.STAGE_CHARACTERISTICS.STAGE_COORD_SCALER) + munch_man.getDisplacementCoords().getY(), 0);
+        
 
         boolean on_path = false;
         int[][] stage_data = stage.getStageData();
@@ -47,7 +51,7 @@ public class PlayerMovement extends MechanicBase
             on_path = true;
         }
 
-        System.out.println("X: " + stage_coords.getX() + ",  Y: " + stage_coords.getY() + " On-Path: " + on_path);
+        System.out.println("X: " + stage_coords.getX() + ",  Y: " + stage_coords.getY() + " On-Path: " + on_path);}
     }
 
     @Override 
