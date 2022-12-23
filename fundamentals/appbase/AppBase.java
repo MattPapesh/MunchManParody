@@ -37,6 +37,7 @@ public class AppBase extends JFrame implements AppInterface
     private prioritizedAppStatus prev_app_status = null;
     private prioritizedAppStatus app_status = null;
     
+    private boolean app_initialized = false; 
     private boolean determined_app_status = false;
 
     private interface prioritizedAppStatus
@@ -74,6 +75,7 @@ public class AppBase extends JFrame implements AppInterface
     public void startApp()
     {
         appBaseInit();
+        initiateAppStatus();
 
         while(true)
         {
@@ -254,8 +256,9 @@ public class AppBase extends JFrame implements AppInterface
             updateIconImage(1000);
             determineAppStatus();
 
-            if(prev_app_status == null || prev_app_status.getStatusID() != app_status.getStatusID())
+            if((prev_app_status != null && prev_app_status.getStatusID() != app_status.getStatusID()) || prev_app_status == null && !app_initialized)
             {
+                app_initialized = true;
                 app_status.prioritizedInit(); 
             }
 

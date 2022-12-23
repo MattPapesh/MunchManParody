@@ -1,30 +1,21 @@
 package components;
 
+import fundamentals.Constants;
 import fundamentals.animation.Animation;
-import fundamentals.component.*;;
+import fundamentals.component.*;
 
 public class Stage extends ComponentBase {
     
     private Animation stage = new Animation("stage.png");
-    private final int[][] stage_tiles = 
-    {
-        {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-        {1, 0},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {}
-    };
+    private int[][] stage_data = Constants.STAGE_CHARACTERISTICS.STAGE_DATA;
 
     public Stage()
     {
-        addRequirements(stage.getImageWidth() / 2, stage.getImageHeight() / 2, 0, stage);
+        addRequirements((stage.getImageWidth() / 2) - 50, stage.getImageHeight() / 2, 0, stage);
+    }
+
+    public int[][] getStageData() 
+    {
+        return stage_data;
     }
 }

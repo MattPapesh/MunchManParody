@@ -188,6 +188,14 @@ public class Button
         }
     }
 
+    private void cancelButtonMechanics(LinkedList<MechanicBase> mechanics)
+    {
+        for(int i = 0; i < mechanics.size(); i++)
+        {
+            mechanics.get(i).cancel();
+        }
+    }
+
     /**
      *  Used to evaluate the button's current state and activity to determine if and when mechanics binded to the button
      * should be scheduled and ran. Moreover, if this method is continuously called,it will continuously check to see if binded mechanics
@@ -198,15 +206,23 @@ public class Button
     {
         prev_is_active = current_is_active;
 
-        if(isActive() && ! prev_is_active)
+        if(isActive() && !prev_is_active)
         {
             completed_lifetime_update = true;
             runButtonMechanics(when_pressed_mechanics);
+        }
+        else if(!isActive() && prev_is_active)
+        {
+            cancelButtonMechanics(when_pressed_mechanics);
         }
 
         if(isActive())
         {
             runButtonMechanics(while_pressed_cont_mechanics);
+        }
+        else
+        {
+            cancelButtonMechanics(while_pressed_cont_mechanics);
         }
     }
 }
