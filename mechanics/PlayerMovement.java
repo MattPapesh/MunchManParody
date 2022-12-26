@@ -120,11 +120,6 @@ public class PlayerMovement extends MechanicBase
             player_prev_collided = false;
         }
     }
-
-    private void turningMovement() 
-    {
-          
-    }
     
     @Override
     public void initialize() 
