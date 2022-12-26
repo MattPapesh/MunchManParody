@@ -76,8 +76,7 @@ public class PlayerMovement extends MechanicBase
         if((Math.abs(prev_delta_x) != Math.abs(current_delta_x) || Math.abs(prev_delta_y) != Math.abs(current_delta_y))
         && current_delta_x == 0 && current_delta_y != 0 
         && ((stage_data[current_stage_coords.getY() - 1][current_stage_coords.getX()] == 1 && current_delta_y < 0)
-        || (stage_data[current_stage_coords.getY() + 1][current_stage_coords.getX()] == 1 && current_delta_y > 0))
-        )//&& Math.abs(horizontal_collision_diff) < turning_tolerance)
+        || (stage_data[current_stage_coords.getY() + 1][current_stage_coords.getX()] == 1 && current_delta_y > 0)))
         {
             setTickVelocity(current_delta_x, current_delta_y);
             current_gran_stage_coords.setCoordinates(getGranularStageCoords(current_stage_coords).getX(), 
@@ -87,13 +86,11 @@ public class PlayerMovement extends MechanicBase
         else if((Math.abs(prev_delta_x) != Math.abs(current_delta_x) || Math.abs(prev_delta_y) != Math.abs(current_delta_y))
         && current_delta_x != 0 && current_delta_y == 0
         && ((stage_data[current_stage_coords.getY()][current_stage_coords.getX() - 1] == 1 && current_delta_x < 0)
-        || (stage_data[current_stage_coords.getY()][current_stage_coords.getX() + 1] == 1 && current_delta_x > 0))
-        )//&& Math.abs(vertical_collision_diff) < turning_tolerance)
+        || (stage_data[current_stage_coords.getY()][current_stage_coords.getX() + 1] == 1 && current_delta_x > 0)))
         {
             setTickVelocity(current_delta_x, current_delta_y);
             current_gran_stage_coords.setCoordinates(current_gran_stage_coords.getX(),  
             getGranularStageCoords(current_stage_coords).getY(), 0);
-            System.err.println("2");
         }
         else if((Math.abs(prev_delta_x) != Math.abs(current_delta_x) || Math.abs(prev_delta_y) != Math.abs(current_delta_y)))
         {
@@ -135,19 +132,11 @@ public class PlayerMovement extends MechanicBase
     
     }
 
-    // Move in a given direction constantly
-    // Move until collision with wall (data = 0)
-    // Collision triggers with granularity tolerance
-    // Turning triggers at coords without walls (data = 1) and withing turning granularity tolerance
-    // 
-
     @Override
     public void execute() 
     {   
         updateCoords();
         collisionalMovement();
-        turningMovement();
-
         munch_man.setCoordinates(current_gran_stage_coords.getX() + munch_man.getDisplacementCoords().getX(), 
         current_gran_stage_coords.getY() + munch_man.getDisplacementCoords().getY(), 0);
     }
