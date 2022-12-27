@@ -143,6 +143,20 @@ public class ComponentBase
         return current_animation.getAnimation();
     }
 
+    /**
+     * @return An Image instance of the animation/image specified by the index parameter.
+     * 
+     * @param index The animation/image index of the list of animations provided when addRequirements(...) is called. 
+     */
+    public Animation getAnimation(int index)
+    {
+        if(index < animations.size())
+        {
+            return animations.get(index);
+        }
+
+        return null;
+    }
 
     /**
      * @return An the width of the animation/image that the component is currently using. 
@@ -172,5 +186,15 @@ public class ComponentBase
     public boolean getActivity()
     {
         return active;
+    }
+
+    public Animation getSubAnimation(int img_x0, int img_y0, int img_x1, int img_y1, int index)
+    {   
+        if(index < animations.size())
+        {
+            return new Animation(img_x0, img_y0, img_x1, img_y1, animations.get(index));
+        }
+        
+        return null;
     }
 }

@@ -18,7 +18,13 @@ import java.awt.*;
  */
 public class Animation 
 {
-    private String file_name = "";
+    private final String file_name;
+    private BufferedImage parent_image = null;
+
+    private int img_x0 = 0; 
+    private int img_y0 = 0;
+    private int img_x1 = 0;
+    private int img_y1 = 0;
 
     /**
      * Used to return Image, ImageIcon, and BufferedImage instances along with the dimensions of an image. 
@@ -35,16 +41,34 @@ public class Animation
         this.file_name = file_name;
     }
 
-    /**
-     * @return A Image instance created from the image file specified in the constructor. 
-     */
+    public Animation(int img_x0, int img_y0, int img_x1, int img_y1, Animation parent_animation)
+    {
+        this.file_name = "";
+        this.img_x0 = img_x0;
+        this.img_y0 = img_y0;
+        this.img_x1 = img_x1;
+        this.img_y1 = img_y1;
+        parent_image = parent_animation.getBufferedImage();
+    }
+
     public Image getAnimation()
     {
-       return new ImageIcon(getClass().getResource("/" + Constants.FILE_ROOT_DIRECTORIES.IMAGE_ROOT_DIRECTORY + file_name)).getImage();
+        if(file_name != "")
+        {
+            return new ImageIcon(getClass().getResource("/" + Constants.FILE_ROOT_DIRECTORIES.IMAGE_ROOT_DIRECTORY + file_name)).getImage();
+        }
+        else
+        {
+            return parent_image.getSubimage(img_x0, img_y0, Math.abs(img_x1 - img_x0), Math.abs(img_y1 - img_y0)); 
+        }
     }
 
     /**
      * @return A ImageIcon instance created from the image file specified in the constructor. 
+     * 
+     * @see Note: This only applies for Animations created by calling Animation(String file_name); 
+     * Animations created by providing a parent Animation via the alternative constructor will be considered Animations
+     * of sub images. Sub image Animations are based on their parent Animation and this method cannot apply. 
      */
     private ImageIcon getImageIcon()
     {    
@@ -53,8 +77,12 @@ public class Animation
 
     /**
      * @return A BufferedImage instance created from the image file specified in the constructor. 
+     * 
+     * @see Note: This only applies for Animations created by calling Animation(String file_name); 
+     * Animations created by providing a parent Animation via the alternative constructor will be considered Animations
+     * of sub images. Sub image Animations are based on their parent Animation and this method cannot apply.
      */
-    private BufferedImage getBufferedImage()
+    protected BufferedImage getBufferedImage()
     {
         try
         {
@@ -83,6 +111,10 @@ public class Animation
         {
             return getImageIcon().getIconWidth();
         }
+        else if(file_name == "")
+        {
+            return Math.abs(img_x1 - img_x0);
+        }
 
         return 0;
     }
@@ -103,12 +135,20 @@ public class Animation
         {
             return getImageIcon().getIconHeight();
         }
+        else if(file_name == "")
+        {
+            return Math.abs(img_y1 - img_y0);
+        }
 
         return 0;
     }
 
     /**
      * @return The image file's name; file type included. EX: "myImage.png"
+     * 
+     * @see Note: This only applies for Animations created by calling Animation(String file_name); 
+     * Animations created by providing a parent Animation via the alternative constructor will be considered Animations
+     * of sub images. Sub image Animations are based on their parent Animation and this method cannot apply.
      */
     public String getName()
     {
