@@ -6,6 +6,7 @@ import fundamentals.UI.*;
 
 import components.MunchMan;
 import components.Stage;
+import components.StageChain;
 
 public class AppContainer extends AppBase
 {
@@ -13,6 +14,7 @@ public class AppContainer extends AppBase
     Constants.CONTROLLER_IDS.UP_KEY, Constants.CONTROLLER_IDS.DOWN_KEY);
 
     private Stage stage = new Stage();
+    private StageChain stage_chain = new StageChain();
     private MunchMan munch_man = new MunchMan();
 
     private PlayerMovement player_movement = new PlayerMovement(stage, munch_man);
