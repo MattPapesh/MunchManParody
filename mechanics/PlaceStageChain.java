@@ -33,7 +33,6 @@ public class PlaceStageChain extends MechanicBase
     public void execute()
     {   
         stage_chain.update(munch_man.getCoordinates().getX(), munch_man.getCoordinates().getY());
-        
     }
 
     @Override

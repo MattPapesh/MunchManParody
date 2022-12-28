@@ -91,45 +91,63 @@ public class PlayerMovement extends MechanicBase
         int horizontal_collision_diff = current_gran_stage_coords.getX() - getGranularStageCoords(current_stage_coords).getX();
         int vertical_collision_diff = current_gran_stage_coords.getY() - getGranularStageCoords(current_stage_coords).getY();
 
-        // Vertical to horizontal turn:
-        if((Math.abs(prev_delta_x) != Math.abs(current_delta_x) || Math.abs(prev_delta_y) != Math.abs(current_delta_y))
-        && current_delta_x == 0 && current_delta_y != 0 
-        && ((stage_data[current_stage_coords.getY() - 1][current_stage_coords.getX()] == 1 && current_delta_y < 0)
-        || (stage_data[current_stage_coords.getY() + 1][current_stage_coords.getX()] == 1 && current_delta_y > 0)))
+        try
         {
-            setTickVelocity(current_delta_x, current_delta_y);
-            current_gran_stage_coords.setCoordinates(getGranularStageCoords(current_stage_coords).getX(), 
-            current_gran_stage_coords.getY(), 0);
-        }// Horizontal to vertical turn:
-        else if((Math.abs(prev_delta_x) != Math.abs(current_delta_x) || Math.abs(prev_delta_y) != Math.abs(current_delta_y))
-        && current_delta_x != 0 && current_delta_y == 0
-        && ((stage_data[current_stage_coords.getY()][current_stage_coords.getX() - 1] == 1 && current_delta_x < 0)
-        || (stage_data[current_stage_coords.getY()][current_stage_coords.getX() + 1] == 1 && current_delta_x > 0)))
-        {
-            setTickVelocity(current_delta_x, current_delta_y);
-            current_gran_stage_coords.setCoordinates(current_gran_stage_coords.getX(),  
-            getGranularStageCoords(current_stage_coords).getY(), 0);
-        }
-        else if((Math.abs(prev_delta_x) != Math.abs(current_delta_x) || Math.abs(prev_delta_y) != Math.abs(current_delta_y)))
-        {
-            setTickVelocity(prev_delta_x, prev_delta_y);
-        }
+            // Vertical to horizontal turn:
+            if((Math.abs(prev_delta_x) != Math.abs(current_delta_x) || Math.abs(prev_delta_y) != Math.abs(current_delta_y))
+            && current_delta_x == 0 && current_delta_y != 0 
+            && ((stage_data[current_stage_coords.getY() - 1][current_stage_coords.getX()] == 1 && current_delta_y < 0)
+            || (stage_data[current_stage_coords.getY() + 1][current_stage_coords.getX()] == 1 && current_delta_y > 0)))
+            {
+                setTickVelocity(current_delta_x, current_delta_y);
+                current_gran_stage_coords.setCoordinates(getGranularStageCoords(current_stage_coords).getX(), 
+                current_gran_stage_coords.getY(), 0);
+            }// Horizontal to vertical turn:
+            else if((Math.abs(prev_delta_x) != Math.abs(current_delta_x) || Math.abs(prev_delta_y) != Math.abs(current_delta_y))
+            && current_delta_x != 0 && current_delta_y == 0
+            && ((stage_data[current_stage_coords.getY()][current_stage_coords.getX() - 1] == 1 && current_delta_x < 0)
+            || (stage_data[current_stage_coords.getY()][current_stage_coords.getX() + 1] == 1 && current_delta_x > 0)))
+            {
+                setTickVelocity(current_delta_x, current_delta_y);
+                current_gran_stage_coords.setCoordinates(current_gran_stage_coords.getX(),  
+                getGranularStageCoords(current_stage_coords).getY(), 0);
+            }
+            else if((Math.abs(prev_delta_x) != Math.abs(current_delta_x) || Math.abs(prev_delta_y) != Math.abs(current_delta_y)))
+            {
+                setTickVelocity(prev_delta_x, prev_delta_y);
+            }
 
-        // Horizontal movement: 
-        if(current_stage_coords.getY() == prev_stage_coords.getY()
-        && ((horizontal_collision_diff < collision_tolerance && stage_data[current_stage_coords.getY()][current_stage_coords.getX() - 1] == 0) 
-        || (-horizontal_collision_diff < collision_tolerance && stage_data[current_stage_coords.getY()][current_stage_coords.getX() + 1] == 0)))
+            // Horizontal movement: 
+            if(current_stage_coords.getY() == prev_stage_coords.getY()
+            && ((horizontal_collision_diff < collision_tolerance && stage_data[current_stage_coords.getY()][current_stage_coords.getX() - 1] == 0) 
+            || (-horizontal_collision_diff < collision_tolerance && stage_data[current_stage_coords.getY()][current_stage_coords.getX() + 1] == 0)))
+            {
+                current_gran_stage_coords.setCoordinates(prev_gran_stage_coords.getX(), prev_gran_stage_coords.getY(), 0);
+                current_stage_coords.setCoordinates(prev_stage_coords.getX(), prev_stage_coords.getY(), 0);
+            }
+            // Vertical movement: 
+            else if(current_stage_coords.getX() == prev_stage_coords.getX()
+            && ((vertical_collision_diff < collision_tolerance && stage_data[current_stage_coords.getY() - 1][current_stage_coords.getX()] == 0) 
+            || (-vertical_collision_diff < collision_tolerance && stage_data[current_stage_coords.getY() + 1][current_stage_coords.getX()] == 0)))
+            {  
+                current_gran_stage_coords.setCoordinates(prev_gran_stage_coords.getX(), prev_gran_stage_coords.getY(), 0);
+                current_stage_coords.setCoordinates(prev_stage_coords.getX(), prev_stage_coords.getY(), 0);
+            }
+        } // Teleporting from left/right side of the stage to the other: 
+        catch(ArrayIndexOutOfBoundsException e)
         {
-            current_gran_stage_coords.setCoordinates(prev_gran_stage_coords.getX(), prev_gran_stage_coords.getY(), 0);
-            current_stage_coords.setCoordinates(prev_stage_coords.getX(), prev_stage_coords.getY(), 0);
-        }
-        // Vertical movement: 
-        else if(current_stage_coords.getX() == prev_stage_coords.getX()
-        && ((vertical_collision_diff < collision_tolerance && stage_data[current_stage_coords.getY() - 1][current_stage_coords.getX()] == 0) 
-        || (-vertical_collision_diff < collision_tolerance && stage_data[current_stage_coords.getY() + 1][current_stage_coords.getX()] == 0)))
-        {  
-            current_gran_stage_coords.setCoordinates(prev_gran_stage_coords.getX(), prev_gran_stage_coords.getY(), 0);
-            current_stage_coords.setCoordinates(prev_stage_coords.getX(), prev_stage_coords.getY(), 0);
+            // Moving left across stage:
+            if(current_stage_coords.getX() < -2)
+            {
+                current_stage_coords.setCoordinates(stage_data[0].length + 1, current_stage_coords.getY(), 0);
+                current_gran_stage_coords = getGranularStageCoords(current_stage_coords);
+                
+            } // Moving right across stage:
+            else if(current_stage_coords.getX() > stage_data[0].length + 1)
+            {   
+                current_stage_coords.setCoordinates(-2, current_stage_coords.getY(), 0);
+                current_gran_stage_coords = getGranularStageCoords(current_stage_coords);
+            }
         }
     }
     

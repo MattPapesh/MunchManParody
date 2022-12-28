@@ -125,8 +125,12 @@ public class Animation
         {
             for(int x = img_x0; x < img_x1; x++)
             {
-                Color color = new Color(image.getRGB(x, y)); 
-                this.image.setRGB(x, y, (new Color(color.getRed(), color.getBlue(), color.getGreen(), alpha)).getRGB());
+                try
+                {
+                    Color color = new Color(image.getRGB(x, y)); 
+                    this.image.setRGB(x, y, (new Color(color.getRed(), color.getBlue(), color.getGreen(), alpha)).getRGB());
+                }
+                catch(ArrayIndexOutOfBoundsException e) {}
             }
         }
     }
