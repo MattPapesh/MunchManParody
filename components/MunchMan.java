@@ -7,13 +7,15 @@ import fundamentals.component.ComponentBase;
 
 public class MunchMan extends ComponentBase 
 {
-    private Animation munch_man = new Animation("munchman.png");
+    private Animation[] munch_man = {new Animation("munchman_right.png"), new Animation("munchman_left.png"),
+    new Animation("munchman_up.png"), new Animation("munchman_down.png")};
     // Player coordinates in terms of the stage:  
     private Coordinates stage_coords = new Coordinates(1, 1, 0);
     private Coordinates granular_stage_coords = new Coordinates(stage_coords.getX() * Constants.STAGE_CHARACTERISTICS.STAGE_COORD_SCALER,
     stage_coords.getY() * Constants.STAGE_CHARACTERISTICS.STAGE_COORD_SCALER, 0);
     // Player coordinate displacement on-screen; used to determine the player's coords at stage coords: (0, 0) on screen:
-    private Coordinates displacement_coords = new Coordinates(24, 96, 0);
+    private Coordinates displacement_coords = new Coordinates(Constants.STAGE_CHARACTERISTICS.COORD_DISPLACEMENT.getX() + 74, 
+    Constants.STAGE_CHARACTERISTICS.COORD_DISPLACEMENT.getY() + 96, 0);
     
     public MunchMan() 
     {

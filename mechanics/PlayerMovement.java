@@ -22,8 +22,6 @@ public class PlayerMovement extends MechanicBase
 
     private int[][] stage_data;
     private int collision_tolerance = 0; 
-    private int turning_tolerance = 25;
-    private boolean player_prev_collided = false;
 
     private int current_delta_x = 0;
     private int current_delta_y = 0;
@@ -34,7 +32,7 @@ public class PlayerMovement extends MechanicBase
     { 
         this.munch_man = munch_man;
         this.stage_data = stage.getStageData();
-        setExecutionalPeriodicDelay(10);
+        setExecutionalPeriodicDelay(20);
         addRequirements(stage, munch_man);
     }   
 
@@ -44,6 +42,27 @@ public class PlayerMovement extends MechanicBase
         prev_delta_y = current_delta_y;
         current_delta_x = delta_x;
         current_delta_y = delta_y;
+    }
+
+    // Updates player direction they are facing. (up/down/left/right)
+    private void updateDirection()
+    {
+        if(current_delta_x > 0 && current_delta_y == 0)
+        {
+            munch_man.setAnimation("munchman_right.png");
+        }
+        else if(current_delta_x < 0 && current_delta_y == 0)
+        {
+            munch_man.setAnimation("munchman_left.png");
+        }
+        else if(current_delta_x == 0 && current_delta_y > 0)
+        {
+            munch_man.setAnimation("munchman_down.png");
+        }
+        else if(current_delta_x == 0 && current_delta_y < 0)
+        {
+            munch_man.setAnimation("munchman_up.png");
+        }
     }
 
     // Rounds to the nearest stage coordinate based on granular stage coordinates. 
@@ -81,7 +100,6 @@ public class PlayerMovement extends MechanicBase
             setTickVelocity(current_delta_x, current_delta_y);
             current_gran_stage_coords.setCoordinates(getGranularStageCoords(current_stage_coords).getX(), 
             current_gran_stage_coords.getY(), 0);
-            System.err.println("1");
         }// Horizontal to vertical turn:
         else if((Math.abs(prev_delta_x) != Math.abs(current_delta_x) || Math.abs(prev_delta_y) != Math.abs(current_delta_y))
         && current_delta_x != 0 && current_delta_y == 0
@@ -102,7 +120,6 @@ public class PlayerMovement extends MechanicBase
         && ((horizontal_collision_diff < collision_tolerance && stage_data[current_stage_coords.getY()][current_stage_coords.getX() - 1] == 0) 
         || (-horizontal_collision_diff < collision_tolerance && stage_data[current_stage_coords.getY()][current_stage_coords.getX() + 1] == 0)))
         {
-            player_prev_collided = true;
             current_gran_stage_coords.setCoordinates(prev_gran_stage_coords.getX(), prev_gran_stage_coords.getY(), 0);
             current_stage_coords.setCoordinates(prev_stage_coords.getX(), prev_stage_coords.getY(), 0);
         }
@@ -110,14 +127,9 @@ public class PlayerMovement extends MechanicBase
         else if(current_stage_coords.getX() == prev_stage_coords.getX()
         && ((vertical_collision_diff < collision_tolerance && stage_data[current_stage_coords.getY() - 1][current_stage_coords.getX()] == 0) 
         || (-vertical_collision_diff < collision_tolerance && stage_data[current_stage_coords.getY() + 1][current_stage_coords.getX()] == 0)))
-        {
-            player_prev_collided = true;
+        {  
             current_gran_stage_coords.setCoordinates(prev_gran_stage_coords.getX(), prev_gran_stage_coords.getY(), 0);
             current_stage_coords.setCoordinates(prev_stage_coords.getX(), prev_stage_coords.getY(), 0);
-        }
-        else
-        {
-            player_prev_collided = false;
         }
     }
     
@@ -132,8 +144,12 @@ public class PlayerMovement extends MechanicBase
     {   
         updateCoords();
         collisionalMovement();
+        
         munch_man.setCoordinates(current_gran_stage_coords.getX() + munch_man.getDisplacementCoords().getX(), 
         current_gran_stage_coords.getY() + munch_man.getDisplacementCoords().getY(), 0);
+        munch_man.setGranularStageCoords(current_gran_stage_coords.getX(), current_gran_stage_coords.getY());
+        
+        updateDirection();
     }
 
     @Override 

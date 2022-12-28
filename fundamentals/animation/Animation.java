@@ -2,6 +2,8 @@ package fundamentals.animation;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
+import javax.swing.plaf.ColorUIResource;
+import javax.xml.crypto.dsig.keyinfo.RetrievalMethod;
 
 import fundamentals.Constants;
 
@@ -19,6 +21,8 @@ import java.awt.*;
 public class Animation 
 {
     private final String file_name;
+    private final BufferedImage original_image;
+    private BufferedImage image = null;
     private BufferedImage parent_image = null;
 
     private int img_x0 = 0; 
@@ -39,6 +43,8 @@ public class Animation
     public Animation(String file_name)
     {
         this.file_name = file_name;
+        image = getBufferedImage();
+        original_image = image;
     }
 
     public Animation(int img_x0, int img_y0, int img_x1, int img_y1, Animation parent_animation)
@@ -49,18 +55,13 @@ public class Animation
         this.img_x1 = img_x1;
         this.img_y1 = img_y1;
         parent_image = parent_animation.getBufferedImage();
+        image = parent_image.getSubimage(img_x0, img_y0, Math.abs(img_x1 - img_x0), Math.abs(img_y1 - img_y0));
+        original_image = image;
     }
 
     public Image getAnimation()
     {
-        if(file_name != "")
-        {
-            return new ImageIcon(getClass().getResource("/" + Constants.FILE_ROOT_DIRECTORIES.IMAGE_ROOT_DIRECTORY + file_name)).getImage();
-        }
-        else
-        {
-            return parent_image.getSubimage(img_x0, img_y0, Math.abs(img_x1 - img_x0), Math.abs(img_y1 - img_y0)); 
-        }
+        return image; 
     }
 
     /**
@@ -92,6 +93,57 @@ public class Animation
         {
             System.err.println("Animation.java: IOExeception caught!");
             return null;
+        }
+    }
+
+    /**
+     * Sets the RGB color values for a given section of the Animation/image. (img_x0, img_y0) is the initial coord, (img_x1, img_y1)
+     * is the final coord, where the section of the Animation that is changed is whatever is captured by the rectangular bounds made
+     * by the initial/final coords; intial coord comes first at the top left coord, and the final coord comes second as the bottom left
+     * coord of the bounding rectangle. 
+     * 
+     * @see Note: Setting RGB values will override the initial Animtation/image's color(s), or RGB values for the given section of 
+     * the Animation; these changes can be removed by resetting the Animation by calling the reset() method. 
+     */
+    public void setRGB(int img_x0, int img_y0, int img_x1, int img_y1, int red_val, int green_val, int blue_val, int alpha)
+    {
+        int color = new Color(red_val, green_val, blue_val, alpha).getRGB();
+        for(int y = img_y0; y < img_y1; y++)
+        {
+            for(int x = img_x0; x < img_x1; x++)
+            {
+                image.setRGB(x, y, color);
+            }
+        }
+    }
+
+    public void setAlpha(int img_x0, int img_y0, int img_x1, int img_y1, int alpha)
+    {
+        BufferedImage image = this.image;
+
+        for(int y = img_y0; y < img_y1; y++)
+        {
+            for(int x = img_x0; x < img_x1; x++)
+            {
+                Color color = new Color(image.getRGB(x, y)); 
+                this.image.setRGB(x, y, (new Color(color.getRed(), color.getBlue(), color.getGreen(), alpha)).getRGB());
+            }
+        }
+    }
+
+    /**
+     * Resets the Animation/image to its original state; if changes were made to the Animation by calling methods such as, 
+     * setRGB(...), these changes will be removed from the Animation. 
+     */
+    public void reset()
+    {
+        if(file_name != "")
+        {
+            image = getBufferedImage();
+        }
+        else
+        {
+            image = parent_image.getSubimage(img_x0, img_y0, Math.abs(img_x1 - img_x0), Math.abs(img_y1 - img_y0));
         }
     }
 

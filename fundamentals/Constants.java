@@ -38,6 +38,7 @@ public class Constants
     public static final class STAGE_CHARACTERISTICS
     {
         public static final int STAGE_COORD_SCALER = 27;
+        public static final Coordinates COORD_DISPLACEMENT = new Coordinates(-50, 0, 0);
 
         public static final int[][] STAGE_DATA = 
         {

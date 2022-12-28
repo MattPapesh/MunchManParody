@@ -1,5 +1,6 @@
 import fundamentals.appbase.AppBase;
 import fundamentals.mechanic.InstantMechanic;
+import mechanics.PlaceStageChain;
 import mechanics.PlayerMovement;
 import fundamentals.Constants;
 import fundamentals.UI.*;
@@ -18,16 +19,18 @@ public class AppContainer extends AppBase
     private MunchMan munch_man = new MunchMan();
 
     private PlayerMovement player_movement = new PlayerMovement(stage, munch_man);
+    private PlaceStageChain place_stage_chain = new PlaceStageChain(munch_man, stage, stage_chain);
 
     private void configureButtonBindings() {
-        controller.whenLeftPressed(new InstantMechanic(()->{ player_movement.setTickVelocity(-3, 0); }));
-        controller.whenRightPressed(new InstantMechanic(()->{ player_movement.setTickVelocity(3, 0); }));
-        controller.whenUpPressed(new InstantMechanic(()->{ player_movement.setTickVelocity(0, -3); }));
-        controller.whenDownPressed(new InstantMechanic(()->{ player_movement.setTickVelocity(0, 3); }));
+        controller.whenLeftPressed(new InstantMechanic(()->{ player_movement.setTickVelocity(-6, 0); }));
+        controller.whenRightPressed(new InstantMechanic(()->{ player_movement.setTickVelocity(6, 0); }));
+        controller.whenUpPressed(new InstantMechanic(()->{ player_movement.setTickVelocity(0, -6); }));
+        controller.whenDownPressed(new InstantMechanic(()->{ player_movement.setTickVelocity(0, 6); }));
     }
 
     public AppContainer() {
         configureButtonBindings();
         player_movement.schedule();
+        place_stage_chain.schedule();
     }
 }
