@@ -12,6 +12,7 @@ package fundamentals.mechanic;
 public class InstantMechanic extends MechanicBase 
 {
     private mechanic_behavior behavior = null;
+    private boolean cont_loop_mechanic = false; 
 
     @FunctionalInterface
     public interface mechanic_behavior 
@@ -33,11 +34,25 @@ public class InstantMechanic extends MechanicBase
         this.behavior = behavior;
     }
 
+    public void continuouslyLoopMechanic(boolean loop)
+    {
+        cont_loop_mechanic = loop;
+    }
+
     @Override
     public void initialize()
     {
         behavior.behavior();
-        this.cancel();
+        if(!cont_loop_mechanic)
+        {
+            this.cancel();
+        }
+    }
+
+    @Override
+    public void execute()
+    {
+        behavior.behavior();
     }
 
     @Override
