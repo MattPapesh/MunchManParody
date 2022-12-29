@@ -4,10 +4,6 @@ import fundamentals.mechanic.MechanicBase;
 import fundamentals.Constants;
 import fundamentals.Coordinates;
 
-import java.lang.annotation.Retention;
-
-import javax.lang.model.util.ElementScanner6;
-
 import components.MunchMan;
 import components.Stage;
 
@@ -166,6 +162,7 @@ public class PlayerMovement extends MechanicBase
         munch_man.setCoordinates(current_gran_stage_coords.getX() + munch_man.getDisplacementCoords().getX(), 
         current_gran_stage_coords.getY() + munch_man.getDisplacementCoords().getY(), 0);
         munch_man.setGranularStageCoords(current_gran_stage_coords.getX(), current_gran_stage_coords.getY());
+        munch_man.setStageCoords(current_stage_coords.getX(), current_stage_coords.getY());
         
         updateDirection();
     }

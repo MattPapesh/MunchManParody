@@ -7,7 +7,7 @@ import fundamentals.component.*;
 public class Stage extends ComponentBase {
     
     private Animation stage = new Animation("stage.png");
-    private int[][] stage_data = Constants.STAGE_CHARACTERISTICS.STAGE_DATA.clone();
+    private int[][] stage_data = Constants.STAGE_CHARACTERISTICS.STAGE_DATA;
 
     public Stage()
     {

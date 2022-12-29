@@ -1,5 +1,7 @@
 package components;
 
+import java.util.LinkedList;
+
 import fundamentals.Constants;
 import fundamentals.Coordinates;
 import fundamentals.animation.Animation;
@@ -8,9 +10,9 @@ import fundamentals.component.ComponentBase;
 public class StageChain extends ComponentBase
 {
     private Animation stage_chain = new Animation("chain.png");
-    private int[][] stage_chain_data = Constants.STAGE_CHARACTERISTICS.STAGE_DATA.clone();
+    private LinkedList<Coordinates> logged_chain_data = new LinkedList<Coordinates>();
     private int coord_update_tolerance = 15; 
-    private final int CHAIN_ID = 2; 
+    private final int MAX_NUM_OF_CHAIN = 391;
 
     public StageChain() 
     {   
@@ -19,12 +21,37 @@ public class StageChain extends ComponentBase
         (stage_chain.getImageHeight() / 2) + Constants.STAGE_CHARACTERISTICS.COORD_DISPLACEMENT.getY(), 0, stage_chain);
     }
 
+    private boolean isChainPlacementLogged(int stage_x, int stage_y)
+    {
+        for(int i = 0; i < logged_chain_data.size(); i++)
+        {
+            if(logged_chain_data.get(i).getX() == stage_x && logged_chain_data.get(i).getY() == stage_y)
+            {
+                return true; 
+            }
+        }
+
+        return false; 
+    }
+
     public void logChainPlacement(int stage_x, int stage_y)
     {
-        if(stage_x < stage_chain_data[0].length && stage_y < stage_chain_data.length)
+        if(stage_x >= 0 && stage_x < Constants.STAGE_CHARACTERISTICS.STAGE_DATA[0].length
+        && stage_y >= 0 && stage_y < Constants.STAGE_CHARACTERISTICS.STAGE_DATA.length
+        && !isChainPlacementLogged(stage_x, stage_y))
         {
-            stage_chain_data[stage_y][stage_x] = CHAIN_ID;
+            logged_chain_data.addLast(new Coordinates(stage_x, stage_y, 0));
         }
+    }
+
+    public boolean isAllChainPlaced()
+    {
+        return logged_chain_data.size() >= MAX_NUM_OF_CHAIN;
+    }
+
+    public int numOfChain()
+    {
+        return logged_chain_data.size();
     }
 
     public void update(int raw_x, int raw_y)
