@@ -20,9 +20,7 @@ public class AppContainer extends AppBase
     private MunchMan munch_man = new MunchMan();
     private EnemyBase enemy = new EnemyBase();
 
-    //private PlayerMovement player_movement = new PlayerMovement(stage, munch_man);
-    //private EntityMovement player_movement = new EntityMovement(stage, munch_man);
-    private Mech player_movement = new Mech(stage, munch_man);
+    private EntityMovement player_movement = new EntityMovement(stage, munch_man);
     private PlaceStageChain place_stage_chain = new PlaceStageChain(munch_man, stage, stage_chain);
 
     private void configureButtonBindings() {
