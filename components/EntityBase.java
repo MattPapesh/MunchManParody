@@ -22,6 +22,19 @@ public class EntityBase extends ComponentBase
         displacement_coords.getY() + (stage_coords.getY() * Constants.STAGE_CHARACTERISTICS.STAGE_COORD_SCALER), 0, animations);
     }
 
+    // Rounds to the nearest stage coordinate based on granular stage coordinates. 
+    public Coordinates convertToStageCoords(Coordinates granular_stage_coords)
+    {
+        return new Coordinates((int)(Math.round((double)(granular_stage_coords.getX()) / (double)Constants.STAGE_CHARACTERISTICS.STAGE_COORD_SCALER)), 
+        (int)(Math.round((double)(granular_stage_coords.getY()) / (double)Constants.STAGE_CHARACTERISTICS.STAGE_COORD_SCALER)), 0);
+    }
+
+    public Coordinates convertToGranularStageCoords(Coordinates stage_coords)
+    {
+        return new Coordinates(stage_coords.getX() * Constants.STAGE_CHARACTERISTICS.STAGE_COORD_SCALER, 
+        stage_coords.getY() * Constants.STAGE_CHARACTERISTICS.STAGE_COORD_SCALER, 0);
+    }
+
     public void setStageCoords(int stage_x, int stage_y)
     {
         stage_coords.setCoordinates(stage_x, stage_y, 0);
