@@ -13,6 +13,11 @@ public class EnemyPredeterminedRoute extends SequentialMechanicGroup
 
     public EnemyPredeterminedRoute(EntityMovement enemy_movement, Enemy enemy)
     {
+        if(!(enemy_movement.isScheduled()))
+        {
+            enemy_movement.schedule();
+        }
+
         this.enemy = enemy;
         this.enemy_movement = enemy_movement;
         addRequirements(enemy);
