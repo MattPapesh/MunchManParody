@@ -1,6 +1,5 @@
 package components;
 
-import fundamentals.Constants;
 import fundamentals.Coordinates;
 import fundamentals.animation.Animation;
 

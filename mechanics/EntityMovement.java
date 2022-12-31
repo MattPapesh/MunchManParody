@@ -2,18 +2,18 @@ package mechanics;
 
 import fundamentals.mechanic.InstantMechanic;
 import fundamentals.mechanic.MechanicBase;
-import fundamentals.Constants;
 import fundamentals.Coordinates;
 
 import components.EntityBase;
-import components.MunchMan;
 import components.Stage;
 
 public class EntityMovement extends MechanicBase
 {
+    private InstantMechanic indefinite_entity_movement = null;
     private EntityBase entity = null;
     private boolean began = false;  
     private boolean is_superclass = true; 
+    private boolean is_movement_obstructed = false; 
 
     private Coordinates current_stage_coords = null;
     private Coordinates prev_stage_coords = null;
@@ -58,7 +58,7 @@ public class EntityMovement extends MechanicBase
 
             current_stage_coords = new Coordinates(entity.getStageCoords().getX(), entity.getStageCoords().getY(), 0);
             prev_stage_coords = new Coordinates(0, 0, 0); 
-            current_gran_stage_coords = getGranularStageCoords(current_stage_coords);
+            current_gran_stage_coords = entity.convertToGranularStageCoords(current_stage_coords);
             prev_gran_stage_coords = new Coordinates(0, 0, 0);
 
             setExecutionalPeriodicDelay(20);
@@ -67,14 +67,26 @@ public class EntityMovement extends MechanicBase
 
         if(is_superclass)
         {
-            InstantMechanic indefinite_entity_movement = new InstantMechanic(()->
+            try
             {
-                collisionalMovement();
-                updateCoords();
-                updateDirection(); 
+                if(indefinite_entity_movement.isScheduled())
+                {
+                    indefinite_entity_movement.cancel();
+                }
+            }
+            catch(NullPointerException e) {}
+
+            indefinite_entity_movement = new InstantMechanic(()->
+            {
+                if(isScheduled())
+                {
+                    collisionalMovement();
+                    updateCoords();
+                    updateDirection();
+                }
             });
 
-            indefinite_entity_movement.setExecutionalPeriodicDelay(20);
+            indefinite_entity_movement.setExecutionalPeriodicDelay(0);
             indefinite_entity_movement.continuouslyLoopMechanic(true);
             indefinite_entity_movement.schedule();
         }
@@ -86,6 +98,11 @@ public class EntityMovement extends MechanicBase
         prev_delta_y = current_delta_y;
         current_delta_x = delta_x;
         current_delta_y = delta_y;
+    }
+
+    public boolean isMovementObstructed()
+    {
+        return is_movement_obstructed;
     }
      
     // Updates entity direction they are facing. (up/down/left/right)
@@ -124,6 +141,7 @@ public class EntityMovement extends MechanicBase
 
     private void collisionalMovement()
     {  
+        is_movement_obstructed = false;
         prev_gran_stage_coords.setCoordinates(current_gran_stage_coords.getX(), current_gran_stage_coords.getY(), 0);
         prev_stage_coords.setCoordinates(current_stage_coords.getX(), current_stage_coords.getY(), 0);
         current_gran_stage_coords.setCoordinates(current_gran_stage_coords.getX() + current_delta_x, current_gran_stage_coords.getY() + current_delta_y, 0);
@@ -153,26 +171,29 @@ public class EntityMovement extends MechanicBase
                 current_gran_stage_coords.setCoordinates(current_gran_stage_coords.getX(),  
                 entity.convertToGranularStageCoords(current_stage_coords).getY(), 0);
             }
-            else if((Math.abs(prev_delta_x) != Math.abs(current_delta_x) || Math.abs(prev_delta_y) != Math.abs(current_delta_y)))
+            else if((Math.abs(prev_delta_x) != Math.abs(current_delta_x) || Math.abs(prev_delta_y) != Math.abs(current_delta_y))
+            && !(current_delta_x == 0 && current_delta_y == 0))
             {
                 setTickVelocity(prev_delta_x, prev_delta_y);
             }
 
             // Horizontal movement: 
-            if(current_stage_coords.getY() == prev_stage_coords.getY()
+            if(current_stage_coords.getY() == prev_stage_coords.getY() && current_stage_coords.getX() != prev_stage_coords.getX()
             && ((horizontal_collision_diff < collision_tolerance && stage_data[current_stage_coords.getY()][current_stage_coords.getX() - 1] == 0) 
             || (-horizontal_collision_diff < collision_tolerance && stage_data[current_stage_coords.getY()][current_stage_coords.getX() + 1] == 0)))
             {
                 current_gran_stage_coords.setCoordinates(prev_gran_stage_coords.getX(), prev_gran_stage_coords.getY(), 0);
                 current_stage_coords.setCoordinates(prev_stage_coords.getX(), prev_stage_coords.getY(), 0);
+                is_movement_obstructed = true;
             }
             // Vertical movement: 
-            else if(current_stage_coords.getX() == prev_stage_coords.getX()
+            else if(current_stage_coords.getX() == prev_stage_coords.getX() && current_stage_coords.getY() != prev_stage_coords.getY()
             && ((vertical_collision_diff < collision_tolerance && stage_data[current_stage_coords.getY() - 1][current_stage_coords.getX()] == 0) 
             || (-vertical_collision_diff < collision_tolerance && stage_data[current_stage_coords.getY() + 1][current_stage_coords.getX()] == 0)))
             {  
                 current_gran_stage_coords.setCoordinates(prev_gran_stage_coords.getX(), prev_gran_stage_coords.getY(), 0);
                 current_stage_coords.setCoordinates(prev_stage_coords.getX(), prev_stage_coords.getY(), 0);
+                is_movement_obstructed = true; 
             }
         } // Teleporting from left/right side of the stage to the other: 
         catch(ArrayIndexOutOfBoundsException e)

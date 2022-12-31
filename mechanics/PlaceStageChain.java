@@ -3,8 +3,6 @@ package mechanics;
 import components.MunchMan;
 import components.Stage;
 import components.StageChain;
-import fundamentals.Coordinates;
-import fundamentals.animation.Animation;
 import fundamentals.mechanic.MechanicBase;
 
 public class PlaceStageChain extends MechanicBase
