@@ -2,7 +2,10 @@ package mechanics;
 
 import fundamentals.mechanic.InstantMechanic;
 import fundamentals.mechanic.MechanicBase;
+import fundamentals.Constants;
 import fundamentals.Coordinates;
+
+import java.lang.invoke.ConstantCallSite;
 
 import components.EntityBase;
 import components.Stage;
@@ -199,13 +202,15 @@ public class EntityMovement extends MechanicBase
         catch(ArrayIndexOutOfBoundsException e)
         {
             // Moving left across stage:
-            if(current_stage_coords.getX() < -2)
+            if(current_stage_coords.getX() < -2 && (current_stage_coords.getX() == Constants.STAGE_CHARACTERISTICS.TP_PATH_Y_VALUES[0]
+            || current_stage_coords.getY() == Constants.STAGE_CHARACTERISTICS.TP_PATH_Y_VALUES[1]))
             {
                 current_stage_coords.setCoordinates(stage_data[0].length + 1, current_stage_coords.getY(), 0);
                 current_gran_stage_coords = entity.convertToGranularStageCoords(current_stage_coords);
                 
             } // Moving right across stage:
-            else if(current_stage_coords.getX() > stage_data[0].length + 1)
+            else if(current_stage_coords.getX() > stage_data[0].length + 1 && (current_stage_coords.getX() == Constants.STAGE_CHARACTERISTICS.TP_PATH_Y_VALUES[0]
+            || current_stage_coords.getY() == Constants.STAGE_CHARACTERISTICS.TP_PATH_Y_VALUES[1]))
             {   
                 current_stage_coords.setCoordinates(-2, current_stage_coords.getY(), 0);
                 current_gran_stage_coords = entity.convertToGranularStageCoords(current_stage_coords);
