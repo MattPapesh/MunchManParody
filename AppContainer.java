@@ -26,7 +26,7 @@ public class AppContainer extends AppBase
     private Stage stage = new Stage();
     private StageChain stage_chain = new StageChain();
     private MunchMan munch_man = new MunchMan();
-    private Enemy enemy = new Enemy(1, 24, 9, new Animation("enemy.png"));
+    private Enemy enemy = new Enemy(1, 1, 9, new Animation("enemy.png"));
 
     private PlaceStageChain place_stage_chain = new PlaceStageChain(munch_man, stage, stage_chain);
     private EntityMovement player_movement = new EntityMovement(stage, munch_man);
@@ -34,10 +34,10 @@ public class AppContainer extends AppBase
     private EnemyChaseTarget enemy_chase_target = new EnemyChaseTarget(enemy_movement, stage, munch_man, enemy);
 
     private void configureButtonBindings() {
-        controller.whenLeftPressed(new InstantMechanic(()->{ player_movement.setTickVelocity(-6, 0); }));
-        controller.whenRightPressed(new InstantMechanic(()->{ player_movement.setTickVelocity(6, 0); }));
-        controller.whenUpPressed(new InstantMechanic(()->{ player_movement.setTickVelocity(0, -6); }));
-        controller.whenDownPressed(new InstantMechanic(()->{ player_movement.setTickVelocity(0, 6); }));
+        controller.whenLeftPressed(new InstantMechanic(()->{ player_movement.setTickVelocity(-8, 0); }));
+        controller.whenRightPressed(new InstantMechanic(()->{ player_movement.setTickVelocity(8, 0); }));
+        controller.whenUpPressed(new InstantMechanic(()->{ player_movement.setTickVelocity(0, -8); }));
+        controller.whenDownPressed(new InstantMechanic(()->{ player_movement.setTickVelocity(0, 8); }));
     }
 
     public AppContainer() {
@@ -45,7 +45,7 @@ public class AppContainer extends AppBase
         player_movement.schedule();
         place_stage_chain.schedule();
         enemy_movement.schedule();
-        //enemy_chase_target.schedule();
+        enemy_chase_target.schedule();
         enemy_chase_target.getRoute(/*12*/42, 30-6).schedule();
     }
 }

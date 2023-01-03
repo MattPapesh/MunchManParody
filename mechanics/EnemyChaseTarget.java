@@ -54,7 +54,6 @@ public class EnemyChaseTarget extends MechanicBase
     private EnemyPredeterminedRoute getPredeterminedRoute(LinkedList<Coordinates> route)
     {
         EnemyPredeterminedRoute predetermined_route = new EnemyPredeterminedRoute(enemy_movement, enemy);
-
         for(int i = 1; i < route.size(); i++)
         {
             predetermined_route.addRelativePath(route.get(i).getX() - route.get(i - 1).getX(), 
@@ -106,7 +105,6 @@ public class EnemyChaseTarget extends MechanicBase
         {
             if(prev_recursion_level + 1 < max_recursion_level) 
             {    
-
                 LinkedList<LinkedList<Coordinates>> left_routes = getPathVariant(base_route, left_paths, target_stage_x, target_stage_y, prev_recursion_level + 1);
                 LinkedList<LinkedList<Coordinates>> right_routes = getPathVariant(base_route, right_paths, target_stage_x, target_stage_y, prev_recursion_level + 1);
                 LinkedList<LinkedList<Coordinates>> up_routes = getPathVariant(base_route, up_paths, target_stage_x, target_stage_y, prev_recursion_level + 1);
@@ -133,11 +131,6 @@ public class EnemyChaseTarget extends MechanicBase
         initial_path.addLast(new Coordinates(enemy.getStageCoords().getX(), enemy.getStageCoords().getY(), 0));
         LinkedList<LinkedList<Coordinates>> routes = getRoutes(initial_path, target_stage_x, target_stage_y, 0);
         LinkedList<Coordinates> shortest_route = getShortestRoute(routes);
-
-        for(int i = 0; i < shortest_route.size(); i++)
-        {
-            System.err.println("#" + i + ": (" + shortest_route.get(i).getX() + ", " + shortest_route.get(i).getY() + ")");
-        }
 
         return getPredeterminedRoute(shortest_route); 
     }

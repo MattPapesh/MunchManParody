@@ -131,7 +131,6 @@ public class EntityMovement extends MechanicBase
             }
         }
         catch(NullPointerException e) {}
-        
     }
 
     private void updateCoords() 
@@ -181,16 +180,15 @@ public class EntityMovement extends MechanicBase
             }
 
             // Horizontal movement: 
-            if(current_stage_coords.getY() == prev_stage_coords.getY() && current_stage_coords.getX() != prev_stage_coords.getX()
+            if(current_stage_coords.getY() == prev_stage_coords.getY() 
             && ((horizontal_collision_diff < collision_tolerance && stage_data[current_stage_coords.getY()][current_stage_coords.getX() - 1] == 0) 
             || (-horizontal_collision_diff < collision_tolerance && stage_data[current_stage_coords.getY()][current_stage_coords.getX() + 1] == 0)))
             {
                 current_gran_stage_coords.setCoordinates(prev_gran_stage_coords.getX(), prev_gran_stage_coords.getY(), 0);
                 current_stage_coords.setCoordinates(prev_stage_coords.getX(), prev_stage_coords.getY(), 0);
                 is_movement_obstructed = true;
-            }
-            // Vertical movement: 
-            else if(current_stage_coords.getX() == prev_stage_coords.getX() && current_stage_coords.getY() != prev_stage_coords.getY()
+            }// Vertical movement: 
+            else if(current_stage_coords.getX() == prev_stage_coords.getX()
             && ((vertical_collision_diff < collision_tolerance && stage_data[current_stage_coords.getY() - 1][current_stage_coords.getX()] == 0) 
             || (-vertical_collision_diff < collision_tolerance && stage_data[current_stage_coords.getY() + 1][current_stage_coords.getX()] == 0)))
             {  
@@ -202,15 +200,13 @@ public class EntityMovement extends MechanicBase
         catch(ArrayIndexOutOfBoundsException e)
         {
             // Moving left across stage:
-            if(current_stage_coords.getX() < -2 && (current_stage_coords.getX() == Constants.STAGE_CHARACTERISTICS.TP_PATH_Y_VALUES[0]
-            || current_stage_coords.getY() == Constants.STAGE_CHARACTERISTICS.TP_PATH_Y_VALUES[1]))
+            if(current_stage_coords.getX() < -2)
             {
                 current_stage_coords.setCoordinates(stage_data[0].length + 1, current_stage_coords.getY(), 0);
                 current_gran_stage_coords = entity.convertToGranularStageCoords(current_stage_coords);
                 
             } // Moving right across stage:
-            else if(current_stage_coords.getX() > stage_data[0].length + 1 && (current_stage_coords.getX() == Constants.STAGE_CHARACTERISTICS.TP_PATH_Y_VALUES[0]
-            || current_stage_coords.getY() == Constants.STAGE_CHARACTERISTICS.TP_PATH_Y_VALUES[1]))
+            else if(current_stage_coords.getX() > stage_data[0].length + 1)
             {   
                 current_stage_coords.setCoordinates(-2, current_stage_coords.getY(), 0);
                 current_gran_stage_coords = entity.convertToGranularStageCoords(current_stage_coords);

@@ -51,7 +51,6 @@ public class EnemyMovement extends MechanicBase
     @Override
     public void end(boolean interrupted)
     {
-        System.err.println(enemy.getStageCoords().getX());
         entity_movement.setTickVelocity(0, 0);
         initial_stage_coords = null;
         initial_gran_stage_coords = null; 
