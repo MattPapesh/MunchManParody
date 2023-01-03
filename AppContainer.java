@@ -26,7 +26,7 @@ public class AppContainer extends AppBase
     private Stage stage = new Stage();
     private StageChain stage_chain = new StageChain();
     private MunchMan munch_man = new MunchMan();
-    private Enemy enemy = new Enemy(1, 1, 6, new Animation("enemy.png"));
+    private Enemy enemy = new Enemy(1, 24, 9, new Animation("enemy.png"));
 
     private PlaceStageChain place_stage_chain = new PlaceStageChain(munch_man, stage, stage_chain);
     private EntityMovement player_movement = new EntityMovement(stage, munch_man);
@@ -45,7 +45,7 @@ public class AppContainer extends AppBase
         player_movement.schedule();
         place_stage_chain.schedule();
         enemy_movement.schedule();
-        enemy_chase_target.schedule();
-        enemy_chase_target.getRoute(10, 5).schedule();
+        //enemy_chase_target.schedule();
+        enemy_chase_target.getRoute(/*12*/42, 30-6).schedule();
     }
 }

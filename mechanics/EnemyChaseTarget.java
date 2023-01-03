@@ -15,7 +15,7 @@ public class EnemyChaseTarget extends MechanicBase
     private MunchMan munch_man = null;
     private Enemy enemy = null; 
     private int[][] stage_data = null; 
-    private int max_recursion_level = 50; 
+    private int max_recursion_level = 100; 
 
     public EnemyChaseTarget(EntityMovement enemy_movement, Stage stage, MunchMan munch_man, Enemy enemy)
     {   
@@ -54,7 +54,6 @@ public class EnemyChaseTarget extends MechanicBase
     private EnemyPredeterminedRoute getPredeterminedRoute(LinkedList<Coordinates> route)
     {
         EnemyPredeterminedRoute predetermined_route = new EnemyPredeterminedRoute(enemy_movement, enemy);
-        route.addFirst(route.getFirst());
 
         for(int i = 1; i < route.size(); i++)
         {
@@ -134,6 +133,11 @@ public class EnemyChaseTarget extends MechanicBase
         initial_path.addLast(new Coordinates(enemy.getStageCoords().getX(), enemy.getStageCoords().getY(), 0));
         LinkedList<LinkedList<Coordinates>> routes = getRoutes(initial_path, target_stage_x, target_stage_y, 0);
         LinkedList<Coordinates> shortest_route = getShortestRoute(routes);
+
+        for(int i = 0; i < shortest_route.size(); i++)
+        {
+            System.err.println("#" + i + ": (" + shortest_route.get(i).getX() + ", " + shortest_route.get(i).getY() + ")");
+        }
 
         return getPredeterminedRoute(shortest_route); 
     }
