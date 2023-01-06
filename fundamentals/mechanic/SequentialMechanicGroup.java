@@ -49,7 +49,7 @@ public class SequentialMechanicGroup extends MechanicBase
     {
         for(int i = 0; i < mechanics.length; i++)
         {
-            this.group_mechanics.addLast(mechanics[i]);
+            group_mechanics.addLast(mechanics[i]);
         }
     }
 
@@ -80,12 +80,18 @@ public class SequentialMechanicGroup extends MechanicBase
     @Override
     public void end(boolean interrupted) 
     {
-
+        MechanicScheduler.removeMechanic(this);  
+        for(int i = 0; i < group_mechanics.size(); i++)
+        {
+            MechanicScheduler.removeMechanic(group_mechanics.get(i));
+        }
     }
 
     @Override
     public boolean isFinished()
     {
-        return current_mechanic_index >= group_mechanics.size();
+        return current_mechanic_index >= group_mechanics.size() 
+        && ((!group_mechanics.isEmpty() && !group_mechanics.getLast().isScheduled()) || group_mechanics.isEmpty());
+
     }
 }

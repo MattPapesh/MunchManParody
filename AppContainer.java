@@ -26,12 +26,25 @@ public class AppContainer extends AppBase
     private Stage stage = new Stage();
     private StageChain stage_chain = new StageChain();
     private MunchMan munch_man = new MunchMan();
-    private Enemy enemy = new Enemy(1, 1, 9, new Animation("enemy.png"));
+    private Enemy enemy_A = new Enemy(1, 1, 9, new Animation("enemy.png"));
+    private Enemy enemy_B = new Enemy(1, 30, 9, new Animation("enemy.png"));
+    private Enemy enemy_C = new Enemy(42, 1, 9, new Animation("enemy.png"));
+    private Enemy enemy_D = new Enemy(40, 30, 9, new Animation("enemy.png"));
+    
 
     private PlaceStageChain place_stage_chain = new PlaceStageChain(munch_man, stage, stage_chain);
     private EntityMovement player_movement = new EntityMovement(stage, munch_man);
-    private EntityMovement enemy_movement = new EntityMovement(stage, enemy);
-    private EnemyChaseTarget enemy_chase_target = new EnemyChaseTarget(enemy_movement, stage, munch_man, enemy);
+
+    private EntityMovement enemy_A_movement = new EntityMovement(stage, enemy_A);
+    private EntityMovement enemy_B_movement = new EntityMovement(stage, enemy_B);
+    private EntityMovement enemy_C_movement = new EntityMovement(stage, enemy_C);
+    private EntityMovement enemy_D_movement = new EntityMovement(stage, enemy_D);
+
+    private EnemyChaseTarget enemy_A_chase_target = new EnemyChaseTarget(enemy_A_movement, stage, munch_man, enemy_A);
+    private EnemyChaseTarget enemy_B_chase_target = new EnemyChaseTarget(enemy_B_movement, stage, munch_man, enemy_B);
+    private EnemyChaseTarget enemy_C_chase_target = new EnemyChaseTarget(enemy_C_movement, stage, munch_man, enemy_C);
+    private EnemyChaseTarget enemy_D_chase_target = new EnemyChaseTarget(enemy_D_movement, stage, munch_man, enemy_D);
+
 
     private void configureButtonBindings() {
         controller.whenLeftPressed(new InstantMechanic(()->{ player_movement.setTickVelocity(-8, 0); }));
@@ -44,8 +57,15 @@ public class AppContainer extends AppBase
         configureButtonBindings();
         player_movement.schedule();
         place_stage_chain.schedule();
-        enemy_movement.schedule();
-        enemy_chase_target.schedule();
-        enemy_chase_target.getRoute(/*12*/42, 30-6).schedule();
+
+        enemy_A_movement.schedule();
+        enemy_B_movement.schedule();
+        enemy_C_movement.schedule();
+        enemy_D_movement.schedule();
+
+        enemy_A_chase_target.schedule();
+        enemy_B_chase_target.schedule();
+        enemy_C_chase_target.schedule();
+        enemy_D_chase_target.schedule();
     }
 }

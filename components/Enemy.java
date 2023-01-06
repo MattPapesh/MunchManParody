@@ -12,30 +12,30 @@ public class Enemy extends EntityBase
     public Enemy() {}
     public Enemy(int stage_x, int stage_y, int speed, Animation... enemy)
     {
-        begin(stage_x, stage_y, speed, enemy);   
+        begin(stage_x, stage_y, 0, speed, enemy);   
     }
 
     // Called only when EnemyBase is extended as a superclass:
-    public void begin(int stage_x, int stage_y, int speed, Animation... enemy)
+    public void begin(int stage_x, int stage_y, int degrees, int speed, Animation... enemy)
     {
         if(!began)
         {
             began = true;
             this.speed = speed; 
-            setPosition(stage_x, stage_y);
+            setPosition(stage_x, stage_y, degrees);
             super.begin(stage_x, stage_y, enemy);
         }
     }
 
-    public void setPosition(int stage_x, int stage_y)
+    public void setPosition(int stage_x, int stage_y, int degrees)
     {
         Coordinates gran_stage_coords = convertToGranularStageCoords(new Coordinates(stage_x, stage_y, 0));
         Coordinates raw_coords = new Coordinates(gran_stage_coords.getX() + getDisplacementCoords().getX(), 
         gran_stage_coords.getY() + getDisplacementCoords().getY(), 0);
 
-        setStageCoords(stage_x, stage_y);
-        setGranularStageCoords(gran_stage_coords.getX(), gran_stage_coords.getY());
-        setCoordinates(raw_coords.getX(), raw_coords.getY(), 0);
+        setStageCoords(stage_x, stage_y, degrees);
+        setGranularStageCoords(gran_stage_coords.getX(), gran_stage_coords.getY(), gran_stage_coords.getDegrees());
+        setCoordinates(raw_coords.getX(), raw_coords.getY(), raw_coords.getDegrees());
     }
 
     public int getSpeed()

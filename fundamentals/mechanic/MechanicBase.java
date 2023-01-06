@@ -103,19 +103,19 @@ public class MechanicBase implements MechanicInterface
         if(scheduled && !initialized && !isFinished())
         {
             initial_millis = MechanicScheduler.getElapsedMillis();
-            this.initialize();
+            initialize();
             initialized = true;
         }
         else if(scheduled && initialized && !isFinished() && 
         Math.abs(MechanicScheduler.getElapsedMillis() - initial_millis) >= executional_periodic_delay_millis)
         {
-            this.execute();
+            execute();
             initial_millis = MechanicScheduler.getElapsedMillis();
         }
         
-        if(scheduled && (this.isFinished() || interrupted))
+        if(scheduled && (isFinished() || interrupted))
         {
-            this.end(interrupted);
+            end(interrupted);
             scheduled = false; 
             initialized = false;
             interrupted = false;

@@ -26,23 +26,23 @@ public class EntityBase extends ComponentBase
     public Coordinates convertToStageCoords(Coordinates granular_stage_coords)
     {
         return new Coordinates((int)(Math.round((double)(granular_stage_coords.getX()) / (double)Constants.STAGE_CHARACTERISTICS.STAGE_COORD_SCALER)), 
-        (int)(Math.round((double)(granular_stage_coords.getY()) / (double)Constants.STAGE_CHARACTERISTICS.STAGE_COORD_SCALER)), 0);
+        (int)(Math.round((double)(granular_stage_coords.getY()) / (double)Constants.STAGE_CHARACTERISTICS.STAGE_COORD_SCALER)), granular_stage_coords.getDegrees());
     }
 
     public Coordinates convertToGranularStageCoords(Coordinates stage_coords)
     {
         return new Coordinates(stage_coords.getX() * Constants.STAGE_CHARACTERISTICS.STAGE_COORD_SCALER, 
-        stage_coords.getY() * Constants.STAGE_CHARACTERISTICS.STAGE_COORD_SCALER, 0);
+        stage_coords.getY() * Constants.STAGE_CHARACTERISTICS.STAGE_COORD_SCALER, stage_coords.getDegrees());
     }
 
-    public void setStageCoords(int stage_x, int stage_y)
+    public void setStageCoords(int stage_x, int stage_y, int degrees)
     {
-        stage_coords.setCoordinates(stage_x, stage_y, 0);
+        stage_coords.setCoordinates(stage_x, stage_y, degrees);
     }
 
-    public void setGranularStageCoords(int granular_x, int granular_y)
+    public void setGranularStageCoords(int granular_x, int granular_y, int degrees)
     {
-        granular_stage_coords.setCoordinates(granular_x, granular_y, 0);
+        granular_stage_coords.setCoordinates(granular_x, granular_y, degrees);
     }
 
     public Coordinates getGranularStageCoords()

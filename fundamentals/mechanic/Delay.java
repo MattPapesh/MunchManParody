@@ -55,7 +55,7 @@ public class Delay extends MechanicBase
     @Override
     public void end(boolean interrupted) 
     {
-        
+        delta_millis = 0;
     }
 
     @Override

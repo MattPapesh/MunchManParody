@@ -92,7 +92,7 @@ public class MechanicScheduler
             if(mechanics.get(i).getMechanicID() == mechanic.getMechanicID())
             {
                 mechanics.remove(i);
-            }
+            }  
         }
     }
 

@@ -63,7 +63,7 @@ public class EnemyMovement extends MechanicBase
         
         return initial_stage_coords != null && initial_gran_stage_coords != null 
         && ((delta_stage_x != 0 && delta_stage_y == 0 
-        && Math.abs(enemy.getGranularStageCoords().getX() - initial_gran_stage_coords.getX()) > Math.abs(delta_gran_stage.getX()))
+        && Math.abs(enemy.getGranularStageCoords().getX() - initial_gran_stage_coords.getX()) >= Math.abs(delta_gran_stage.getX()))
         || (delta_stage_x == 0 && delta_stage_y != 0 
         && Math.abs(enemy.getGranularStageCoords().getY() - initial_gran_stage_coords.getY()) >= Math.abs(delta_gran_stage.getY())) 
         || entity_movement.isMovementObstructed());
