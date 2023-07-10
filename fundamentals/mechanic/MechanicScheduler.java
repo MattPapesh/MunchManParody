@@ -28,6 +28,11 @@ public class MechanicScheduler
         return elapsed_millis;
     }
 
+    public static int getNumOfMechanics() 
+    {
+        return mechanics.size();
+    }
+
     /**
     * Allows the mechanic instance passed in to be accessible by the MechanicScheduler so that the mechanic can 
     * live out its four-phase life time and begin running once it has been scheduled. 

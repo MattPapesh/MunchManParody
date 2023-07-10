@@ -91,18 +91,18 @@ public class Animation
         }
         catch(IOException e) 
         {
-            System.err.println("Animation.java: IOExeception caught!");
+            //System.err.println("Animation.java: IOExeception caught!");
             return null;
         }
     }
 
-    /**
+    /** 
      * Sets the RGB color values for a given section of the Animation/image. (img_x0, img_y0) is the initial coord, (img_x1, img_y1)
      * is the final coord, where the section of the Animation that is changed is whatever is captured by the rectangular bounds made
      * by the initial/final coords; intial coord comes first at the top left coord, and the final coord comes second as the bottom left
      * coord of the bounding rectangle. 
      * 
-     * @see Note: Setting RGB values will override the initial Animtation/image's color(s), or RGB values for the given section of 
+     * @note Note: Setting RGB values will override the initial Animtation/image's color(s), or RGB values for the given section of 
      * the Animation; these changes can be removed by resetting the Animation by calling the reset() method. 
      */
     public void setRGB(int img_x0, int img_y0, int img_x1, int img_y1, int red_val, int green_val, int blue_val, int alpha)

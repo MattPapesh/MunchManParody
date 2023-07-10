@@ -2,10 +2,7 @@ package mechanics;
 
 import fundamentals.mechanic.InstantMechanic;
 import fundamentals.mechanic.MechanicBase;
-import fundamentals.Constants;
 import fundamentals.Coordinates;
-
-import java.lang.invoke.ConstantCallSite;
 
 import components.EntityBase;
 import components.Stage;
@@ -36,7 +33,6 @@ public class EntityMovement extends MechanicBase
     /**
      * @see Note: The first four Animations used for the GenericEntity will be used as the entity changes direction;
      * the Animations with respect to direction of movement are described from index 0 to 3: right, left, down, up
-     * 
      */
     public <GenericEntity extends EntityBase> EntityMovement(Stage stage, GenericEntity entity) 
     { 

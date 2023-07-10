@@ -26,10 +26,10 @@ public class AppContainer extends AppBase
     private Stage stage = new Stage();
     private StageChain stage_chain = new StageChain();
     private MunchMan munch_man = new MunchMan();
-    private Enemy enemy_A = new Enemy(1, 1, 9, new Animation("enemy.png"));
-    private Enemy enemy_B = new Enemy(1, 30, 9, new Animation("enemy.png"));
-    private Enemy enemy_C = new Enemy(42, 1, 9, new Animation("enemy.png"));
-    private Enemy enemy_D = new Enemy(40, 30, 9, new Animation("enemy.png"));
+    private Enemy enemy_A = new Enemy(1, 1, 1, new Animation("enemy.png"));
+    private Enemy enemy_B = new Enemy(1, 30, 1, new Animation("enemy.png"));
+    private Enemy enemy_C = new Enemy(42, 1, 1, new Animation("enemy.png"));
+    private Enemy enemy_D = new Enemy(40, 30, 1, new Animation("enemy.png"));
     
 
     private PlaceStageChain place_stage_chain = new PlaceStageChain(munch_man, stage, stage_chain);
@@ -47,10 +47,10 @@ public class AppContainer extends AppBase
 
 
     private void configureButtonBindings() {
-        controller.whenLeftPressed(new InstantMechanic(()->{ player_movement.setTickVelocity(-8, 0); }));
-        controller.whenRightPressed(new InstantMechanic(()->{ player_movement.setTickVelocity(8, 0); }));
-        controller.whenUpPressed(new InstantMechanic(()->{ player_movement.setTickVelocity(0, -8); }));
-        controller.whenDownPressed(new InstantMechanic(()->{ player_movement.setTickVelocity(0, 8); }));
+        controller.whenLeftPressed(new InstantMechanic(()->{ player_movement.setTickVelocity(-1, 0); }));
+        controller.whenRightPressed(new InstantMechanic(()->{ player_movement.setTickVelocity(1, 0); }));
+        controller.whenUpPressed(new InstantMechanic(()->{ player_movement.setTickVelocity(0, -1); }));
+        controller.whenDownPressed(new InstantMechanic(()->{ player_movement.setTickVelocity(0, 1); }));
     }
 
     public AppContainer() {

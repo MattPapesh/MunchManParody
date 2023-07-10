@@ -1,5 +1,7 @@
 package fundamentals;
 
+import java.awt.Toolkit;
+
 /**
  * All global constants defined in specific sub-classes that were statically declared and defined. 
  */
@@ -29,17 +31,27 @@ public class Constants
     {
         public static final String[] APP_ICON_IMAGES = {"icon.png", "icon.png"};
         public static final String APP_TITLE = "Munch Man";
-        public static final int WINDOW_WIDTH = 1270;
-        public static final int WINDOW_HEIGHT = 1020;
-        public static final int REFRESH_RATE_MILLIS = 5;
-        public static final double GRAPHICS_TRANSFORMATION_SCALER = 1.25;
+        public static final int WINDOW_WIDTH = (int)Toolkit.getDefaultToolkit().getScreenSize().getWidth();
+        public static final int WINDOW_HEIGHT = (int)Toolkit.getDefaultToolkit().getScreenSize().getHeight();
+        public static final int REFRESH_RATE_MILLIS = 4;
+        public static final double GRAPHICS_X_SCALER_COEFF = 1.22;
+        public static final double GRAPHICS_Y_SCALER_COEFF = 0.85;
+        public static final int GRAPHICS_X_TRANSLATION = 0;
+        public static final int GRAPHICS_Y_TRANSLATION = 0;
     }
 
     public static final class STAGE_CHARACTERISTICS
     {
         public static final int STAGE_COORD_SCALER = 27;
-        public static final int[] TP_PATH_Y_VALUES = {9, 30};
         public static final Coordinates COORD_DISPLACEMENT = new Coordinates(-50, 0, 0);
+        public static final class DEGREE_DIRECTIONS 
+        {
+            // Measured in degrees: 
+            public static final int LEFT = 180;
+            public static final int RIGHT = 0;
+            public static final int UP = 90;
+            public static final int DOWN = 270;
+        }
 
         public static final int[][] STAGE_DATA = 
         {

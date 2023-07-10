@@ -9,7 +9,6 @@ import components.Stage;
 import fundamentals.Coordinates;
 import fundamentals.mechanic.Delay;
 import fundamentals.mechanic.MechanicBase;
-import fundamentals.mechanic.MechanicScheduler;
 
 public class EnemyChaseTarget extends MechanicBase
 {
@@ -41,32 +40,22 @@ public class EnemyChaseTarget extends MechanicBase
         return Math.abs(primary.getDegrees() - secondary.getDegrees()) == 180; 
     }
 
+    private boolean isPerpendicularCoordDirections(Coordinates primary, Coordinates secondary) 
+    {
+        return Math.abs(primary.getDegrees() - secondary.getDegrees()) == 90;
+    }
+
     private EnemyPredeterminedRoute getPredeterminedRoute(LinkedList<Coordinates> route)
     {
         EnemyPredeterminedRoute predetermined_route = new EnemyPredeterminedRoute(enemy_movement, enemy);
-        int paths_delta_stage_x = 0;
-        int paths_delta_stage_y = 0;
+        int delta_path_x = 0;
+        int delta_path_y = 0;
 
-        int prev_delta_stage_x = 0;
-        int prev_delta_stage_y = 0;
-        int current_delta_stage_x = 0;
-        int current_delta_stage_y = 0;
-
-        for(int i = 1; i < route.size(); i++)
+        for(int i = 1; i < route.size(); i++) 
         {
-            prev_delta_stage_x = current_delta_stage_x;
-            prev_delta_stage_y = current_delta_stage_y;
-            current_delta_stage_x = route.get(i).getX() - route.get(i - 1).getX();
-            current_delta_stage_y = route.get(i).getY() - route.get(i - 1).getY();
-
-            if(prev_delta_stage_x == 0 && current_delta_stage_x != 0
-            && prev_delta_stage_y != 0 && current_delta_stage_y == 0)
-            {
-                
-            }
-
-            predetermined_route.addRelativePath(, 
-            );
+            delta_path_x = route.get(i).getX() - route.get(i - 1).getX();
+            delta_path_y = route.get(i).getY() - route.get(i - 1).getY();
+            predetermined_route.addRelativePath(delta_path_x, delta_path_y);
         }
 
         predetermined_route.compileRelativePaths();
@@ -88,7 +77,7 @@ public class EnemyChaseTarget extends MechanicBase
         return null;
     }
 
-    public LinkedList<LinkedList<Coordinates>> getBranchRoutes(LinkedList<Coordinates> base_route, int target_stage_x, int target_stage_y, int prev_recursion_level)
+    public LinkedList<LinkedList<Coordinates>> getBranchRoutes(LinkedList<Coordinates> base_route, int target_stage_x, int target_stage_y)
     {
         // Branch routes:
         LinkedList<LinkedList<Coordinates>> routes = new LinkedList<LinkedList<Coordinates>>();
@@ -145,7 +134,7 @@ public class EnemyChaseTarget extends MechanicBase
             LinkedList<LinkedList<Coordinates>> updated_logged_routes = new LinkedList<LinkedList<Coordinates>>();
             for(int i = 0; i < logged_routes.size(); i++)
             {
-                updated_logged_routes.addAll(getBranchRoutes(logged_routes.get(i), target_stage_x, target_stage_y, 0));
+                updated_logged_routes.addAll(getBranchRoutes(logged_routes.get(i), target_stage_x, target_stage_y));
             }
 
             logged_routes.clear();

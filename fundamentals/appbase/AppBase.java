@@ -219,12 +219,14 @@ public class AppBase extends JFrame implements AppInterface
 
     private void runMechanics()
     {
-        MechanicBase mechanic = MechanicScheduler.getInstance();
         //MechanicScheduler.interruptSimultaneousComponentUtilization();
-
-        if(mechanic != null)
+        for(int i = 0; i < MechanicScheduler.getNumOfMechanics(); i++)
         {
-            mechanic.run();
+            MechanicBase mechanic = MechanicScheduler.getInstance();
+            if(mechanic != null)
+            {
+                mechanic.run();
+            }
         }
     }
 

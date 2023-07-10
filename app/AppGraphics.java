@@ -34,6 +34,12 @@ public class AppGraphics extends JPanel
     protected void paintComponent(Graphics graphics)
     {
         Graphics2D graphics_2d = (Graphics2D)graphics;
+        graphics_2d.translate(Constants.WINDOW_CHARACTERISTICS.GRAPHICS_X_TRANSLATION, 
+        Constants.WINDOW_CHARACTERISTICS.GRAPHICS_Y_TRANSLATION);
+        double x_scaler = (double)Constants.WINDOW_CHARACTERISTICS.WINDOW_WIDTH / 
+        Toolkit.getDefaultToolkit().getScreenSize().getWidth();
+        double y_scaler = (double)Constants.WINDOW_CHARACTERISTICS.WINDOW_HEIGHT /
+        Toolkit.getDefaultToolkit().getScreenSize().getHeight();
 
         for(int i = 0; i < ComponentScheduler.getComponents().size(); i++)
         {
@@ -50,9 +56,11 @@ public class AppGraphics extends JPanel
                     double radians = Math.toRadians(current_component.getCoordinates().getDegrees());
                 
                     graphics_2d.setClip(0, 0, Constants.WINDOW_CHARACTERISTICS.WINDOW_WIDTH, Constants.WINDOW_CHARACTERISTICS.WINDOW_HEIGHT);
-                    graphics_2d.translate(current_component.getCoordinates().getX(), current_component.getCoordinates().getY());
+                    //graphics_2d.translate(current_component.getCoordinates().getX(), current_component.getCoordinates().getY());
                     graphics_2d.rotate(radians);
-                    graphics_2d.translate(-current_component.getCoordinates().getX(), -current_component.getCoordinates().getY());
+                    graphics_2d.scale(x_scaler * Constants.WINDOW_CHARACTERISTICS.GRAPHICS_X_SCALER_COEFF, 
+                    y_scaler * Constants.WINDOW_CHARACTERISTICS.GRAPHICS_Y_SCALER_COEFF);
+                    //graphics_2d.translate(-current_component.getCoordinates().getX(), -current_component.getCoordinates().getY());
                     graphics_2d.setComposite(AlphaComposite.SrcOver.derive((float)current_component.getOpacicty()));
                     graphics_2d.drawImage(current_component.getAnimation(), x, y, null);
                     graphics_2d.setComposite(AlphaComposite.SrcOver.derive(1));

@@ -17,13 +17,9 @@ public class EnemyMovement extends MechanicBase
     {
         this.enemy = enemy;
         this.entity_movement = entity_movement;
+        this.delta_stage_x = delta_stage_x;
+        this.delta_stage_y = delta_stage_y;
         addRequirements(enemy);
-
-        if((delta_stage_x != 0 && delta_stage_y == 0) || (delta_stage_x == 0 && delta_stage_y != 0))
-        {
-            this.delta_stage_x = delta_stage_x;
-            this.delta_stage_y = delta_stage_y;
-        } 
     }
 
     @Override
