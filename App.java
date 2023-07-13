@@ -1,4 +1,5 @@
 import fundamentals.appbase.AppBase;
+import fundamentals.mechanic.MechanicScheduler;
 
 public class App extends AppBase
 {
@@ -24,6 +25,7 @@ public class App extends AppBase
     @Override 
     public void appPeriodic() 
     { 
-        
+        System.out.println(MechanicScheduler.getNumOfMechanics() + "\n");
+       // System.out.println(MechanicScheduler.getNumOfMechanics());
     }
 }

@@ -9,15 +9,10 @@ public class EnemyPredeterminedRoute extends SequentialMechanicGroup
 {
     private EntityMovement enemy_movement = null; 
     private Enemy enemy = null; 
-    private LinkedList<EnemyMovement> enemy_paths = new LinkedList<EnemyMovement>();
+    private LinkedList<EnemyPathFollowing> enemy_paths = new LinkedList<EnemyPathFollowing>();
 
     public EnemyPredeterminedRoute(EntityMovement enemy_movement, Enemy enemy)
     {
-        if(!(enemy_movement.isScheduled()))
-        {
-            enemy_movement.schedule();
-        }
-
         this.enemy = enemy;
         this.enemy_movement = enemy_movement;
         addRequirements(enemy);
@@ -25,7 +20,7 @@ public class EnemyPredeterminedRoute extends SequentialMechanicGroup
 
     public void addRelativePath(int delta_stage_x, int delta_stage_y)
     {
-        enemy_paths.addLast(new EnemyMovement(enemy_movement, enemy, delta_stage_x, delta_stage_y));
+        enemy_paths.addLast(new EnemyPathFollowing(enemy_movement, enemy, delta_stage_x, delta_stage_y));
     }
 
     public void removeRelativePath(int index)

@@ -1,33 +1,25 @@
-package mechanics;
-
+package mechanics; 
 import java.util.LinkedList;
-import java.util.NoSuchElementException;
 
 import components.Enemy;
-import components.MunchMan;
 import components.Stage;
-import fundamentals.Coordinates;
-import fundamentals.mechanic.Delay;
 import fundamentals.mechanic.MechanicBase;
+import fundamentals.Coordinates;
 
-public class EnemyChaseTarget extends MechanicBase
-{
-    private Delay update_delay = new Delay(10000, null);
-    private EntityMovement enemy_movement = null;
-    private Stage stage = null; 
-    private MunchMan munch_man = null;
-    private Enemy enemy = null; 
-    private EnemyPredeterminedRoute enemy_route = null; 
+public class EnemyGoNearTarget extends MechanicBase {
+    
     private int[][] stage_data = null; 
+    private Coordinates target_stage_coords = null;
+    private EnemyGoToTarget enemy_go_to_target = null;
 
-    public EnemyChaseTarget(EntityMovement enemy_movement, Stage stage, MunchMan munch_man, Enemy enemy)
-    {   
-        this.enemy_movement = enemy_movement;
-        this.stage = stage; 
-        this.munch_man = munch_man;
-        this.enemy = enemy; 
+    public EnemyGoNearTarget(EntityMovement enemy_movement, Stage stage, Enemy enemy, int target_stage_x, int target_stage_y) 
+    {
         stage_data = stage.getStageData().clone();
-        addRequirements(stage, munch_man, enemy);
+        target_stage_x = Math.max(Math.min(stage_data[0].length, target_stage_x), 0);
+        target_stage_y = Math.max(Math.min(stage_data.length, target_stage_y), 0);
+        target_stage_coords = getNearTargetStageCoords(target_stage_x, target_stage_y);
+        addRequirements(stage, enemy);
+        enemy_go_to_target = new EnemyGoToTarget(enemy_movement, stage, enemy, target_stage_coords.getX(), target_stage_coords.getY());
     }
 
     private boolean isCoordsEqual(Coordinates primary, Coordinates secondary)
@@ -40,40 +32,16 @@ public class EnemyChaseTarget extends MechanicBase
         return Math.abs(primary.getDegrees() - secondary.getDegrees()) == 180; 
     }
 
-    private boolean isPerpendicularCoordDirections(Coordinates primary, Coordinates secondary) 
-    {
-        return Math.abs(primary.getDegrees() - secondary.getDegrees()) == 90;
-    }
-
-    private EnemyPredeterminedRoute getPredeterminedRoute(LinkedList<Coordinates> route)
-    {
-        EnemyPredeterminedRoute predetermined_route = new EnemyPredeterminedRoute(enemy_movement, enemy);
-        int delta_path_x = 0;
-        int delta_path_y = 0;
-
-        for(int i = 1; i < route.size(); i++) 
-        {
-            delta_path_x = route.get(i).getX() - route.get(i - 1).getX();
-            delta_path_y = route.get(i).getY() - route.get(i - 1).getY();
-            predetermined_route.addRelativePath(delta_path_x, delta_path_y);
-        }
-
-        predetermined_route.compileRelativePaths();
-        return predetermined_route;
-    }
-
     private LinkedList<Coordinates> getBranchRouteVariant(LinkedList<Coordinates> base_route, LinkedList<Coordinates> route, int target_stage_x, int target_stage_y)
     {
         try
         {
-            if(!isCoordsEqual(route.getLast(), base_route.getLast()) && !isOpposingCoordDirections(route.getLast(), base_route.getLast()) 
-            && stage_data[route.getLast().getY()][route.getLast().getX()] == 1)
+            if(!isCoordsEqual(route.getLast(), base_route.getLast()) && !isOpposingCoordDirections(route.getLast(), base_route.getLast()))
             {
                 return route;
             }
         }
         catch(ArrayIndexOutOfBoundsException e) {}
-
         return null;
     }
 
@@ -110,26 +78,31 @@ public class EnemyChaseTarget extends MechanicBase
 
     private LinkedList<Coordinates> getRouteFound(LinkedList<LinkedList<Coordinates>> routes, int target_stage_x, int target_stage_y)
     {
-        for(int i = 0; i < routes.size(); i++)
+        try
         {
-            if(routes.get(i).getLast().getX() == target_stage_x && routes.get(i).getLast().getY() == target_stage_y)
+            for(int i = 0; i < routes.size(); i++)
             {
-                return routes.get(i);
+                if(stage_data[routes.get(i).getLast().getY()][routes.get(i).getLast().getX()] == 1)
+                {
+                    return routes.get(i);
+                }
             }
-        }
 
+        }
+        catch(ArrayIndexOutOfBoundsException e) {}
         return null; 
     }
 
     // when building new route with routes: a route is already logged if the next route found is found in a logged route
-    public EnemyPredeterminedRoute getRoute(int target_stage_x, int target_stage_y)
+    public Coordinates getNearTargetStageCoords(int target_stage_x, int target_stage_y)
     {
         LinkedList<Coordinates> initial_route = new LinkedList<Coordinates>();
         LinkedList<LinkedList<Coordinates>> logged_routes = new LinkedList<LinkedList<Coordinates>>();
-        initial_route.addLast(new Coordinates(enemy.getStageCoords().getX(), enemy.getStageCoords().getY(), 0));
+        initial_route.addLast(new Coordinates(target_stage_x, target_stage_y, 0));
         logged_routes.addLast(initial_route);
+        LinkedList<Coordinates> route_found = getRouteFound(logged_routes, target_stage_x, target_stage_y);
 
-        while(getRouteFound(logged_routes, target_stage_x, target_stage_y) == null)
+        while(route_found == null)
         {
             LinkedList<LinkedList<Coordinates>> updated_logged_routes = new LinkedList<LinkedList<Coordinates>>();
             for(int i = 0; i < logged_routes.size(); i++)
@@ -139,47 +112,27 @@ public class EnemyChaseTarget extends MechanicBase
 
             logged_routes.clear();
             logged_routes.addAll(updated_logged_routes);
+            route_found = getRouteFound(logged_routes, target_stage_x, target_stage_y);
         }
 
-        return getPredeterminedRoute(getRouteFound(logged_routes, target_stage_x, target_stage_y));
+        return route_found.getLast();
     }
 
     @Override
     public void initialize()
     {
-        if(!enemy_movement.isScheduled())
-        {
-            enemy_movement.schedule();
-        }
-    }
-
-    @Override
-    public void execute()
-    {
-        try
-        {
-            if(!enemy_route.isScheduled())
-            {
-                enemy_route = getRoute(munch_man.getStageCoords().getX(), munch_man.getStageCoords().getY());
-                enemy_route.schedule();
-            }
-        }
-        catch(NullPointerException e) 
-        {
-            enemy_route = getRoute(munch_man.getStageCoords().getX(), munch_man.getStageCoords().getY());
-            enemy_route.schedule();
-        }
+        enemy_go_to_target.schedule();
     }
 
     @Override
     public void end(boolean interrupted)
     {
-
+        enemy_go_to_target.cancel();
     }
 
     @Override
-    public boolean isFinished()
+    public boolean isFinished() 
     {
-        return false; 
+        return isInitialized() && !enemy_go_to_target.isScheduled();
     }
 }

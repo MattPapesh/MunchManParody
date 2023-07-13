@@ -90,8 +90,7 @@ public class SequentialMechanicGroup extends MechanicBase
     @Override
     public boolean isFinished()
     {
-        return current_mechanic_index >= group_mechanics.size() 
-        && ((!group_mechanics.isEmpty() && !group_mechanics.getLast().isScheduled()) || group_mechanics.isEmpty());
+        return current_mechanic_index >= group_mechanics.size() || group_mechanics.isEmpty();
 
     }
 }

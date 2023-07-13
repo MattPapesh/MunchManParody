@@ -4,12 +4,12 @@ import java.util.LinkedList;
 import fundamentals.component.ComponentBase;
 
 /**
- * The superclass to every app mechanic. Fundamentally, MechanicBase is broken up into four crucial phases: initilization before
+ * The superclass to every app mechanic. Fundamentally, MechanicBase is broken up into four crucial phases: initialization before
  * before running a mechanic after being scheduled, execution of the mechanic itself, the condition that needs to be met to ensure that
  * the mechanic is finished running, and the ending. Moreover, MechanicBase also allows mechanic classes to inherit and override methods for 
  * controlling a mechanic's behavior. Finally, it is required of every mechanic to extend MechanicBase as a superclass while 
  * calling the addRequirements(GenericComponent... components) method as long as if that mechanic isn't already 
- * extending another Mechanic superclass for apropriate functionality.
+ * extending another Mechanic superclass for appropriate functionality.
  * 
  * @see
  * Note: Mechanic superclasses: MechanicBase, InstantMechanic, and SequentialMechanicGroup.
@@ -30,8 +30,8 @@ public class MechanicBase implements MechanicInterface
     @Override public void end(boolean interrupted) {}
 
     /**
-     * Once MechanicBase has been extended and become a superclass to a sublcass, the subclass must call 
-     * this method in order for the subclass to apropriately function as a app mechanic. Moreover, any components 
+     * Once MechanicBase has been extended and become a superclass to a subclass, the subclass must call 
+     * this method in order for the subclass to appropriately function as a app mechanic. Moreover, any components 
      * that will be used by the mechanic must be passed in.
      */
     public <GenericComponent extends ComponentBase> void addRequirements(GenericComponent... components)
@@ -100,20 +100,19 @@ public class MechanicBase implements MechanicInterface
      */
     public void run()
     {
-        if(scheduled && !initialized && !isFinished())
+        if(scheduled && !initialized)
         {
             initial_millis = MechanicScheduler.getElapsedMillis();
             initialize();
             initialized = true;
         }
-        else if(scheduled && initialized && !isFinished() && 
+        else if(scheduled && initialized && !isFinished() && !interrupted && 
         Math.abs(MechanicScheduler.getElapsedMillis() - initial_millis) >= executional_periodic_delay_millis)
         {
             execute();
             initial_millis = MechanicScheduler.getElapsedMillis();
         }
-        
-        if(scheduled && (isFinished() || interrupted))
+        else if(scheduled && initialized && (isFinished() || interrupted))
         {
             end(interrupted);
             scheduled = false; 

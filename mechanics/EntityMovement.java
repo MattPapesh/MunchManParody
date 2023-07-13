@@ -9,10 +9,8 @@ import components.Stage;
 
 public class EntityMovement extends MechanicBase
 {
-    private InstantMechanic indefinite_entity_movement = null;
     private EntityBase entity = null;
     private boolean began = false;  
-    private boolean is_superclass = true; 
     private boolean is_movement_obstructed = false; 
 
     private Coordinates current_stage_coords = null;
@@ -23,10 +21,10 @@ public class EntityMovement extends MechanicBase
     private int[][] stage_data;
     private int collision_tolerance = 0; 
 
-    private int current_delta_x = 0;
-    private int current_delta_y = 0;
-    private int prev_delta_x = 0;
-    private int prev_delta_y = 0;
+    private double current_delta_x = 0;
+    private double current_delta_y = 0;
+    private double prev_delta_x = 0;
+    private double prev_delta_y = 0;
 
     public EntityMovement() {}
 
@@ -36,7 +34,6 @@ public class EntityMovement extends MechanicBase
      */
     public <GenericEntity extends EntityBase> EntityMovement(Stage stage, GenericEntity entity) 
     { 
-        is_superclass = false; 
         begin(stage, entity);
     }   
 
@@ -60,38 +57,11 @@ public class EntityMovement extends MechanicBase
             current_gran_stage_coords = entity.convertToGranularStageCoords(current_stage_coords);
             prev_gran_stage_coords = new Coordinates(0, 0, 0);
 
-            setExecutionalPeriodicDelay(20);
             addRequirements(stage, this.entity);
-        }
-
-        if(is_superclass)
-        {
-            try
-            {
-                if(indefinite_entity_movement.isScheduled())
-                {
-                    indefinite_entity_movement.cancel();
-                }
-            }
-            catch(NullPointerException e) {}
-
-            indefinite_entity_movement = new InstantMechanic(()->
-            {
-                if(isScheduled())
-                {
-                    collisionalMovement();
-                    updateCoords();
-                    updateDirection();
-                }
-            });
-
-            indefinite_entity_movement.setExecutionalPeriodicDelay(0);
-            indefinite_entity_movement.continuouslyLoopMechanic(true);
-            indefinite_entity_movement.schedule();
         }
     }
 
-    public void setTickVelocity(int delta_x, int delta_y)
+    public void setTickVelocity(double delta_x, double delta_y)
     {
         prev_delta_x = current_delta_x;
         prev_delta_y = current_delta_y;
@@ -146,7 +116,7 @@ public class EntityMovement extends MechanicBase
         is_movement_obstructed = false;
         prev_gran_stage_coords.setCoordinates(current_gran_stage_coords.getX(), current_gran_stage_coords.getY(), current_gran_stage_coords.getDegrees());
         prev_stage_coords.setCoordinates(current_stage_coords.getX(), current_stage_coords.getY(), current_stage_coords.getDegrees());
-        current_gran_stage_coords.setCoordinates(current_gran_stage_coords.getX() + current_delta_x, current_gran_stage_coords.getY() + current_delta_y, current_gran_stage_coords.getDegrees());
+        current_gran_stage_coords.setCoordinates(current_gran_stage_coords.getX() + (int)current_delta_x, current_gran_stage_coords.getY() + (int)current_delta_y, current_gran_stage_coords.getDegrees());
         current_stage_coords = entity.convertToStageCoords(current_gran_stage_coords);
 
         int horizontal_collision_diff = current_gran_stage_coords.getX() - entity.convertToGranularStageCoords(current_stage_coords).getX();
@@ -223,18 +193,15 @@ public class EntityMovement extends MechanicBase
     @Override
     public void execute() 
     {   
-        if(!is_superclass)
-        {
-            collisionalMovement();
-            updateCoords();
-            updateDirection();
-        }
+        collisionalMovement();
+        updateCoords();
+        updateDirection();
     }
 
     @Override 
     public void end(boolean interrupted) 
     {
-
+        
     }
 
     @Override
