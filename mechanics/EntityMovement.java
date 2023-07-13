@@ -20,10 +20,10 @@ public class EntityMovement extends MechanicBase
     private int[][] stage_data;
     private int collision_tolerance = 0; 
 
-    private double current_delta_x = 0;
-    private double current_delta_y = 0;
-    private double prev_delta_x = 0;
-    private double prev_delta_y = 0;
+    private int current_delta_x = 0;
+    private int current_delta_y = 0;
+    private int prev_delta_x = 0;
+    private int prev_delta_y = 0;
 
     public EntityMovement() {}
 
@@ -60,7 +60,7 @@ public class EntityMovement extends MechanicBase
         }
     }
 
-    public void setTickVelocity(double delta_x, double delta_y)
+    public void setTickVelocity(int delta_x, int delta_y)
     {
         prev_delta_x = current_delta_x;
         prev_delta_y = current_delta_y;
@@ -115,7 +115,7 @@ public class EntityMovement extends MechanicBase
         is_movement_obstructed = false;
         prev_gran_stage_coords.setCoordinates(current_gran_stage_coords.getX(), current_gran_stage_coords.getY(), current_gran_stage_coords.getDegrees());
         prev_stage_coords.setCoordinates(current_stage_coords.getX(), current_stage_coords.getY(), current_stage_coords.getDegrees());
-        current_gran_stage_coords.setCoordinates(current_gran_stage_coords.getX() + (int)current_delta_x, current_gran_stage_coords.getY() + (int)current_delta_y, current_gran_stage_coords.getDegrees());
+        current_gran_stage_coords.setCoordinates(current_gran_stage_coords.getX() + current_delta_x, current_gran_stage_coords.getY() + current_delta_y, current_gran_stage_coords.getDegrees());
         current_stage_coords = entity.convertToStageCoords(current_gran_stage_coords);
 
         int horizontal_collision_diff = current_gran_stage_coords.getX() - entity.convertToGranularStageCoords(current_stage_coords).getX();

@@ -46,7 +46,7 @@ public class EnemyBehaviorBase extends MechanicBase implements EnemyBehaviorInte
         return new Coordinates(enemy_target.getX(), enemy_target.getY(), enemy_target.getDegrees());
     }
 
-    public void setEnemySpeed(double speed) 
+    public void setEnemySpeed(int speed) 
     {
         enemy.setSpeed(speed);
     }

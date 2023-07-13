@@ -14,8 +14,8 @@ import components.StageChain;
 
 public class AppContainer extends AppBase
 {
-    private final double PLAYER_DEF_SPEED = 0.8;
-    private final double ENEMY_DEF_SPEED = 0.8;
+    private final int PLAYER_DEF_SPEED = 2;
+    private final int ENEMY_DEF_SPEED = 2;
 
     private Controller controller = getController(Constants.CONTROLLER_IDS.LEFT_KEY, Constants.CONTROLLER_IDS.RIGHT_KEY, 
     Constants.CONTROLLER_IDS.UP_KEY, Constants.CONTROLLER_IDS.DOWN_KEY);
