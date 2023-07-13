@@ -3,7 +3,6 @@ package mechanics;
 import java.util.LinkedList;
 
 import components.Enemy;
-import components.MunchMan;
 import components.Stage;
 import fundamentals.Coordinates;
 import fundamentals.mechanic.MechanicBase;

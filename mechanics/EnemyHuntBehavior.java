@@ -3,12 +3,9 @@ import components.Enemy;
 import components.MunchMan;
 import components.Stage;
 import fundamentals.Coordinates;
-import fundamentals.mechanic.MechanicScheduler;
 
 public class EnemyHuntBehavior extends EnemyBehaviorBase
 {
-    private double update_millis = 100;
-    private double initial_millis = 0;
     public EnemyHuntBehavior(Stage stage, Enemy enemy, MunchMan munch_man)
     {
         super(stage, enemy, munch_man);

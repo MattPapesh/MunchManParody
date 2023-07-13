@@ -8,17 +8,15 @@ import fundamentals.mechanic.MechanicBase;
 public class PlaceStageChain extends MechanicBase
 {
     private MunchMan munch_man = null;
-    private Stage stage = null;
     private StageChain stage_chain = null;
 
     public PlaceStageChain(MunchMan munch_man, Stage stage, StageChain stage_chain)
     {
         this.munch_man = munch_man;
-        this.stage = stage;
         this.stage_chain = stage_chain;
 
         setExecutionalPeriodicDelay(0);
-        addRequirements(munch_man, stage, stage_chain);
+        addRequirements(munch_man, stage_chain);
     }
 
     @Override

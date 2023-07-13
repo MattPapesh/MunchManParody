@@ -1,6 +1,5 @@
 package mechanics;
 
-import fundamentals.mechanic.InstantMechanic;
 import fundamentals.mechanic.MechanicBase;
 import fundamentals.Coordinates;
 

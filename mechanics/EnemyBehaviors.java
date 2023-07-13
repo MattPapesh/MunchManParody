@@ -1,6 +1,4 @@
 package mechanics;
-import java.util.LinkedList;
-
 import components.Enemy;
 import components.Stage;
 import components.MunchMan;

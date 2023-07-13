@@ -2,8 +2,6 @@ package fundamentals.animation;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
-import javax.swing.plaf.ColorUIResource;
-import javax.xml.crypto.dsig.keyinfo.RetrievalMethod;
 
 import fundamentals.Constants;
 

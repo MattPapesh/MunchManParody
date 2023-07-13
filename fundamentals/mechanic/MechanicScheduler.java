@@ -49,44 +49,6 @@ public class MechanicScheduler
         }
     }
 
-    public static void interruptSimultaneousComponentUtilization()
-    {
-        MechanicBase primary_mechanic = mechanics.get(current_instance_index);
-        /* 
-        for(int i = 0; i < mechanics.size(); i++)
-        {
-            if(i != current_instance_index && primary_mechanic.isScheduled() && mechanics.get(i).isScheduled())
-            {
-                LinkedList<Double> primary_component_IDs = primary_mechanic.getComponentIDs();
-                LinkedList<Double> secondary_component_IDs = mechanics.get(i).getComponentIDs();
-
-                if(isSharedComponentAmongMechanics(primary_component_IDs, secondary_component_IDs))
-                {
-                    mechanics.get(current_instance_index).cancel();
-                    mechanics.get(i).cancel();
-                    System.err.println("MechanicScheduler.java: Simultaneous component utilization among mechanics exception! ");
-                }
-            }
-        }*/
-    }
-
-    private static boolean isSharedComponentAmongMechanics(LinkedList<Double> primary_component_IDs, 
-    LinkedList<Double> secondary_component_IDs)
-    {
-       /*  for(int current_primary_index = 0; current_primary_index < primary_component_IDs.size(); current_primary_index++)
-        {
-            for(int current_secondary_index = 0; current_secondary_index < secondary_component_IDs.size(); current_secondary_index++)
-            {
-                if(primary_component_IDs.get(current_primary_index) == secondary_component_IDs.get(current_secondary_index))
-                {
-                    return true;
-                }
-            }
-        }*/
-
-        return false;
-    }
-
     /**
      * Removes the mechanic passed in from the MechanicScheduler's list of registered mechanics.
      */

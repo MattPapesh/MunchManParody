@@ -1,20 +1,11 @@
 import fundamentals.appbase.AppBase;
 import fundamentals.mechanic.InstantMechanic;
-import fundamentals.mechanic.MechanicScheduler;
-import fundamentals.mechanic.SequentialMechanicGroup;
-import mechanics.EnemyGoNearTarget;
-import mechanics.EnemyGoToTarget;
 import mechanics.EnemyHuntBehavior;
-import mechanics.EnemyPathFollowing;
-import mechanics.EnemyPredeterminedRoute;
 import mechanics.EntityMovement;
 import mechanics.PlaceStageChain;
 import fundamentals.Constants;
-import fundamentals.Coordinates;
 import fundamentals.UI.*;
 import fundamentals.animation.Animation;
-
-import java.util.LinkedList;
 
 import components.Enemy;
 import components.MunchMan;
