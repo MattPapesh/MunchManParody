@@ -15,7 +15,7 @@ import fundamentals.component.ComponentScheduler;
  * list of registered Component instances onto the screen. 
  * 
  * @see Given that registered Components remain registered unless they are manually unregistered, all registered Components will
- * remain continuously being painted on-screen, allowing any changes they may undergo at any momement be reflected on-screen.  
+ * remain continuously being painted on-screen, allowing any changes they may undergo at any moment be reflected on-screen.  
  */
 public class AppGraphics extends JPanel 
 {
@@ -26,7 +26,7 @@ public class AppGraphics extends JPanel
      * list of registered Component instances onto the screen. 
      * 
      * @see Given that registered Components remain registered unless they are manually unregistered, all registered Components will
-     * remain continuously being painted on-screen, allowing any changes they may undergo at any momement be reflected on-screen.  
+     * remain continuously being painted on-screen, allowing any changes they may undergo at any moment be reflected on-screen.  
      */
     public AppGraphics() {}
 

@@ -66,7 +66,7 @@ public class MechanicBase implements MechanicInterface
     }
 
     /**
-     * @return How often the execute() method is called  in millisseconds when it's 
+     * @return How often the execute() method is called  in milliseconds when it's 
      * continuously being called once a mechanic is scheduled. 
      */
     public int getExecutionalPeriodicDelay()
@@ -85,7 +85,7 @@ public class MechanicBase implements MechanicInterface
     }
 
     /**
-     * Used to immediately hault a scheduled and running mechanic. 
+     * Used to immediately halt a scheduled and running mechanic. 
      */
     public void cancel()
     {
@@ -139,7 +139,7 @@ public class MechanicBase implements MechanicInterface
     }
 
     /**
-     * @return Whether or not the mechanic has been interrupted by a cancelation. 
+     * @return Whether or not the mechanic has been interrupted by a cancellation. 
      */
     public boolean isInterrupted()
     {

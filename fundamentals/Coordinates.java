@@ -4,7 +4,7 @@ package fundamentals;
  * A data structure that houses and describes the location of a component in the window of the application while on-screen. 
  * 
  * @see
- * Note: Coordinates are relative to the point of origin located at the upper-left cornder of an application's window, where going
+ * Note: Coordinates are relative to the point of origin located at the upper-left corner of an application's window, where going
  * across the screen, from left to right, is the positive X-direction, and going up to down the screen is positive for the Y-direction.
  * 
  * @see
@@ -15,7 +15,7 @@ package fundamentals;
  */
 public class Coordinates 
 {
-    // Right is positive (X) while left is negative. Down is positve (Y) while up is negative. 
+    // Right is positive (X) while left is negative. Down is positive (Y) while up is negative. 
     private int x = 0;
     private int y = 0;
     // Clockwise is positive and counter-clockwise is negative degrees
@@ -25,7 +25,7 @@ public class Coordinates
     * A data structure that houses and describes the location of a component in the window of the application while on-screen. 
     * 
     * @see
-    * Note: Coordinates are relative to the point of origin located at the upper-left cornder of an application's window, where going
+    * Note: Coordinates are relative to the point of origin located at the upper-left corner of an application's window, where going
     * across the screen, from left to right, is the positive X-direction, and going up to down the screen is positive for the Y-direction.
     * 
     * @see

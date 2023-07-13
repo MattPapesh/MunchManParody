@@ -64,7 +64,7 @@ public class MechanicScheduler
                 {
                     mechanics.get(current_instance_index).cancel();
                     mechanics.get(i).cancel();
-                    System.err.println("MechanicScheduler.java: Simultaneous component utilization among mechanics exeception! ");
+                    System.err.println("MechanicScheduler.java: Simultaneous component utilization among mechanics exception! ");
                 }
             }
         }*/
@@ -114,7 +114,7 @@ public class MechanicScheduler
      /**
      * Returns a different registered mechanic instance each time the method is called, and loops through the list of registered
      * mechanic instances. Moreover, when the method is continuously called, and the returned instance's run() method is called,
-     * all registered mechnanic instances will function apropriately.
+     * all registered mechanic instances will function appropriately.
      * 
      * @return
      *  A different registered mechanic instance each time the method is called. 
