@@ -15,7 +15,7 @@ import components.StageChain;
 public class AppContainer extends AppBase
 {
     private final int PLAYER_DEF_SPEED = 2;
-    private final int ENEMY_DEF_SPEED = 2;
+    private final int ENEMY_DEF_SPEED = 3;
 
     private Controller controller = getController(Constants.CONTROLLER_IDS.LEFT_KEY, Constants.CONTROLLER_IDS.RIGHT_KEY, 
     Constants.CONTROLLER_IDS.UP_KEY, Constants.CONTROLLER_IDS.DOWN_KEY);
@@ -42,11 +42,21 @@ public class AppContainer extends AppBase
         controller.whenDownPressed(new InstantMechanic(()->{ player_movement.setTickVelocity(0, PLAYER_DEF_SPEED); }));
     }
 
+    //private EntityMovement enemy_A_mov = new EntityMovement(stage, enemy_A);
+    //private SequentialMechanicGroup seq_enemy_A_pathing = new SequentialMechanicGroup();
+
     public AppContainer() {
         configureButtonBindings();
         player_movement.schedule();
         place_stage_chain.schedule();
 
+        //seq_enemy_A_pathing.addMechanics(
+            //new EnemyGoNearTarget(0.80, enemy_A_mov, stage, enemy_A, munch_man.getStageCoords().getX(), munch_man.getStageCoords().getY()),
+            //new EnemyGoNearTarget(1.0, enemy_A_mov, stage, enemy_A, enemy_A.getStageCoords().getX(), enemy_A.getStageCoords().getY())            
+        //);
+
+       // enemy_A_mov.schedule();
+       // seq_enemy_A_pathing.schedule();
         enemy_A_hunt_behavior.schedule();
     }
 

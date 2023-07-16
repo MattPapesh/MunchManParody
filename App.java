@@ -25,7 +25,6 @@ public class App extends AppBase
     @Override 
     public void appPeriodic() 
     { 
-        System.out.println(MechanicScheduler.getNumOfMechanics() + "\n");
-       // System.out.println(MechanicScheduler.getNumOfMechanics());
+        app_container.periodic();
     }
 }

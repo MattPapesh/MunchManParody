@@ -3,6 +3,7 @@ package mechanics;
 import components.Enemy;
 import fundamentals.Coordinates;
 import fundamentals.mechanic.MechanicBase;
+import fundamentals.mechanic.MechanicScheduler;
 
 public class EnemyPathFollowing extends MechanicBase
 {

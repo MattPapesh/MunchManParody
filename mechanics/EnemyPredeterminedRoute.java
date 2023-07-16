@@ -34,7 +34,12 @@ public class EnemyPredeterminedRoute extends SequentialMechanicGroup
 
     public int getNumOfPaths()
     {
-        return enemy_paths.size();
+        return getNumOfMechanics();
+    }
+
+    public int getCurrentPathIndexScheduled()
+    {
+        return getCurrentMechanicIndexScheduled();
     }
 
     public void compileRelativePaths()

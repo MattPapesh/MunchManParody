@@ -26,11 +26,7 @@ public class SequentialMechanicGroup extends MechanicBase
      * initializing, executing, or ending phases, and does not offer the use of an ending conditon! This mechanic is strictly meant for
      * sequentially scheduling and running added mechanics. 
      */
-    public SequentialMechanicGroup()
-    {
-        setExecutionalPeriodicDelay(1);
-        MechanicScheduler.registerMechanic(this);
-    }
+    public SequentialMechanicGroup() {}
 
     /**
      * Used to add any type of mechanic instance to the SequentialMechanicGroup, where these mechanics
@@ -53,11 +49,28 @@ public class SequentialMechanicGroup extends MechanicBase
         }
     }
 
-    @Override
-    public void initialize() {}
+    public MechanicBase getMechanic(int index)
+    {
+        index = Math.max(Math.min(group_mechanics.size() - 1, index), 0);
+        return group_mechanics.get(index);
+    }
+
+    public int getCurrentMechanicIndexScheduled()
+    {
+        return current_mechanic_index;
+    }
+
+    public int getNumOfMechanics()
+    {
+        return group_mechanics.size();
+    }
+
+    public void sequentialMechanicGroupInitialize() 
+    {
+        current_mechanic_index = 0;
+    }
     
-    @Override
-    public void execute()
+    public void sequentialMechanicGroupExecute()
     {
         try
         { 
@@ -77,20 +90,40 @@ public class SequentialMechanicGroup extends MechanicBase
         catch(IndexOutOfBoundsException e) {}
     }
 
-    @Override
-    public void end(boolean interrupted) 
+    public void sequentialMechanicGroupEnd(boolean interrupted) 
     {
-        MechanicScheduler.removeMechanic(this);  
-        for(int i = 0; i < group_mechanics.size(); i++)
+        for(int i = current_mechanic_index; i < group_mechanics.size() && interrupted; i++)
         {
-            MechanicScheduler.removeMechanic(group_mechanics.get(i));
+            group_mechanics.get(i).cancel();
         }
+    }
+
+    public boolean sequentialMechanicGroupIsFinished()
+    {
+        return current_mechanic_index >= group_mechanics.size() || group_mechanics.isEmpty();
+    }
+
+    @Override
+    public void initialize()
+    {
+        sequentialMechanicGroupInitialize();
+    }
+
+    @Override
+    public void execute()
+    {
+        sequentialMechanicGroupExecute();
+    }
+
+    @Override
+    public void end(boolean interrupted)
+    {
+        sequentialMechanicGroupEnd(interrupted);
     }
 
     @Override
     public boolean isFinished()
     {
-        return current_mechanic_index >= group_mechanics.size() || group_mechanics.isEmpty();
-
+        return sequentialMechanicGroupIsFinished();
     }
 }

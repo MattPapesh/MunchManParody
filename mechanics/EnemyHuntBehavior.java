@@ -9,20 +9,22 @@ public class EnemyHuntBehavior extends EnemyBehaviorBase
     public EnemyHuntBehavior(Stage stage, Enemy enemy, MunchMan munch_man)
     {
         super(stage, enemy, munch_man);
-        //setExecutionalPeriodicDelay(100);
     }    
+
+    private double pct = 1.0;
 
     @Override
     public void initializeBehavior()
     {
-        
+        setEnemyTarget(pct, getMunchManStageCoords().getX(), getMunchManStageCoords().getY());
     }
 
     @Override 
-    public void executeBehavior()
-    {
-        Coordinates player = getMunchManStageCoords();
-        setEnemyTarget(player.getX(), player.getY());
+    public void executeBehavior() {
+        if(getEnemyTravelCompletionPercentage() >= pct)
+        {
+            setEnemyTarget(pct, getMunchManStageCoords().getX(), getMunchManStageCoords().getY());
+        }
     }
 
     @Override

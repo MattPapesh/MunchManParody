@@ -19,6 +19,16 @@ public class EnemyBehaviorBase extends MechanicBase implements EnemyBehaviorInte
     @Override public boolean isBehaviorFinished() {return false;}
     @Override public void endBehavior(boolean interrupted) {}
 
+    public boolean isEnemyTravelInitialized()
+    {
+        if(enemy_go_near_target != null)
+        {
+            return enemy_go_near_target.isInitialized();
+        }
+
+        return false;
+    }
+
     public EnemyBehaviorBase(Stage stage,  Enemy enemy, MunchMan munch_man) 
     {   
         this.stage = stage;
@@ -28,8 +38,8 @@ public class EnemyBehaviorBase extends MechanicBase implements EnemyBehaviorInte
 
         addRequirements(stage, enemy, munch_man);
     }
-
-    public void setEnemyTarget(int target_stage_x, int target_stage_y)
+ 
+    public void setEnemyTarget(double completion_pct, int target_stage_x, int target_stage_y)
     {
         if(enemy_go_near_target != null)
         {
@@ -37,8 +47,27 @@ public class EnemyBehaviorBase extends MechanicBase implements EnemyBehaviorInte
         }
 
         enemy_target.setCoordinates(target_stage_x, target_stage_y, 0);
-        enemy_go_near_target = new EnemyGoNearTarget(enemy_movement, stage, enemy, target_stage_x, target_stage_y);
-        enemy_go_near_target.schedule();
+        enemy_go_near_target = new EnemyGoNearTarget(completion_pct, enemy_movement, stage, enemy, target_stage_x, target_stage_y);
+    }
+    
+    public double getEnemyTravelTerminatingPercentage()
+    {
+        if(enemy_go_near_target != null)
+        {
+            return enemy_go_near_target.getTerminatingCompletionPercentage();
+        }
+
+        return 0.0;
+    }
+
+    public double getEnemyTravelCompletionPercentage()
+    {
+        if(enemy_go_near_target != null)
+        {
+            return enemy_go_near_target.getCompletionPercentage();
+        }
+
+        return 0.0;
     }
 
     public Coordinates getEnemyTarget()
@@ -80,6 +109,11 @@ public class EnemyBehaviorBase extends MechanicBase implements EnemyBehaviorInte
     @Override
     public void execute() 
     {
+        if(enemy_go_near_target != null && !enemy_go_near_target.isScheduled())
+        {
+            enemy_go_near_target.schedule();
+        }
+
         executeBehavior();
     }
 
