@@ -10,24 +10,15 @@ public class EnemyBehaviorBase extends MechanicBase implements EnemyBehaviorInte
     private Stage stage = null; 
     private Enemy enemy = null;
     private MunchMan munch_man = null;
-    private EnemyGoNearTarget enemy_go_near_target = null;
     private EntityMovement enemy_movement = null;
     private Coordinates enemy_target = new Coordinates(0, 0, 0);
+    private EnemyGoNearTarget enemy_targeting = null;
+    private boolean scheduled_enemy_targeting = false; 
 
     @Override public void initializeBehavior() {}
     @Override public void executeBehavior() {}
     @Override public boolean isBehaviorFinished() {return false;}
     @Override public void endBehavior(boolean interrupted) {}
-
-    public boolean isEnemyTravelInitialized()
-    {
-        if(enemy_go_near_target != null)
-        {
-            return enemy_go_near_target.isInitialized();
-        }
-
-        return false;
-    }
 
     public EnemyBehaviorBase(Stage stage,  Enemy enemy, MunchMan munch_man) 
     {   
@@ -41,33 +32,31 @@ public class EnemyBehaviorBase extends MechanicBase implements EnemyBehaviorInte
  
     public void setEnemyTarget(double completion_pct, int target_stage_x, int target_stage_y)
     {
-        if(enemy_go_near_target != null)
+        if(enemy_targeting != null && enemy_targeting.isScheduled())
         {
-            enemy_go_near_target.cancel();
+            enemy_targeting.cancel();
         }
 
-        enemy_target.setCoordinates(target_stage_x, target_stage_y, 0);
-        enemy_go_near_target = new EnemyGoNearTarget(completion_pct, enemy_movement, stage, enemy, target_stage_x, target_stage_y);
+        enemy_targeting = new EnemyGoNearTarget(completion_pct, enemy_movement, stage, enemy, target_stage_x, target_stage_y);
+        enemy_targeting.schedule();
+        scheduled_enemy_targeting = true;
     }
     
-    public double getEnemyTravelTerminatingPercentage()
+    public double getEnemyRouteTerminatingPercentage()
     {
-        if(enemy_go_near_target != null)
-        {
-            return enemy_go_near_target.getTerminatingCompletionPercentage();
-        }
-
-        return 0.0;
+        return enemy_targeting.getCompletionPercentage();
     }
 
-    public double getEnemyTravelCompletionPercentage()
+    public double getEnemyRouteCompletionPercentage()
     {
-        if(enemy_go_near_target != null)
-        {
-            return enemy_go_near_target.getCompletionPercentage();
-        }
+        return enemy_targeting.getTerminatingCompletionPercentage();
+    }
 
-        return 0.0;
+    public boolean isEnemyRouteCompleted()
+    {
+        return !enemy_targeting.isScheduled() && scheduled_enemy_targeting;
+        //return getEnemyRouteCompletionPercentage() >= getEnemyRouteTerminatingPercentage() 
+        //|| (getEnemyRouteCompletionPercentage() == 0 && !enemy_go_near_target.isScheduled());
     }
 
     public Coordinates getEnemyTarget()
@@ -75,12 +64,12 @@ public class EnemyBehaviorBase extends MechanicBase implements EnemyBehaviorInte
         return new Coordinates(enemy_target.getX(), enemy_target.getY(), enemy_target.getDegrees());
     }
 
-    public void setEnemySpeed(int speed) 
+    public void setEnemyMovementSpeed(int speed) 
     {
         enemy.setSpeed(speed);
     }
 
-    public double getEnemySpeed() 
+    public int getEnemyMovementSpeed() 
     {
         return enemy.getSpeed();
     }
@@ -109,18 +98,21 @@ public class EnemyBehaviorBase extends MechanicBase implements EnemyBehaviorInte
     @Override
     public void execute() 
     {
-        if(enemy_go_near_target != null && !enemy_go_near_target.isScheduled())
-        {
-            enemy_go_near_target.schedule();
-        }
-
         executeBehavior();
+        if(isEnemyRouteCompleted())
+        {
+            scheduled_enemy_targeting = false;
+        }
     }
 
     @Override
     public void end(boolean interrupted) 
     {
         endBehavior(interrupted);
+        if(enemy_movement != null && enemy_movement.isScheduled())
+        {
+            enemy_movement.cancel();
+        }
     }
 
     @Override

@@ -2,11 +2,10 @@ package mechanics;
 
 import java.util.LinkedList;
 
+import components.Dot;
 import components.Enemy;
 import components.Stage;
 import fundamentals.Coordinates;
-import fundamentals.mechanic.MechanicBase;
-import fundamentals.mechanic.MechanicScheduler;
 
 public class EnemyGoToTarget extends EnemyPredeterminedRoute
 {
@@ -63,6 +62,7 @@ public class EnemyGoToTarget extends EnemyPredeterminedRoute
         {
             delta_path_x = route.get(i).getX() - route.get(i - 1).getX();
             delta_path_y = route.get(i).getY() - route.get(i - 1).getY();
+            dots.addLast(new Dot(route.get(i).getX(), route.get(i).getY()));
             addRelativePath(delta_path_x, delta_path_y);
         }
 
@@ -73,7 +73,7 @@ public class EnemyGoToTarget extends EnemyPredeterminedRoute
     {
         try
         {
-            if(!isCoordsEqual(route.getLast(), base_route.getLast()) && !isOpposingCoordDirections(route.getLast(), base_route.getLast()) 
+            if(!isCoordsEqual(route.getLast(), base_route.getLast()) && (!isOpposingCoordDirections(route.getLast(), base_route.getLast()) || base_route.size() == 1)
             && stage_data[route.getLast().getY()][route.getLast().getX()] == 1)
             {
                 return route;
@@ -164,15 +164,29 @@ public class EnemyGoToTarget extends EnemyPredeterminedRoute
             return 0.0;
         }
 
-        System.out.println("index: " + getCurrentPathIndexScheduled() + "   paths size: " + getNumOfPaths());
         return (double)getCurrentPathIndexScheduled() / (double)getNumOfPaths();
     }
 
     @Override
     public void initialize()
     {
+        if(enemy_movement != null && !enemy_movement.isScheduled())
+        {
+            enemy_movement.schedule();
+        }
+
         computeRoute(target_stage_coords.getX(), target_stage_coords.getY());
         sequentialMechanicGroupInitialize();
+    }
+
+    @Override
+    public void end(boolean interrupted)
+    {
+        sequentialMechanicGroupEnd(interrupted);
+        for(int i = 0; i < dots.size(); i++)
+        {
+            dots.get(i).delete();
+        }
     }
 
     @Override

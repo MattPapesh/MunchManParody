@@ -2,7 +2,6 @@ package mechanics;
 import components.Enemy;
 import components.MunchMan;
 import components.Stage;
-import fundamentals.Coordinates;
 
 public class EnemyHuntBehavior extends EnemyBehaviorBase
 {
@@ -11,7 +10,7 @@ public class EnemyHuntBehavior extends EnemyBehaviorBase
         super(stage, enemy, munch_man);
     }    
 
-    private double pct = 1.0;
+    private double pct = 0.2;
 
     @Override
     public void initializeBehavior()
@@ -21,7 +20,7 @@ public class EnemyHuntBehavior extends EnemyBehaviorBase
 
     @Override 
     public void executeBehavior() {
-        if(getEnemyTravelCompletionPercentage() >= pct)
+        if(isEnemyRouteCompleted())
         {
             setEnemyTarget(pct, getMunchManStageCoords().getX(), getMunchManStageCoords().getY());
         }

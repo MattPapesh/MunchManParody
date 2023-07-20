@@ -2,6 +2,7 @@ package mechanics;
 
 import java.util.LinkedList;
 
+import components.Dot;
 import components.Enemy;
 import fundamentals.mechanic.SequentialMechanicGroup;
 
@@ -10,6 +11,8 @@ public class EnemyPredeterminedRoute extends SequentialMechanicGroup
     private EntityMovement enemy_movement = null; 
     private Enemy enemy = null; 
     private LinkedList<EnemyPathFollowing> enemy_paths = new LinkedList<EnemyPathFollowing>();
+
+    protected LinkedList<Dot> dots = new LinkedList<Dot>();
 
     public EnemyPredeterminedRoute(EntityMovement enemy_movement, Enemy enemy)
     {
