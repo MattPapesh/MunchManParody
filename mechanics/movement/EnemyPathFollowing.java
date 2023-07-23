@@ -1,4 +1,4 @@
-package mechanics;
+package mechanics.movement;
 
 import components.Enemy;
 import fundamentals.Coordinates;

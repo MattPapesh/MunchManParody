@@ -1,4 +1,4 @@
-package mechanics;
+package mechanics.stage;
 
 import components.MunchMan;
 import components.Stage;

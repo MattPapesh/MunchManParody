@@ -1,4 +1,4 @@
-package mechanics;
+package mechanics.bases;
 
 public interface EnemyBehaviorInterface 
 {

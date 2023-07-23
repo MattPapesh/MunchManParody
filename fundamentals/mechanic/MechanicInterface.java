@@ -7,6 +7,8 @@ package fundamentals.mechanic;
  */
 public interface MechanicInterface 
 {
+    public boolean isSelfSchedulingConditionsMet();
+
     /**
      * This method is immediately called, and only once, once a mechanic has been scheduled. Moreover,
      * this method is the first phase of every mechanic; anything that needs to occur before the mechanic can run once it has been

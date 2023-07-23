@@ -1,4 +1,4 @@
-package mechanics; 
+package mechanics.movement; 
 import java.util.LinkedList;
 
 import components.Enemy;
@@ -22,7 +22,10 @@ public class EnemyGoNearTarget extends EnemyGoToTarget
     {
         try
         {
-            if(!isCoordsEqual(search.getLast(), base_search.getLast()) && !isOpposingCoordDirections(search.getLast(), base_search.getLast()))
+            if(!isCoordsEqual(search.getLast(), base_search.getLast()) 
+            && search.getLast().getX() >= 0 && search.getLast().getY() >= 0
+            && search.getLast().getX() < stage_data[0].length && search.getLast().getY() < stage_data.length
+            && (!isOpposingCoordDirections(search.getLast(), base_search.getLast()) || base_search.size() == 1))
             {
                 return search;
             }
@@ -83,22 +86,22 @@ public class EnemyGoNearTarget extends EnemyGoToTarget
     public Coordinates getNearTargetStageCoords(int target_stage_x, int target_stage_y)
     {
         LinkedList<Coordinates> initial_search = new LinkedList<Coordinates>();
-        LinkedList<LinkedList<Coordinates>> logged_searchs = new LinkedList<LinkedList<Coordinates>>();
+        LinkedList<LinkedList<Coordinates>> logged_searches = new LinkedList<LinkedList<Coordinates>>();
         initial_search.addLast(new Coordinates(target_stage_x, target_stage_y, 0));
-        logged_searchs.addLast(initial_search);
-        LinkedList<Coordinates> search_found = getSearchFound(logged_searchs, target_stage_x, target_stage_y);
+        logged_searches.addLast(initial_search);
+        LinkedList<Coordinates> search_found = getSearchFound(logged_searches, target_stage_x, target_stage_y);
 
         while(search_found == null)
         {
             LinkedList<LinkedList<Coordinates>> updated_logged_searchs = new LinkedList<LinkedList<Coordinates>>();
-            for(int i = 0; i < logged_searchs.size(); i++)
+            for(int i = 0; i < logged_searches.size(); i++)
             {
-                updated_logged_searchs.addAll(getBranchSearches(logged_searchs.get(i), target_stage_x, target_stage_y));
+                updated_logged_searchs.addAll(getBranchSearches(logged_searches.get(i), target_stage_x, target_stage_y));
             }
 
-            logged_searchs.clear();
-            logged_searchs.addAll(updated_logged_searchs);
-            search_found = getSearchFound(logged_searchs, target_stage_x, target_stage_y);
+            logged_searches.clear();
+            logged_searches.addAll(updated_logged_searchs);
+            search_found = getSearchFound(logged_searches, target_stage_x, target_stage_y);
         }
 
         return search_found.getLast();

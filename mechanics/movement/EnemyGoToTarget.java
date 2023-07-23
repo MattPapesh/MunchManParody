@@ -1,4 +1,4 @@
-package mechanics;
+package mechanics.movement;
 
 import java.util.LinkedList;
 
@@ -127,8 +127,7 @@ public class EnemyGoToTarget extends EnemyPredeterminedRoute
         return null; 
     }
 
-    // when building new route with routes: a route is already logged if the next route found is found in a logged route
-    private void computeRoute(int target_stage_x, int target_stage_y)
+    private LinkedList<Coordinates> getRoute(int target_stage_x, int target_stage_y)
     {
         LinkedList<Coordinates> initial_route = new LinkedList<Coordinates>();
         LinkedList<LinkedList<Coordinates>> logged_routes = new LinkedList<LinkedList<Coordinates>>();
@@ -149,7 +148,18 @@ public class EnemyGoToTarget extends EnemyPredeterminedRoute
             route_found = getRouteFound(logged_routes, target_stage_x, target_stage_y);
         }
 
-        compilePredeterminedRoute(route_found);
+        return route_found;
+    }
+
+    // when building new route with routes: a route is already logged if the next route found is found in a logged route
+    private void computeRoute(int target_stage_x, int target_stage_y)
+    {
+        compilePredeterminedRoute(getRoute(target_stage_x, target_stage_y));
+    }
+
+    public int getRouteLength(int target_stage_x, int target_stage_y)
+    {
+        return getRoute(target_stage_x, target_stage_y).size();
     }
 
     public double getTerminatingCompletionPercentage()
@@ -192,6 +202,7 @@ public class EnemyGoToTarget extends EnemyPredeterminedRoute
     @Override
     public boolean isFinished()
     {
+
         return sequentialMechanicGroupIsFinished() 
         || getCompletionPercentage() >= getTerminatingCompletionPercentage();
     }

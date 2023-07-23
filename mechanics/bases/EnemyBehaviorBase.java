@@ -1,5 +1,7 @@
-package mechanics;
+package mechanics.bases;
 import fundamentals.mechanic.MechanicBase;
+import mechanics.movement.EnemyGoNearTarget;
+import mechanics.movement.EntityMovement;
 import components.Stage;
 import components.MunchMan;
 import components.Enemy;
@@ -55,8 +57,27 @@ public class EnemyBehaviorBase extends MechanicBase implements EnemyBehaviorInte
     public boolean isEnemyRouteCompleted()
     {
         return !enemy_targeting.isScheduled() && scheduled_enemy_targeting;
-        //return getEnemyRouteCompletionPercentage() >= getEnemyRouteTerminatingPercentage() 
-        //|| (getEnemyRouteCompletionPercentage() == 0 && !enemy_go_near_target.isScheduled());
+    }
+
+    public Coordinates getNearStageCoords(int stage_x, int stage_y)
+    {
+        if(enemy_targeting != null)
+        {
+            return enemy_targeting.getNearTargetStageCoords(stage_x, stage_y);
+        }
+
+        return null;
+    }
+
+    public int getRouteLength(int stage_x, int stage_y)
+    {
+        if(enemy_targeting != null)
+        {
+            Coordinates near_stage_coords = getNearStageCoords(stage_x, stage_y);
+            return enemy_targeting.getRouteLength(near_stage_coords.getX(), near_stage_coords.getY());
+        }
+
+        return 0;
     }
 
     public Coordinates getEnemyTarget()

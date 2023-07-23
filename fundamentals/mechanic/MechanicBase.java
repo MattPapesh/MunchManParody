@@ -23,11 +23,13 @@ public class MechanicBase implements MechanicInterface
     private boolean interrupted = false;
     private int initial_millis = 0;
     private int executional_periodic_delay_millis = 0; 
+    private boolean mechanic_self_scheduling = false; 
 
     @Override public void initialize() {}
     @Override public void execute() {}
     @Override public boolean isFinished() {return false;}
     @Override public void end(boolean interrupted) {}
+    @Override public boolean isSelfSchedulingConditionsMet() {return false;} 
 
     /**
      * Once MechanicBase has been extended and become a superclass to a subclass, the subclass must call 
@@ -42,6 +44,27 @@ public class MechanicBase implements MechanicInterface
             {
                 this.component_IDs.addLast(components[i].getComponentID());
             }
+        }
+    }
+
+    public void setSelfScheduling(boolean self_scheduling)
+    {
+        mechanic_self_scheduling = self_scheduling;
+        if(self_scheduling)
+        {
+            MechanicScheduler.registerMechanic(this);
+        }
+        else if(!self_scheduling && scheduled)
+        {
+            end(true);
+            scheduled = false; 
+            initialized = false;
+            interrupted = false;
+            MechanicScheduler.removeMechanic(this);
+        }
+        else if(!self_scheduling && !scheduled)
+        {
+            MechanicScheduler.removeMechanic(this);
         }
     }
 
@@ -80,8 +103,13 @@ public class MechanicBase implements MechanicInterface
      */
     public void schedule()
     {
-        scheduled = true; 
-        MechanicScheduler.registerMechanic(this);
+        if(!mechanic_self_scheduling)
+        {
+            scheduled = true; 
+            initialized = false;
+            interrupted = false;
+            MechanicScheduler.registerMechanic(this);
+        }
     }
 
     /**
@@ -100,6 +128,13 @@ public class MechanicBase implements MechanicInterface
      */
     public void run()
     {
+        if(mechanic_self_scheduling && isSelfSchedulingConditionsMet() && !scheduled)
+        {
+            scheduled = true; 
+            initialized = false;
+            interrupted = false;
+        }
+
         if(scheduled && !initialized)
         {
             initial_millis = MechanicScheduler.getElapsedMillis();
@@ -112,7 +147,14 @@ public class MechanicBase implements MechanicInterface
             execute();
             initial_millis = MechanicScheduler.getElapsedMillis();
         }
-        else if(scheduled && initialized && (isFinished() || interrupted))
+        else if(mechanic_self_scheduling && scheduled && initialized && (isFinished() || interrupted))
+        {
+            end(interrupted);
+            scheduled = false; 
+            initialized = false;
+            interrupted = false;
+        }
+        else if(!mechanic_self_scheduling && scheduled && initialized && (isFinished() || interrupted))
         {
             end(interrupted);
             scheduled = false; 
