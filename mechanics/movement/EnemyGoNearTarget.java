@@ -1,6 +1,6 @@
-package mechanics.movement; 
+package mechanics.movement;
+ 
 import java.util.LinkedList;
-
 import components.Enemy;
 import components.Stage;
 import fundamentals.Coordinates;

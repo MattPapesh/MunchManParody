@@ -7,6 +7,7 @@ import mechanics.bases.EnemyBehaviorBase;
 public class EnemyHuntBehavior extends EnemyBehaviorBase
 {
     private double route_completion_pct = 0.2;
+    
     public EnemyHuntBehavior(Stage stage, Enemy enemy, MunchMan munch_man)
     {
         super(stage, enemy, munch_man);

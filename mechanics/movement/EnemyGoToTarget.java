@@ -1,7 +1,6 @@
 package mechanics.movement;
 
 import java.util.LinkedList;
-
 import components.Dot;
 import components.Enemy;
 import components.Stage;

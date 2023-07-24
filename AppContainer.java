@@ -1,12 +1,9 @@
 import fundamentals.appbase.AppBase;
 import fundamentals.mechanic.InstantMechanic;
-import fundamentals.mechanic.SequentialMechanicGroup;
-import mechanics.behavior.EnemyAnchorBehavior;
-import mechanics.behavior.EnemyHuntBehavior;
-import mechanics.behavior.EnemyRetreatBehavior;
-import mechanics.movement.EnemyGoNearTarget;
+//import mechanics.behavior.EnemyHuntBehavior;
+import mechanics.behavior.EnemyRetreatingWanderBehavior;
 import mechanics.movement.EntityMovement;
-import mechanics.stage.PlaceStageChain;
+//import mechanics.stage.PlaceStageChain;
 import fundamentals.Constants;
 import fundamentals.UI.*;
 import fundamentals.animation.Animation;
@@ -14,7 +11,7 @@ import fundamentals.animation.Animation;
 import components.Enemy;
 import components.MunchMan;
 import components.Stage;
-import components.StageChain;
+//import components.StageChain;
 
 public class AppContainer extends AppBase
 {
@@ -25,20 +22,17 @@ public class AppContainer extends AppBase
     Constants.CONTROLLER_IDS.UP_KEY, Constants.CONTROLLER_IDS.DOWN_KEY);
 
     private Stage stage = new Stage();
-    private StageChain stage_chain = new StageChain();
+    //private StageChain stage_chain = new StageChain();
     private MunchMan munch_man = new MunchMan();
     private Enemy enemy_A = new Enemy(1, 1, ENEMY_DEF_SPEED, new Animation("enemy.png"));
-    private Enemy enemy_B = new Enemy(1, 30, ENEMY_DEF_SPEED, new Animation("enemy.png"));
-    private Enemy enemy_C = new Enemy(42, 1, ENEMY_DEF_SPEED, new Animation("enemy.png"));
-    private Enemy enemy_D = new Enemy(40, 30, ENEMY_DEF_SPEED, new Animation("enemy.png"));
+    //private Enemy enemy_B = new Enemy(1, 30, ENEMY_DEF_SPEED, new Animation("enemy.png"));
+    //private Enemy enemy_C = new Enemy(42, 1, ENEMY_DEF_SPEED, new Animation("enemy.png"));
+    //private Enemy enemy_D = new Enemy(40, 30, ENEMY_DEF_SPEED, new Animation("enemy.png"));
     
 
     //private PlaceStageChain place_stage_chain = new PlaceStageChain(munch_man, stage, stage_chain);
     private EntityMovement player_movement = new EntityMovement(stage, munch_man);
-
-    //private EnemyHuntBehavior enemy_A_hunt_behavior = new EnemyHuntBehavior(stage, enemy_A, munch_man);
-    private EnemyRetreatBehavior enemy_A_retreat_behavior = new EnemyRetreatBehavior(stage, enemy_A, munch_man);
-    private EnemyAnchorBehavior enemy_A_anchor_behavior = new EnemyAnchorBehavior(stage, enemy_A, munch_man, 10, 10, 10);
+    private EnemyRetreatingWanderBehavior enemy_A_rt_wander_behavior = new EnemyRetreatingWanderBehavior(stage, enemy_A, munch_man, 20, 5);
 
     private void configureButtonBindings() {
         
@@ -52,13 +46,8 @@ public class AppContainer extends AppBase
         configureButtonBindings();
         player_movement.schedule();
         //place_stage_chain.schedule();
-
         //enemy_A_hunt_behavior.schedule();
-        enemy_A_retreat_behavior.schedule();
-        //enemy_A_anchor_behavior.schedule();
-        //enemy_B_retreat_behavior.schedule();
-        //enemy_C_retreat_behavior.schedule();
-        //enemy_D_retreat_behavior.schedule();
+        enemy_A_rt_wander_behavior.schedule();
     }
 
     public void periodic() 

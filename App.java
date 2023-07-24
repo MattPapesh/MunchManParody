@@ -1,5 +1,4 @@
 import fundamentals.appbase.AppBase;
-import fundamentals.mechanic.MechanicScheduler;
 
 public class App extends AppBase
 {

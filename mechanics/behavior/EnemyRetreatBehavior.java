@@ -13,11 +13,14 @@ public class EnemyRetreatBehavior extends EnemyBehaviorBase
     private int retreat_coord_length = 3;
     private int min_route_length = 10;
     private int max_route_length = 15;
+    private int retreat_distance_units = 0;
 
-    public EnemyRetreatBehavior(Stage stage, Enemy enemy, MunchMan munch_man)
+    public EnemyRetreatBehavior(Stage stage, Enemy enemy, MunchMan munch_man,
+    int retreat_distance_units)
     {
         super(stage, enemy, munch_man);
         this.stage_data = stage.getStageData().clone();
+        this.retreat_distance_units = retreat_distance_units;
     }
 
     private void computeRetreatBehavior()
@@ -50,6 +53,14 @@ public class EnemyRetreatBehavior extends EnemyBehaviorBase
     }
 
     @Override
+    public boolean isSelfSchedulingConditionsMet()
+    {
+        int delta_stage_x = getEnemyStageCoords().getX() - getMunchManStageCoords().getX();
+        int delta_stage_y = getEnemyStageCoords().getY() - getMunchManStageCoords().getY();
+        return Math.pow(Math.pow(delta_stage_x, 2) + Math.pow(delta_stage_y, 2), 0.5) < retreat_distance_units;
+    }
+
+    @Override
     public void initializeBehavior()
     {
         setEnemyTarget(route_completion_pct, 10, 10);
@@ -68,12 +79,12 @@ public class EnemyRetreatBehavior extends EnemyBehaviorBase
     @Override
     public void endBehavior(boolean interrupted)
     {
-        
+        setEnemyTarget(0, getEnemyStageCoords().getX(), getEnemyStageCoords().getY());
     }
 
     @Override
     public boolean isBehaviorFinished()
     {
-        return false;
+        return !isSelfSchedulingConditionsMet();
     }
 }
