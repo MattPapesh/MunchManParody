@@ -55,6 +55,6 @@ public class AppContainer extends AppBase
 
     public void periodic() 
     {
-        System.out.println(MechanicScheduler.getNumOfMechanics());
+        //System.out.println(MechanicScheduler.getNumOfMechanics());
     }
 }
