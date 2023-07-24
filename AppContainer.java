@@ -35,7 +35,7 @@ public class AppContainer extends AppBase
     private EntityMovement player_movement = new EntityMovement(stage, munch_man);
     private EntityMovement enemy_A_movement = new EntityMovement(stage, enemy_A);
     private EnemyRetreatingWanderBehavior enemy_A_rt_wander_behavior = new EnemyRetreatingWanderBehavior(
-    enemy_A_movement, stage, enemy_A, munch_man, 12, 15);
+    enemy_A_movement, stage, enemy_A, munch_man, 0.0, 12, 15);
 
     private void configureButtonBindings() {
         

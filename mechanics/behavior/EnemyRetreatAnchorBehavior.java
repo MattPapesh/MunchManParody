@@ -10,11 +10,12 @@ public class EnemyRetreatAnchorBehavior extends EnemyAnchorBehavior
 {
     private int retreat_distance_units = 0;
 
-    public EnemyRetreatAnchorBehavior(EntityMovement enemy_movement, Stage stage,  Enemy enemy, MunchMan munch_man, 
-    int retreat_distance_units, int anchor_radius_units)
+    public EnemyRetreatAnchorBehavior(EntityMovement enemy_movement, Stage stage,  Enemy enemy, MunchMan munch_man,
+    double turn_around_prob_pct, int retreat_distance_units, int anchor_radius_units)
     {
         super(enemy_movement, stage, enemy, munch_man, new anchor_data() 
         {
+            @Override public double getTurnAroundProbabilityPercentage() {return turn_around_prob_pct;}
             @Override public Coordinates getStageCoords() {return enemy.getStageCoords();}
             @Override public int getRadius() {return anchor_radius_units;}
         });
