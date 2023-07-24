@@ -43,11 +43,18 @@ public class EnemyAnchorBehavior extends EnemyBehaviorBase
 
     private Coordinates getRandomStageCoords(int anchor_stage_x, int anchor_stage_y, int radius_units)
     {
-    
-        double stage_x = (2.0 * (Math.random() - 0.5) * (double)radius_units) + anchor_stage_x;
-        double phi = Math.pow(radius_units, 2) - Math.pow(stage_x - anchor_stage_x, 2);
-        double stage_y = (2.0 * (Math.random() - 0.5) * Math.pow(phi, 0.5)) + anchor_stage_y;
-        return new Coordinates((int)stage_x, (int)stage_y, 0);
+        while(true)
+        {
+            double stage_x = (2.0 * (Math.random() - 0.5) * (double)radius_units) + anchor_stage_x;
+            double phi = Math.pow(radius_units, 2) - Math.pow(stage_x - anchor_stage_x, 2);
+            double stage_y = (2.0 * (Math.random() - 0.5) * Math.pow(phi, 0.5)) + anchor_stage_y;
+            
+            if((int)stage_x >= 0 && (int)stage_x < stage_data[0].length
+            && (int)stage_y >= 0 && (int)stage_y < stage_data.length)
+            {
+                return new Coordinates((int)stage_x, (int)stage_y, 0);
+            }
+        }
     }
 
     private void computeAnchorBehavior()
