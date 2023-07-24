@@ -22,12 +22,12 @@ public class EnemyBehaviorBase extends MechanicBase implements EnemyBehaviorInte
     @Override public boolean isBehaviorFinished() {return false;}
     @Override public void endBehavior(boolean interrupted) {}
 
-    public EnemyBehaviorBase(Stage stage,  Enemy enemy, MunchMan munch_man) 
+    public EnemyBehaviorBase(EntityMovement enemy_movement, Stage stage,  Enemy enemy, MunchMan munch_man) 
     {   
         this.stage = stage;
         this.enemy = enemy;
         this.munch_man = munch_man;
-        enemy_movement = new EntityMovement(stage, enemy);
+        this.enemy_movement = enemy_movement;
 
         addRequirements(stage, enemy, munch_man);
     }
@@ -39,7 +39,7 @@ public class EnemyBehaviorBase extends MechanicBase implements EnemyBehaviorInte
             enemy_targeting.cancel();
         }
 
-        enemy_targeting = new EnemyGoNearTarget(completion_pct, enemy_movement, stage, enemy, target_stage_x, target_stage_y);
+        enemy_targeting = new EnemyGoNearTarget(enemy_movement, stage, enemy, completion_pct, target_stage_x, target_stage_y);
         enemy_targeting.schedule();
         scheduled_enemy_targeting = true;
     }
@@ -107,12 +107,7 @@ public class EnemyBehaviorBase extends MechanicBase implements EnemyBehaviorInte
 
     @Override 
     public void initialize()
-    {
-        if(enemy_movement != null && !enemy_movement.isScheduled())
-        {
-            enemy_movement.schedule();    
-        }
-        
+    {   
         initializeBehavior();
     }
 
@@ -130,10 +125,6 @@ public class EnemyBehaviorBase extends MechanicBase implements EnemyBehaviorInte
     public void end(boolean interrupted) 
     {
         endBehavior(interrupted);
-        if(enemy_movement != null && enemy_movement.isScheduled())
-        {
-            enemy_movement.cancel();
-        }
     }
 
     @Override

@@ -14,7 +14,7 @@ public class EnemyGoToTarget extends EnemyPredeterminedRoute
     private Coordinates target_stage_coords = null;
     private double terminating_completion_pct = 0.0;
 
-    public EnemyGoToTarget(double terminating_completion_pct, EntityMovement enemy_movement, Stage stage, Enemy enemy, int target_stage_x, int target_stage_y)
+    public EnemyGoToTarget(EntityMovement enemy_movement, Stage stage, Enemy enemy, double terminating_completion_pct, int target_stage_x, int target_stage_y)
     {   
         super(enemy_movement, enemy);
         this.terminating_completion_pct = Math.max(Math.min(terminating_completion_pct, 1.0), 0.0);

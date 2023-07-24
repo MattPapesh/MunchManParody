@@ -5,6 +5,7 @@ import components.Enemy;
 import components.Stage;
 import fundamentals.Coordinates;
 import mechanics.bases.EnemyBehaviorBase;
+import mechanics.movement.EntityMovement;
 
 public class EnemyAnchorBehavior extends EnemyBehaviorBase
 {
@@ -18,10 +19,10 @@ public class EnemyAnchorBehavior extends EnemyBehaviorBase
         int getRadius();
     }
 
-    public EnemyAnchorBehavior(Stage stage,  Enemy enemy, MunchMan munch_man, 
+    public EnemyAnchorBehavior(EntityMovement enemy_movement, Stage stage,  Enemy enemy, MunchMan munch_man, 
     int anchor_stage_x, int anchor_stage_y, int radius_units)
     {
-        super(stage, enemy, munch_man);
+        super(enemy_movement, stage, enemy, munch_man);
         stage_data = stage.getStageData().clone(); 
         anchor = new anchor_data() 
         {
@@ -30,10 +31,10 @@ public class EnemyAnchorBehavior extends EnemyBehaviorBase
         };
     }    
 
-    public EnemyAnchorBehavior(Stage stage,  Enemy enemy, MunchMan munch_man, 
+    public EnemyAnchorBehavior(EntityMovement enemy_movement, Stage stage,  Enemy enemy, MunchMan munch_man, 
     anchor_data anchor)
     {
-        super(stage, enemy, munch_man);
+        super(enemy_movement, stage, enemy, munch_man);
         stage_data = stage.getStageData().clone(); 
         this.anchor = anchor;
     }   
@@ -56,7 +57,7 @@ public class EnemyAnchorBehavior extends EnemyBehaviorBase
     private void computeAnchorBehavior()
     {
         Coordinates anchored_stage_coords = getRandomStageCoords(anchor.getStageCoords().getX(), anchor.getStageCoords().getY(), anchor.getRadius());
-        System.out.println("( " + anchored_stage_coords.getX() + ", " + anchored_stage_coords.getY() + " )");
+        //System.out.println("( " + anchored_stage_coords.getX() + ", " + anchored_stage_coords.getY() + " )");
         setEnemyTarget(route_completion_pct, anchored_stage_coords.getX(), anchored_stage_coords.getY());
     }
 

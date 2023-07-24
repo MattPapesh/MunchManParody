@@ -3,8 +3,8 @@ package mechanics.behavior;
 import components.Enemy;
 import components.MunchMan;
 import components.Stage;
-import fundamentals.Coordinates;
 import mechanics.bases.EnemyBehaviorBase;
+import mechanics.movement.EntityMovement;
 
 public class EnemyRetreatBehavior extends EnemyBehaviorBase
 {
@@ -15,10 +15,10 @@ public class EnemyRetreatBehavior extends EnemyBehaviorBase
     private int max_route_length = 15;
     private int retreat_distance_units = 0;
 
-    public EnemyRetreatBehavior(Stage stage, Enemy enemy, MunchMan munch_man,
+    public EnemyRetreatBehavior(EntityMovement enemy_movement, Stage stage, Enemy enemy, MunchMan munch_man,
     int retreat_distance_units)
     {
-        super(stage, enemy, munch_man);
+        super(enemy_movement, stage, enemy, munch_man);
         this.stage_data = stage.getStageData().clone();
         this.retreat_distance_units = retreat_distance_units;
     }

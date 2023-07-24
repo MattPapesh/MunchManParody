@@ -12,7 +12,7 @@ public class EnemyBehaviorGroup extends MechanicBase
     private LinkedList<EnemyBehaviorBase> behaviors = new LinkedList<EnemyBehaviorBase>();
     private int scheduled_behavior_index = -1;
 
-    public EnemyBehaviorGroup(Stage stage,  Enemy enemy, MunchMan munch_man)
+    public EnemyBehaviorGroup(Stage stage, Enemy enemy, MunchMan munch_man)
     {
         addRequirements(stage, enemy, munch_man);
     }
@@ -30,9 +30,17 @@ public class EnemyBehaviorGroup extends MechanicBase
     {
         for(int i = 0; i < behaviors.size(); i++)
         {
-            if(behaviors.get(i).isSelfSchedulingConditionsMet() && i != scheduled_behavior_index)
+            if(behaviors.get(i).isSelfSchedulingConditionsMet() 
+            && scheduled_behavior_index != -1 && i != scheduled_behavior_index)
             {
                 behaviors.get(scheduled_behavior_index).setSelfScheduling(false);
+                behaviors.get(i).setSelfScheduling(true);
+                scheduled_behavior_index = i;
+                break;
+            }
+            else if(behaviors.get(i).isSelfSchedulingConditionsMet() 
+            && scheduled_behavior_index == -1 && i != scheduled_behavior_index)
+            {
                 behaviors.get(i).setSelfScheduling(true);
                 scheduled_behavior_index = i;
                 break;
@@ -46,6 +54,7 @@ public class EnemyBehaviorGroup extends MechanicBase
         if(scheduled_behavior_index >= 0)
         {
             behaviors.get(scheduled_behavior_index).setSelfScheduling(false);
+            scheduled_behavior_index = -1;
         }
     }
 }

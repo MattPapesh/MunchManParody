@@ -9,7 +9,7 @@ public class EnemyGoNearTarget extends EnemyGoToTarget
 {    
     private int[][] stage_data = null; 
 
-    public EnemyGoNearTarget(double terminating_completion_pct, EntityMovement enemy_movement, Stage stage, Enemy enemy, int target_stage_x, int target_stage_y) 
+    public EnemyGoNearTarget(EntityMovement enemy_movement, Stage stage, Enemy enemy, double terminating_completion_pct, int target_stage_x, int target_stage_y) 
     {
         super(terminating_completion_pct, enemy_movement, stage, enemy);
         stage_data = stage.getStageData().clone();

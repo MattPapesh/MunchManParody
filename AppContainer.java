@@ -1,5 +1,6 @@
 import fundamentals.appbase.AppBase;
 import fundamentals.mechanic.InstantMechanic;
+import fundamentals.mechanic.MechanicScheduler;
 //import mechanics.behavior.EnemyHuntBehavior;
 import mechanics.behavior.EnemyRetreatingWanderBehavior;
 import mechanics.movement.EntityMovement;
@@ -32,7 +33,9 @@ public class AppContainer extends AppBase
 
     //private PlaceStageChain place_stage_chain = new PlaceStageChain(munch_man, stage, stage_chain);
     private EntityMovement player_movement = new EntityMovement(stage, munch_man);
-    private EnemyRetreatingWanderBehavior enemy_A_rt_wander_behavior = new EnemyRetreatingWanderBehavior(stage, enemy_A, munch_man, 20, 5);
+    private EntityMovement enemy_A_movement = new EntityMovement(stage, enemy_A);
+    private EnemyRetreatingWanderBehavior enemy_A_rt_wander_behavior = new EnemyRetreatingWanderBehavior(
+    enemy_A_movement, stage, enemy_A, munch_man, 12, 15);
 
     private void configureButtonBindings() {
         
@@ -52,6 +55,6 @@ public class AppContainer extends AppBase
 
     public void periodic() 
     {
-        
+        System.out.println(MechanicScheduler.getNumOfMechanics());
     }
 }
