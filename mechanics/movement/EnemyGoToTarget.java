@@ -20,7 +20,7 @@ public class EnemyGoToTarget extends EnemyPredeterminedRoute
     private double turn_around_pct = -1.0;
     private boolean turn_around_status = false; 
     // Max number of shortest routes to find and choose from when looking with specific conditions needing to be met. 
-    private final int MAX_SHORTEST_ROUTE_INDEX = 5; 
+    private final int MAX_SHORTEST_ROUTE_INDEX = 2; 
 
     public EnemyGoToTarget(EntityMovement enemy_movement, Stage stage, Enemy enemy, 
     double terminating_completion_pct, int target_stage_x, int target_stage_y)
@@ -43,7 +43,7 @@ public class EnemyGoToTarget extends EnemyPredeterminedRoute
         this.enemy_movement = enemy_movement; 
         this.enemy = enemy; 
         stage_data = stage.getStageData().clone();
-        turn_around_status = GameMath.probability(turn_around_pct);
+        turn_around_status = GameMath.probability(this.turn_around_pct);
         setTargetStageCoords(target_stage_x, target_stage_y);
         addRequirements(stage, enemy);
     }
@@ -66,7 +66,8 @@ public class EnemyGoToTarget extends EnemyPredeterminedRoute
         this.enemy_movement = enemy_movement; 
         this.enemy = enemy; 
         stage_data = stage.getStageData().clone();
-        turn_around_status = false;// GameMath.probability(turn_around_pct);
+        turn_around_status = GameMath.probability(this.turn_around_pct);
+        System.out.println(turn_around_status);
         addRequirements(stage, enemy);
     }
 
@@ -169,8 +170,7 @@ public class EnemyGoToTarget extends EnemyPredeterminedRoute
         LinkedList<Coordinates> prev_route = enemy.getRouteTraveled();
         boolean route_turns_around = !turn_around_status; 
 
-        while((found_logged_routes.size() - 1 <= MAX_SHORTEST_ROUTE_INDEX && turn_around_pct != -1.0)
-        || (found_logged_routes.isEmpty() && turn_around_pct == -1.0))
+        while(found_logged_routes.size() - 1 <= MAX_SHORTEST_ROUTE_INDEX)
         {
             LinkedList<LinkedList<Coordinates>> updated_logged_routes = new LinkedList<LinkedList<Coordinates>>();
             for(int i = 0; i < logged_routes.size(); i++)
@@ -181,13 +181,13 @@ public class EnemyGoToTarget extends EnemyPredeterminedRoute
             logged_routes.clear();
             logged_routes.addAll(updated_logged_routes);
             found_logged_routes = getRoutesFound(logged_routes, target_stage_x, target_stage_y);
-            for(int next_shortest_route_index = 0; next_shortest_route_index < MAX_SHORTEST_ROUTE_INDEX; next_shortest_route_index++)
+            for(int next_shortest_route_index = 0; next_shortest_route_index < found_logged_routes.size()
+            && next_shortest_route_index <= MAX_SHORTEST_ROUTE_INDEX; next_shortest_route_index++)
             {
                 try
                 {
-                    route_turns_around = GameMath.isCoordsEqual(prev_route.get(prev_route.size() - 1), found_logged_routes.get(next_shortest_route_index).get(0))
-                    || GameMath.isCoordsEqual(prev_route.get(prev_route.size() - 1), found_logged_routes.get(next_shortest_route_index).get(1));
-                    if(route_turns_around == turn_around_status) 
+                    route_turns_around = GameMath.isCoordsEqual(prev_route.get(prev_route.size() - 2), found_logged_routes.get(next_shortest_route_index).get(1));        
+                    if(turn_around_pct == -1.0 || route_turns_around == turn_around_status) 
                     {
                         return found_logged_routes.get(next_shortest_route_index);
                     }
@@ -234,6 +234,24 @@ public class EnemyGoToTarget extends EnemyPredeterminedRoute
         return (double)getCurrentPathIndexScheduled() / (double)getNumOfPaths();
     }
 
+    void printPaths(String prompt, LinkedList<Coordinates> route, int initial_index, int num_of_paths)
+    {
+        String output = prompt + ": { ";
+        if(route.isEmpty() || initial_index < 0 || initial_index >= route.size())
+        {
+            System.out.println(prompt + ": NA");
+            return;
+        }
+
+        for(int i = initial_index; i < route.size() && i - initial_index < num_of_paths; i++)
+        {
+            output = output + "(" + route.get(i).getX() + ", " + route.get(i).getY() + ")";
+            output = (i < route.size() - 1 && i - initial_index < num_of_paths - 1) ? output + ", " : output + " }";
+        }
+
+        System.out.println(output);
+    }
+
     @Override
     public void initialize()
     {
@@ -244,6 +262,7 @@ public class EnemyGoToTarget extends EnemyPredeterminedRoute
         
         LinkedList<Coordinates> current_route = computeRoute(target_stage_coords.getX(), target_stage_coords.getY());
         enemy.setRoute(current_route);
+        //printPaths("[START] Route Trav", current_route, 0, 3);
         sequentialMechanicGroupInitialize();
     }
 
@@ -252,12 +271,14 @@ public class EnemyGoToTarget extends EnemyPredeterminedRoute
     {
         sequentialMechanicGroupEnd(interrupted);
         LinkedList<Coordinates> route_traveled = enemy.getRouteTraveled();
-        for(int i = 0; i < getNumOfPaths() - getCurrentPathIndexScheduled() && !route_traveled.isEmpty(); i++)
+        for(int i = getCurrentPathIndexScheduled(); getCurrentMechanicIndexScheduled() < getNumOfPaths() - 1
+        && i < getNumOfPaths() && !route_traveled.isEmpty(); i++)
         {
             route_traveled.removeLast();
         }
 
         enemy.setRoute(route_traveled);
+        //printPaths("[ENDED] Route Trav", route_traveled, route_traveled.size() - 3, 3);
         for(int i = 0; i < dots.size(); i++)
         {
             dots.get(i).delete();

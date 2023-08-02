@@ -64,7 +64,7 @@ public class EnemyAnchorBehavior extends EnemyBehaviorBase
         
         anchored_stage_coords = getRandomStageCoords(anchor.getStageCoords().getX(), anchor.getStageCoords().getY(), anchor.getRadius());
         //System.out.println("( " + anchored_stage_coords.getX() + ", " + anchored_stage_coords.getY() + " )");
-        setEnemyTarget(route_completion_pct, anchored_stage_coords.getX(), anchored_stage_coords.getY());
+        setEnemyTarget(route_completion_pct, anchor.getTurnAroundProbabilityPercentage(), anchored_stage_coords.getX(), anchored_stage_coords.getY());
     }
 
     @Override

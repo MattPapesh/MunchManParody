@@ -29,13 +29,13 @@ public class AppContainer extends AppBase
     //private Enemy enemy_B = new Enemy(1, 30, ENEMY_DEF_SPEED, new Animation("enemy.png"));
     //private Enemy enemy_C = new Enemy(42, 1, ENEMY_DEF_SPEED, new Animation("enemy.png"));
     //private Enemy enemy_D = new Enemy(40, 30, ENEMY_DEF_SPEED, new Animation("enemy.png"));
-    
 
     //private PlaceStageChain place_stage_chain = new PlaceStageChain(munch_man, stage, stage_chain);
     private EntityMovement player_movement = new EntityMovement(stage, munch_man);
     private EntityMovement enemy_A_movement = new EntityMovement(stage, enemy_A);
     private EnemyRetreatingWanderBehavior enemy_A_rt_wander_behavior = new EnemyRetreatingWanderBehavior(
-    enemy_A_movement, stage, enemy_A, munch_man, 1.0, 15, 20);
+    enemy_A_movement, stage, enemy_A, munch_man, 
+    0.40, 15, 15, 20);
 
     private void configureButtonBindings() {
         

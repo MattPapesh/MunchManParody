@@ -8,10 +8,10 @@ import mechanics.movement.EntityMovement;
 
 public class EnemyRetreatAnchorBehavior extends EnemyAnchorBehavior
 {
-    private int retreat_distance_units = 0;
+    private int anchor_distance_units = 0;
 
     public EnemyRetreatAnchorBehavior(EntityMovement enemy_movement, Stage stage,  Enemy enemy, MunchMan munch_man,
-    double turn_around_prob_pct, int retreat_distance_units, int anchor_radius_units)
+    double turn_around_prob_pct, int anchor_distance_units, int anchor_radius_units)
     {
         super(enemy_movement, stage, enemy, munch_man, new anchor_data() 
         {
@@ -20,7 +20,7 @@ public class EnemyRetreatAnchorBehavior extends EnemyAnchorBehavior
             @Override public int getRadius() {return anchor_radius_units;}
         });
 
-        this.retreat_distance_units = retreat_distance_units;
+        this.anchor_distance_units = anchor_distance_units;
     }
     
     @Override
@@ -28,7 +28,7 @@ public class EnemyRetreatAnchorBehavior extends EnemyAnchorBehavior
     {
         int delta_stage_x = getEnemyStageCoords().getX() - getMunchManStageCoords().getX();
         int delta_stage_y = getEnemyStageCoords().getY() - getMunchManStageCoords().getY();
-        return Math.pow(Math.pow(delta_stage_x, 2) + Math.pow(delta_stage_y, 2), 0.5) >= retreat_distance_units;
+        return Math.pow(Math.pow(delta_stage_x, 2) + Math.pow(delta_stage_y, 2), 0.5) >= anchor_distance_units;
     }  
 
     @Override 

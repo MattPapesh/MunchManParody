@@ -44,6 +44,18 @@ public class EnemyBehaviorBase extends MechanicBase implements EnemyBehaviorInte
         enemy_targeting.schedule();
         scheduled_enemy_targeting = true;
     }
+
+    public void setEnemyTarget(double completion_pct, double turn_around_pct, int target_stage_x, int target_stage_y)
+    {
+        if(enemy_targeting != null && enemy_targeting.isScheduled())
+        {
+            enemy_targeting.cancel();
+        }
+
+        enemy_targeting = new EnemyGoNearTarget(enemy_movement, stage, enemy, completion_pct, turn_around_pct, target_stage_x, target_stage_y);
+        enemy_targeting.schedule();
+        scheduled_enemy_targeting = true;
+    }
     
     public double getEnemyRouteTerminatingPercentage()
     {

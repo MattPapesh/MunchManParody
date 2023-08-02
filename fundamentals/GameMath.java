@@ -16,7 +16,7 @@ public class GameMath
 
     public static boolean probability(double prob_pct)
     {
-        prob_pct = Math.min(Math.min(prob_pct, 1.0), 0.0);
+        prob_pct = Math.max(Math.min(prob_pct, 1.0), 0.0);
         return prob_pct == 1.0 || Math.random() < prob_pct;
     }
 
