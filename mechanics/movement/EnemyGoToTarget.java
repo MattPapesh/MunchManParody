@@ -1,10 +1,14 @@
 package mechanics.movement;
 
 import java.util.LinkedList;
+import java.util.NoSuchElementException;
+
 import components.Dot;
 import components.Enemy;
 import components.Stage;
 import fundamentals.Coordinates;
+import fundamentals.GameMath;
+import mechanics.behavior.EnemyRetreatBehavior;
 
 public class EnemyGoToTarget extends EnemyPredeterminedRoute
 {
@@ -13,14 +17,33 @@ public class EnemyGoToTarget extends EnemyPredeterminedRoute
     private int[][] stage_data = null; 
     private Coordinates target_stage_coords = null;
     private double terminating_completion_pct = 0.0;
+    private double turn_around_pct = -1.0;
+    private boolean turn_around_status = false; 
+    // Max number of shortest routes to find and choose from when looking with specific conditions needing to be met. 
+    private final int MAX_SHORTEST_ROUTE_INDEX = 5; 
 
-    public EnemyGoToTarget(EntityMovement enemy_movement, Stage stage, Enemy enemy, double terminating_completion_pct, int target_stage_x, int target_stage_y)
+    public EnemyGoToTarget(EntityMovement enemy_movement, Stage stage, Enemy enemy, 
+    double terminating_completion_pct, int target_stage_x, int target_stage_y)
     {   
         super(enemy_movement, enemy);
         this.terminating_completion_pct = Math.max(Math.min(terminating_completion_pct, 1.0), 0.0);
         this.enemy_movement = enemy_movement; 
         this.enemy = enemy; 
         stage_data = stage.getStageData().clone();
+        setTargetStageCoords(target_stage_x, target_stage_y);
+        addRequirements(stage, enemy);
+    }
+
+    public EnemyGoToTarget(EntityMovement enemy_movement, Stage stage, Enemy enemy, 
+    double terminating_completion_pct, double turn_around_pct, int target_stage_x, int target_stage_y)
+    {   
+        super(enemy_movement, enemy);
+        this.terminating_completion_pct = Math.max(Math.min(terminating_completion_pct, 1.0), 0.0);
+        this.turn_around_pct = (turn_around_pct != -1.0) ? Math.max(Math.min(turn_around_pct, 1.0), 0.0) : -1.0;
+        this.enemy_movement = enemy_movement; 
+        this.enemy = enemy; 
+        stage_data = stage.getStageData().clone();
+        turn_around_status = GameMath.probability(turn_around_pct);
         setTargetStageCoords(target_stage_x, target_stage_y);
         addRequirements(stage, enemy);
     }
@@ -35,21 +58,23 @@ public class EnemyGoToTarget extends EnemyPredeterminedRoute
         addRequirements(stage, enemy);
     }
 
+    public EnemyGoToTarget(double terminating_completion_pct, double turn_around_pct, EntityMovement enemy_movement, Stage stage, Enemy enemy)
+    {   
+        super(enemy_movement, enemy);
+        this.terminating_completion_pct = Math.max(Math.min(terminating_completion_pct, 1.0), 0.0);
+        this.turn_around_pct = (turn_around_pct != -1.0) ? Math.max(Math.min(turn_around_pct, 1.0), 0.0) : -1.0;
+        this.enemy_movement = enemy_movement; 
+        this.enemy = enemy; 
+        stage_data = stage.getStageData().clone();
+        turn_around_status = false;// GameMath.probability(turn_around_pct);
+        addRequirements(stage, enemy);
+    }
+
     protected void setTargetStageCoords(int target_stage_x, int target_stage_y)
     {
         target_stage_x = Math.max(Math.min(stage_data[0].length, target_stage_x), 0);
         target_stage_y = Math.max(Math.min(stage_data.length, target_stage_y), 0);
         target_stage_coords = new Coordinates(target_stage_x, target_stage_y, 0);
-    }
-
-    protected boolean isCoordsEqual(Coordinates primary, Coordinates secondary)
-    {
-        return primary.getX() == secondary.getX() && primary.getY() == secondary.getY();
-    }
-
-    protected boolean isOpposingCoordDirections(Coordinates primary, Coordinates secondary)
-    {
-        return Math.abs(primary.getDegrees() - secondary.getDegrees()) == 180; 
     }
 
     private void compilePredeterminedRoute(LinkedList<Coordinates> route)
@@ -72,7 +97,8 @@ public class EnemyGoToTarget extends EnemyPredeterminedRoute
     {
         try
         {
-            if(!isCoordsEqual(route.getLast(), base_route.getLast()) && (!isOpposingCoordDirections(route.getLast(), base_route.getLast()) || base_route.size() == 1)
+            if(!GameMath.isCoordsEqual(route.getLast(), base_route.getLast()) 
+            && (!GameMath.isOpposingCoordDirections(route.getLast(), base_route.getLast()) || base_route.size() == 1)
             && stage_data[route.getLast().getY()][route.getLast().getX()] == 1)
             {
                 return route;
@@ -113,28 +139,38 @@ public class EnemyGoToTarget extends EnemyPredeterminedRoute
         return routes;
     }    
 
-    private LinkedList<Coordinates> getRouteFound(LinkedList<LinkedList<Coordinates>> routes, int target_stage_x, int target_stage_y)
+    private LinkedList<LinkedList<Coordinates>> getRoutesFound(LinkedList<LinkedList<Coordinates>> routes, int target_stage_x, int target_stage_y)
     {
+        LinkedList<LinkedList<Coordinates>> routes_found = new LinkedList<LinkedList<Coordinates>>();
         for(int i = 0; i < routes.size(); i++)
         {
             if(routes.get(i).getLast().getX() == target_stage_x && routes.get(i).getLast().getY() == target_stage_y)
             {
-                return routes.get(i);
+                routes_found.addLast(routes.get(i));
             }
         }
+        
+        if(routes_found.isEmpty()) 
+        {
+            return routes_found;
+        }
 
-        return null; 
+        GameMath.minMaxLengthEnemyRoutesMergeSort(routes_found);
+        return routes_found; 
     }
 
-    private LinkedList<Coordinates> getRoute(int target_stage_x, int target_stage_y)
+    public LinkedList<Coordinates> getRoute(int target_stage_x, int target_stage_y)
     {
         LinkedList<Coordinates> initial_route = new LinkedList<Coordinates>();
         LinkedList<LinkedList<Coordinates>> logged_routes = new LinkedList<LinkedList<Coordinates>>();
+        LinkedList<LinkedList<Coordinates>> found_logged_routes = new LinkedList<LinkedList<Coordinates>>();
         initial_route.addLast(new Coordinates(enemy.getStageCoords().getX(), enemy.getStageCoords().getY(), enemy.getStageCoords().getDegrees()));
         logged_routes.addLast(initial_route);
-        LinkedList<Coordinates> route_found = getRouteFound(logged_routes, target_stage_x, target_stage_y);
+        LinkedList<Coordinates> prev_route = enemy.getRouteTraveled();
+        boolean route_turns_around = !turn_around_status; 
 
-        while(route_found == null)
+        while((found_logged_routes.size() - 1 <= MAX_SHORTEST_ROUTE_INDEX && turn_around_pct != -1.0)
+        || (found_logged_routes.isEmpty() && turn_around_pct == -1.0))
         {
             LinkedList<LinkedList<Coordinates>> updated_logged_routes = new LinkedList<LinkedList<Coordinates>>();
             for(int i = 0; i < logged_routes.size(); i++)
@@ -144,16 +180,38 @@ public class EnemyGoToTarget extends EnemyPredeterminedRoute
 
             logged_routes.clear();
             logged_routes.addAll(updated_logged_routes);
-            route_found = getRouteFound(logged_routes, target_stage_x, target_stage_y);
+            found_logged_routes = getRoutesFound(logged_routes, target_stage_x, target_stage_y);
+            for(int next_shortest_route_index = 0; next_shortest_route_index < MAX_SHORTEST_ROUTE_INDEX; next_shortest_route_index++)
+            {
+                try
+                {
+                    route_turns_around = GameMath.isCoordsEqual(prev_route.get(prev_route.size() - 1), found_logged_routes.get(next_shortest_route_index).get(0))
+                    || GameMath.isCoordsEqual(prev_route.get(prev_route.size() - 1), found_logged_routes.get(next_shortest_route_index).get(1));
+                    if(route_turns_around == turn_around_status) 
+                    {
+                        return found_logged_routes.get(next_shortest_route_index);
+                    }
+                }
+                catch(IndexOutOfBoundsException e) {}
+                catch(NoSuchElementException e) {}
+                catch(NullPointerException e) {}
+            }
         }
 
-        return route_found;
+        return found_logged_routes.get(0);
     }
 
     // when building new route with routes: a route is already logged if the next route found is found in a logged route
-    private void computeRoute(int target_stage_x, int target_stage_y)
+    private LinkedList<Coordinates> computeRoute(int target_stage_x, int target_stage_y)
     {
-        compilePredeterminedRoute(getRoute(target_stage_x, target_stage_y));
+        LinkedList<Coordinates> current_enemy_route = getRoute(target_stage_x, target_stage_y);
+        compilePredeterminedRoute(current_enemy_route);
+        return current_enemy_route;
+    }
+
+    public boolean getTurnAroundStatus()
+    {
+        return turn_around_status;
     }
 
     public int getRouteLength(int target_stage_x, int target_stage_y)
@@ -183,8 +241,9 @@ public class EnemyGoToTarget extends EnemyPredeterminedRoute
         {
             enemy_movement.schedule();
         }
-
-        computeRoute(target_stage_coords.getX(), target_stage_coords.getY());
+        
+        LinkedList<Coordinates> current_route = computeRoute(target_stage_coords.getX(), target_stage_coords.getY());
+        enemy.setRoute(current_route);
         sequentialMechanicGroupInitialize();
     }
 
@@ -192,16 +251,22 @@ public class EnemyGoToTarget extends EnemyPredeterminedRoute
     public void end(boolean interrupted)
     {
         sequentialMechanicGroupEnd(interrupted);
+        LinkedList<Coordinates> route_traveled = enemy.getRouteTraveled();
+        for(int i = 0; i < getNumOfPaths() - getCurrentPathIndexScheduled() && !route_traveled.isEmpty(); i++)
+        {
+            route_traveled.removeLast();
+        }
+
+        enemy.setRoute(route_traveled);
         for(int i = 0; i < dots.size(); i++)
         {
             dots.get(i).delete();
         }
     }
-
+ 
     @Override
     public boolean isFinished()
     {
-
         return sequentialMechanicGroupIsFinished() 
         || getCompletionPercentage() >= getTerminatingCompletionPercentage();
     }

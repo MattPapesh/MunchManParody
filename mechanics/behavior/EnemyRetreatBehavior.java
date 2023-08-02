@@ -40,7 +40,7 @@ public class EnemyRetreatBehavior extends EnemyBehaviorBase
 
         int stage_x = enemy_stage_x + delta_stage_x;
         int stage_y = enemy_stage_y + delta_stage_y;
-        int route_length = getRouteLength(stage_x, stage_y);
+        int route_length = getRouteLength(stage_x, stage_y, getCurrentEnemyRouteTurnAroundStatus());
 
         stage_x = (route_length > max_route_length) ? stage_x - delta_stage_x + 1 : ((route_length < min_route_length) ? stage_x + delta_stage_x : stage_x);
         stage_y = (route_length > max_route_length) ? stage_y - delta_stage_y + 1 : ((route_length < min_route_length) ? stage_y + delta_stage_y : stage_y);

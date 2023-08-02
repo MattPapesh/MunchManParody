@@ -4,14 +4,26 @@ import java.util.LinkedList;
 import components.Enemy;
 import components.Stage;
 import fundamentals.Coordinates;
+import fundamentals.GameMath;
 
 public class EnemyGoNearTarget extends EnemyGoToTarget 
 {    
     private int[][] stage_data = null; 
 
-    public EnemyGoNearTarget(EntityMovement enemy_movement, Stage stage, Enemy enemy, double terminating_completion_pct, int target_stage_x, int target_stage_y) 
+    public EnemyGoNearTarget(EntityMovement enemy_movement, Stage stage, Enemy enemy, 
+    double terminating_completion_pct, int target_stage_x, int target_stage_y) 
     {
         super(terminating_completion_pct, enemy_movement, stage, enemy);
+        stage_data = stage.getStageData().clone();
+        Coordinates target_stage_coords = getNearTargetStageCoords(target_stage_x, target_stage_y);
+        setTargetStageCoords(target_stage_coords.getX(), target_stage_coords.getY());
+        addRequirements(stage, enemy);
+    }
+
+    public EnemyGoNearTarget(EntityMovement enemy_movement, Stage stage, Enemy enemy, 
+    double terminating_completion_pct, double turn_around_pct, int target_stage_x, int target_stage_y) 
+    {
+        super(terminating_completion_pct, turn_around_pct, enemy_movement, stage, enemy);
         stage_data = stage.getStageData().clone();
         Coordinates target_stage_coords = getNearTargetStageCoords(target_stage_x, target_stage_y);
         setTargetStageCoords(target_stage_coords.getX(), target_stage_coords.getY());
@@ -22,10 +34,10 @@ public class EnemyGoNearTarget extends EnemyGoToTarget
     {
         try
         {
-            if(!isCoordsEqual(search.getLast(), base_search.getLast()) 
+            if(!GameMath.isCoordsEqual(search.getLast(), base_search.getLast()) 
             && search.getLast().getX() >= 0 && search.getLast().getY() >= 0
             && search.getLast().getX() < stage_data[0].length && search.getLast().getY() < stage_data.length
-            && (!isOpposingCoordDirections(search.getLast(), base_search.getLast()) || base_search.size() == 1))
+            && (!GameMath.isOpposingCoordDirections(search.getLast(), base_search.getLast()) || base_search.size() == 1))
             {
                 return search;
             }

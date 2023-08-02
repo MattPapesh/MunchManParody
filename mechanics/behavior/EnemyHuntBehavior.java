@@ -21,7 +21,8 @@ public class EnemyHuntBehavior extends EnemyBehaviorBase
     }
 
     @Override 
-    public void executeBehavior() {
+    public void executeBehavior() 
+    {
         if(isEnemyRouteCompleted())
         {
             setEnemyTarget(route_completion_pct, getMunchManStageCoords().getX(), getMunchManStageCoords().getY());

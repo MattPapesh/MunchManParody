@@ -4,6 +4,7 @@ import components.MunchMan;
 import components.Enemy;
 import components.Stage;
 import fundamentals.Coordinates;
+import fundamentals.mechanic.MechanicScheduler;
 import mechanics.bases.EnemyBehaviorBase;
 import mechanics.movement.EntityMovement;
 
@@ -57,9 +58,11 @@ public class EnemyAnchorBehavior extends EnemyBehaviorBase
         }
     }
 
+    private Coordinates anchored_stage_coords = null;
     private void computeAnchorBehavior()
     {
-        Coordinates anchored_stage_coords = getRandomStageCoords(anchor.getStageCoords().getX(), anchor.getStageCoords().getY(), anchor.getRadius());
+        
+        anchored_stage_coords = getRandomStageCoords(anchor.getStageCoords().getX(), anchor.getStageCoords().getY(), anchor.getRadius());
         //System.out.println("( " + anchored_stage_coords.getX() + ", " + anchored_stage_coords.getY() + " )");
         setEnemyTarget(route_completion_pct, anchored_stage_coords.getX(), anchored_stage_coords.getY());
     }

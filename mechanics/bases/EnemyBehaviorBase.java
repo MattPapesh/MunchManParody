@@ -4,6 +4,7 @@ import mechanics.movement.EnemyGoNearTarget;
 import mechanics.movement.EntityMovement;
 import components.Stage;
 import components.MunchMan;
+
 import components.Enemy;
 import fundamentals.Coordinates;
 
@@ -13,7 +14,7 @@ public class EnemyBehaviorBase extends MechanicBase implements EnemyBehaviorInte
     private Enemy enemy = null;
     private MunchMan munch_man = null;
     private EntityMovement enemy_movement = null;
-    private Coordinates enemy_target = new Coordinates(0, 0, 0);
+    private Coordinates enemy_target = new Coordinates(1, 1, 0);
     private EnemyGoNearTarget enemy_targeting = null;
     private boolean scheduled_enemy_targeting = false; 
 
@@ -69,12 +70,32 @@ public class EnemyBehaviorBase extends MechanicBase implements EnemyBehaviorInte
         return null;
     }
 
-    public int getRouteLength(int stage_x, int stage_y)
+    public boolean getCurrentEnemyRouteTurnAroundStatus()
+    {
+        if(enemy_targeting != null)
+        {
+            return enemy_targeting.getTurnAroundStatus();
+        }
+
+        return false;
+    }
+
+    public int getRouteLength(int stage_x, int stage_y, boolean turn_around)
     {
         if(enemy_targeting != null)
         {
             Coordinates near_stage_coords = getNearStageCoords(stage_x, stage_y);
             return enemy_targeting.getRouteLength(near_stage_coords.getX(), near_stage_coords.getY());
+        }
+
+        return 0;
+    }
+
+    public int getCurrentRoutePathIndex()
+    {
+        if(enemy_targeting != null)
+        {
+            return enemy_targeting.getCurrentPathIndexScheduled();
         }
 
         return 0;

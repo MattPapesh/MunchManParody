@@ -57,7 +57,7 @@ public class SequentialMechanicGroup extends MechanicBase
 
     public int getCurrentMechanicIndexScheduled()
     {
-        return current_mechanic_index;
+        return Math.max(Math.min(current_mechanic_index, group_mechanics.size() - 1), 0);
     }
 
     public int getNumOfMechanics()

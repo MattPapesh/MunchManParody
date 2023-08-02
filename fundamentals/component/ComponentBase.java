@@ -20,6 +20,7 @@ public class ComponentBase
     private final double COMPONENT_ID = Math.random();
     private LinkedList<Animation> animations = new LinkedList<Animation>();
     private Animation current_animation = new Animation("");
+    private int current_animation_index = 0;
     private Coordinates coordinates = new Coordinates(0, 0, 0);
     private double opacity_pct = 1.0;
     private boolean active = false;
@@ -49,6 +50,12 @@ public class ComponentBase
         ComponentScheduler.registerComponent(this);
     }
 
+    public void setNextAnimation()
+    {
+        current_animation_index = (current_animation_index + 1 < animations.size()) ? current_animation_index + 1 : 0;
+        current_animation = animations.get(current_animation_index);
+    }
+
     /**
      * The current image can be set by passing in the name of the image file; file type included. (EX: "myImage.png" )
      * 
@@ -62,6 +69,7 @@ public class ComponentBase
             if(animations.get(i).getName() == animation_name)
             {
                 current_animation = animations.get(i);
+                current_animation_index = i;
             }
         }
     }

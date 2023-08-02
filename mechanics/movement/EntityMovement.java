@@ -11,6 +11,7 @@ public class EntityMovement extends MechanicBase
     private EntityBase entity = null;
     private boolean began = false;  
     private boolean is_movement_obstructed = false; 
+    private boolean enable_directional_animations = true;
 
     private Coordinates current_stage_coords = null;
     private Coordinates prev_stage_coords = null;
@@ -35,6 +36,11 @@ public class EntityMovement extends MechanicBase
     { 
         begin(stage, entity);
     }   
+
+    public void enableDirectionalAnimations(boolean enable)
+    {
+        enable_directional_animations = enable;
+    }
 
     /**
      * Used only when extending this mechanic as a superclass; when doing so, this method must be called. 
@@ -78,22 +84,22 @@ public class EntityMovement extends MechanicBase
     {
         try
         {
-            if(current_delta_x > 0 && current_delta_y == 0)
+            if(enable_directional_animations && current_delta_x > 0 && current_delta_y == 0)
             {
                 entity.setStageCoords(entity.getStageCoords().getX(), entity.getStageCoords().getY(), 0);
                 entity.setAnimation(entity.getAnimation(0).getName());
             }
-            else if(current_delta_x < 0 && current_delta_y == 0)
+            else if(enable_directional_animations && current_delta_x < 0 && current_delta_y == 0)
             {
                 entity.setStageCoords(entity.getStageCoords().getX(), entity.getStageCoords().getY(), 180);
                 entity.setAnimation(entity.getAnimation(1).getName());
             }
-            else if(current_delta_x == 0 && current_delta_y > 0)
+            else if(enable_directional_animations && current_delta_x == 0 && current_delta_y > 0)
             {
                 entity.setStageCoords(entity.getStageCoords().getX(), entity.getStageCoords().getY(), 270);
                 entity.setAnimation(entity.getAnimation(2).getName());
             }
-            else if(current_delta_x == 0 && current_delta_y < 0)
+            else if(enable_directional_animations && current_delta_x == 0 && current_delta_y < 0)
             {
                 entity.setStageCoords(entity.getStageCoords().getX(), entity.getStageCoords().getY(), 90);
                 entity.setAnimation(entity.getAnimation(3).getName());
