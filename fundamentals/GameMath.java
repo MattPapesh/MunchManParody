@@ -20,6 +20,18 @@ public class GameMath
         return prob_pct == 1.0 || Math.random() < prob_pct;
     }
 
+	public static Coordinates getRadialDisplacement(int radius_units, int degrees)
+	{
+		degrees = (int)((((double)degrees / 360.0) - (int)((double)degrees / 360.0)) * 360.0);
+		double radians = (double)degrees * (Math.PI / 180.0);
+		double delta_stage_x = Math.pow(Math.pow(radius_units, 2) - Math.pow((double)radius_units * Math.sin(radians), 2), 0.5);
+		double delta_stage_y = Math.pow(Math.pow(radius_units, 2) - Math.pow((double)radius_units * Math.cos(radians), 2), 0.5);
+		delta_stage_x = (degrees <= 90 || degrees > 270) ? delta_stage_x : -delta_stage_x;
+		delta_stage_y = (degrees <= 180) ? delta_stage_y : -delta_stage_y;
+
+		return new Coordinates((int)delta_stage_x, (int)delta_stage_y, 0);
+	}
+
     static private void remergeMinMaxEnemyRoutes(LinkedList<LinkedList<Coordinates>> routes, 
 	LinkedList<LinkedList<Coordinates>> left_routes, LinkedList<LinkedList<Coordinates>> right_routes) {
 		int left_index = 0;

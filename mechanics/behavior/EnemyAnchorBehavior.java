@@ -13,7 +13,7 @@ public class EnemyAnchorBehavior extends EnemyBehaviorBase
     private int[][] stage_data = null;
     private double route_completion_pct = 1.0;
     private anchor_data anchor = null;
-    
+
     public interface anchor_data
     {
         double getTurnAroundProbabilityPercentage();
@@ -58,12 +58,11 @@ public class EnemyAnchorBehavior extends EnemyBehaviorBase
         }
     }
 
-    private Coordinates anchored_stage_coords = null;
+    
     private void computeAnchorBehavior()
     {
         
-        anchored_stage_coords = getRandomStageCoords(anchor.getStageCoords().getX(), anchor.getStageCoords().getY(), anchor.getRadius());
-        //System.out.println("( " + anchored_stage_coords.getX() + ", " + anchored_stage_coords.getY() + " )");
+        Coordinates anchored_stage_coords = getRandomStageCoords(anchor.getStageCoords().getX(), anchor.getStageCoords().getY(), anchor.getRadius());
         setEnemyTarget(route_completion_pct, anchor.getTurnAroundProbabilityPercentage(), anchored_stage_coords.getX(), anchored_stage_coords.getY());
     }
 
