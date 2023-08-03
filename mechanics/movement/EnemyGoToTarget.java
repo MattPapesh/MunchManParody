@@ -30,6 +30,8 @@ public class EnemyGoToTarget extends EnemyPredeterminedRoute
         this.enemy_movement = enemy_movement; 
         this.enemy = enemy; 
         stage_data = stage.getStageData().clone();
+        target_stage_x = Math.max(Math.min(target_stage_x, stage_data[0].length - 1), 0);
+        target_stage_y = Math.max(Math.min(target_stage_y, stage_data.length - 1), 0);
         setTargetStageCoords(target_stage_x, target_stage_y);
         addRequirements(stage, enemy);
     }
@@ -44,6 +46,8 @@ public class EnemyGoToTarget extends EnemyPredeterminedRoute
         this.enemy = enemy; 
         stage_data = stage.getStageData().clone();
         turn_around_status = GameMath.probability(this.turn_around_pct);
+        target_stage_x = Math.max(Math.min(target_stage_x, stage_data[0].length - 1), 0);
+        target_stage_y = Math.max(Math.min(target_stage_y, stage_data.length - 1), 0);
         setTargetStageCoords(target_stage_x, target_stage_y);
         addRequirements(stage, enemy);
     }
@@ -67,7 +71,6 @@ public class EnemyGoToTarget extends EnemyPredeterminedRoute
         this.enemy = enemy; 
         stage_data = stage.getStageData().clone();
         turn_around_status = GameMath.probability(this.turn_around_pct);
-        System.out.println(turn_around_status);
         addRequirements(stage, enemy);
     }
 

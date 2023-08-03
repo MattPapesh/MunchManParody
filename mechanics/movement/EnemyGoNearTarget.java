@@ -15,6 +15,8 @@ public class EnemyGoNearTarget extends EnemyGoToTarget
     {
         super(terminating_completion_pct, enemy_movement, stage, enemy);
         stage_data = stage.getStageData().clone();
+        target_stage_x = Math.max(Math.min(target_stage_x, stage_data[0].length - 1), 0);
+        target_stage_y = Math.max(Math.min(target_stage_y, stage_data.length - 1), 0);
         Coordinates target_stage_coords = getNearTargetStageCoords(target_stage_x, target_stage_y);
         setTargetStageCoords(target_stage_coords.getX(), target_stage_coords.getY());
         addRequirements(stage, enemy);
@@ -25,6 +27,8 @@ public class EnemyGoNearTarget extends EnemyGoToTarget
     {
         super(terminating_completion_pct, turn_around_pct, enemy_movement, stage, enemy);
         stage_data = stage.getStageData().clone();
+        target_stage_x = Math.max(Math.min(target_stage_x, stage_data[0].length - 1), 0);
+        target_stage_y = Math.max(Math.min(target_stage_y, stage_data.length - 1), 0);
         Coordinates target_stage_coords = getNearTargetStageCoords(target_stage_x, target_stage_y);
         setTargetStageCoords(target_stage_coords.getX(), target_stage_coords.getY());
         addRequirements(stage, enemy);
