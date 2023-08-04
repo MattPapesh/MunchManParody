@@ -2,7 +2,7 @@ import fundamentals.appbase.AppBase;
 import fundamentals.mechanic.InstantMechanic;
 import fundamentals.mechanic.MechanicScheduler;
 import mechanics.behavior.EnemyHuntBehavior;
-import mechanics.behavior.EnemyHuntBehavior;
+import mechanics.behavior.EnemyFlankHuntBehavior;
 //import mechanics.behavior.EnemyHuntBehavior;
 import mechanics.behavior.EnemyRetreatingWanderBehavior;
 import mechanics.movement.EntityMovement;
@@ -36,8 +36,8 @@ public class AppContainer extends AppBase
     private EntityMovement player_movement = new EntityMovement(stage, munch_man);
     private EntityMovement enemy_A_movement = new EntityMovement(stage, enemy_A);
     
-    private EnemyHuntBehavior enemy_A_flank_hunt_behavior = new EnemyHuntBehavior(enemy_A_movement, stage, enemy_A, munch_man, 
-    10, 8, 180);
+    private EnemyFlankHuntBehavior enemy_A_flank_hunt_behavior = new EnemyFlankHuntBehavior(enemy_A_movement, stage, enemy_A, munch_man, 
+    8, 8, 0);
     private EnemyRetreatingWanderBehavior enemy_A_rt_wander_behavior = new EnemyRetreatingWanderBehavior(
     enemy_A_movement, stage, enemy_A, munch_man, 
     0.40, 15, 15, 20);

@@ -42,7 +42,7 @@ public class EnemyHuntBehavior extends EnemyBehaviorBase
         this.flank = flank;
     }
 
-    private void computeFlankHuntBehavior()
+    protected Coordinates getComputedHuntEnemyStageCoords()
     {
         Coordinates delta_stage_coords = GameMath.getRadialDisplacement(flank.getFlankRadius(), getMunchManStageCoords().getDegrees() + flank.getFlankDegrees());
         int stage_x = Math.max(Math.min(getMunchManStageCoords().getX() + delta_stage_coords.getX(), stage_data[0].length - 1), 0);
@@ -51,13 +51,20 @@ public class EnemyHuntBehavior extends EnemyBehaviorBase
         Math.pow(getEnemyStageCoords().getY() - getMunchManStageCoords().getY(), 2), 0.5);
         stage_x = (calc_direct_hunt_distance_units > flank.getDirectHuntDistanceUnits()) ? stage_x : getMunchManStageCoords().getX();
         stage_y = (calc_direct_hunt_distance_units > flank.getDirectHuntDistanceUnits()) ? stage_y : getMunchManStageCoords().getY();
-        setEnemyTarget(route_completion_pct, stage_x, stage_y);
+        
+        return new Coordinates(stage_x, stage_y, 0);
+    }
+
+    private void computeHuntBehavior()
+    {
+        Coordinates computed_stage_coords = getComputedHuntEnemyStageCoords();
+        setEnemyTarget(route_completion_pct, computed_stage_coords.getX(), computed_stage_coords.getY());
     }
 
     @Override
     public void initializeBehavior()
     {
-        computeFlankHuntBehavior();
+        computeHuntBehavior();
     }
 
     @Override
@@ -65,7 +72,7 @@ public class EnemyHuntBehavior extends EnemyBehaviorBase
     {
         if(isEnemyRouteCompleted())
         {
-            computeFlankHuntBehavior();
+            computeHuntBehavior();
         }
     }
 

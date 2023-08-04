@@ -19,6 +19,7 @@ public class EnemyGoToTarget extends EnemyPredeterminedRoute
     private double terminating_completion_pct = 0.0;
     private double turn_around_pct = -1.0;
     private boolean turn_around_status = false; 
+    private LinkedList<Coordinates> avoiding_stage_coords = new LinkedList<Coordinates>();
     // Max number of shortest routes to find and choose from when looking with specific conditions needing to be met. 
     private final int MAX_SHORTEST_ROUTE_INDEX = 2; 
 
@@ -52,7 +53,8 @@ public class EnemyGoToTarget extends EnemyPredeterminedRoute
         addRequirements(stage, enemy);
     }
 
-    public EnemyGoToTarget(double terminating_completion_pct, EntityMovement enemy_movement, Stage stage, Enemy enemy)
+    public EnemyGoToTarget(EntityMovement enemy_movement, Stage stage, Enemy enemy, 
+    double terminating_completion_pct)
     {   
         super(enemy_movement, enemy);
         this.terminating_completion_pct = Math.max(Math.min(terminating_completion_pct, 1.0), 0.0);
@@ -62,7 +64,8 @@ public class EnemyGoToTarget extends EnemyPredeterminedRoute
         addRequirements(stage, enemy);
     }
 
-    public EnemyGoToTarget(double terminating_completion_pct, double turn_around_pct, EntityMovement enemy_movement, Stage stage, Enemy enemy)
+    public EnemyGoToTarget(EntityMovement enemy_movement, Stage stage, Enemy enemy,
+    double terminating_completion_pct, double turn_around_pct)
     {   
         super(enemy_movement, enemy);
         this.terminating_completion_pct = Math.max(Math.min(terminating_completion_pct, 1.0), 0.0);
@@ -72,6 +75,76 @@ public class EnemyGoToTarget extends EnemyPredeterminedRoute
         stage_data = stage.getStageData().clone();
         turn_around_status = GameMath.probability(this.turn_around_pct);
         addRequirements(stage, enemy);
+    }
+
+    public EnemyGoToTarget(EntityMovement enemy_movement, Stage stage, Enemy enemy, 
+    double terminating_completion_pct, int target_stage_x, int target_stage_y, Coordinates... avoiding_coords)
+    {   
+        super(enemy_movement, enemy);
+        this.terminating_completion_pct = Math.max(Math.min(terminating_completion_pct, 1.0), 0.0);
+        this.enemy_movement = enemy_movement; 
+        this.enemy = enemy; 
+        stage_data = stage.getStageData().clone();
+        target_stage_x = Math.max(Math.min(target_stage_x, stage_data[0].length - 1), 0);
+        target_stage_y = Math.max(Math.min(target_stage_y, stage_data.length - 1), 0);
+        setTargetStageCoords(target_stage_x, target_stage_y);
+        addRequirements(stage, enemy);
+        for(int i = 0; i < avoiding_coords.length; i++)
+        {
+            this.avoiding_stage_coords.addLast(avoiding_coords[i]);
+        }
+    }
+
+    public EnemyGoToTarget(EntityMovement enemy_movement, Stage stage, Enemy enemy, 
+    double terminating_completion_pct, double turn_around_pct, int target_stage_x, int target_stage_y, Coordinates... avoiding_coords)
+    {   
+        super(enemy_movement, enemy);
+        this.terminating_completion_pct = Math.max(Math.min(terminating_completion_pct, 1.0), 0.0);
+        this.turn_around_pct = (turn_around_pct != -1.0) ? Math.max(Math.min(turn_around_pct, 1.0), 0.0) : -1.0;
+        this.enemy_movement = enemy_movement; 
+        this.enemy = enemy; 
+        stage_data = stage.getStageData().clone();
+        turn_around_status = GameMath.probability(this.turn_around_pct);
+        target_stage_x = Math.max(Math.min(target_stage_x, stage_data[0].length - 1), 0);
+        target_stage_y = Math.max(Math.min(target_stage_y, stage_data.length - 1), 0);
+        setTargetStageCoords(target_stage_x, target_stage_y);
+        addRequirements(stage, enemy);
+        for(int i = 0; i < avoiding_coords.length; i++)
+        {
+            this.avoiding_stage_coords.addLast(avoiding_coords[i]);
+        }
+    }
+
+    public EnemyGoToTarget(EntityMovement enemy_movement, Stage stage, Enemy enemy, 
+    double terminating_completion_pct, Coordinates... avoiding_coords)
+    {   
+        super(enemy_movement, enemy);
+        this.terminating_completion_pct = Math.max(Math.min(terminating_completion_pct, 1.0), 0.0);
+        this.enemy_movement = enemy_movement; 
+        this.enemy = enemy; 
+        stage_data = stage.getStageData().clone();
+        addRequirements(stage, enemy);
+        for(int i = 0; i < avoiding_coords.length; i++)
+        {
+            this.avoiding_stage_coords.addLast(avoiding_coords[i]);
+        }
+    }
+
+    public EnemyGoToTarget(EntityMovement enemy_movement, Stage stage, Enemy enemy,
+    double terminating_completion_pct, double turn_around_pct, Coordinates... avoiding_coords)
+    {   
+        super(enemy_movement, enemy);
+        this.terminating_completion_pct = Math.max(Math.min(terminating_completion_pct, 1.0), 0.0);
+        this.turn_around_pct = (turn_around_pct != -1.0) ? Math.max(Math.min(turn_around_pct, 1.0), 0.0) : -1.0;
+        this.enemy_movement = enemy_movement; 
+        this.enemy = enemy; 
+        stage_data = stage.getStageData().clone();
+        turn_around_status = GameMath.probability(this.turn_around_pct);
+        addRequirements(stage, enemy);
+        for(int i = 0; i < avoiding_coords.length; i++)
+        {
+            this.avoiding_stage_coords.addLast(avoiding_coords[i]);
+        }
     }
 
     protected void setTargetStageCoords(int target_stage_x, int target_stage_y)
@@ -102,7 +175,9 @@ public class EnemyGoToTarget extends EnemyPredeterminedRoute
         try
         {
             if(!GameMath.isCoordsEqual(route.getLast(), base_route.getLast()) 
-            && (!GameMath.isOpposingCoordDirections(route.getLast(), base_route.getLast()) || base_route.size() == 1)
+            && (base_route.size() == 1 || !GameMath.isOpposingCoordDirections(route.getLast(), base_route.getLast()))
+            && (GameMath.isCoordsEqual(route.getLast(), new Coordinates(target_stage_x, target_stage_y, 0)) 
+            || !GameMath.coordsContainsCoord(avoiding_stage_coords, route.getLast()))
             && stage_data[route.getLast().getY()][route.getLast().getX()] == 1)
             {
                 return route;
@@ -190,7 +265,7 @@ public class EnemyGoToTarget extends EnemyPredeterminedRoute
                 try
                 {
                     route_turns_around = GameMath.isCoordsEqual(prev_route.get(prev_route.size() - 2), found_logged_routes.get(next_shortest_route_index).get(1));        
-                    if(turn_around_pct == -1.0 || route_turns_around == turn_around_status) 
+                    if((turn_around_pct == -1.0 || route_turns_around == turn_around_status)) 
                     {
                         return found_logged_routes.get(next_shortest_route_index);
                     }

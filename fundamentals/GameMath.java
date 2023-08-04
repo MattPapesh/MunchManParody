@@ -6,12 +6,14 @@ public class GameMath
 {
     public static boolean isCoordsEqual(Coordinates primary, Coordinates secondary)
     {
-        return primary.getX() == secondary.getX() && primary.getY() == secondary.getY();
+        return primary != null && secondary != null 
+		&& primary.getX() == secondary.getX() && primary.getY() == secondary.getY();
     }
 
     public static boolean isOpposingCoordDirections(Coordinates primary, Coordinates secondary)
     {
-        return Math.abs(primary.getDegrees() - secondary.getDegrees()) == 180; 
+        return primary != null && secondary != null
+		&& Math.abs(primary.getDegrees() - secondary.getDegrees()) == 180; 
     }    
 
     public static boolean probability(double prob_pct)
@@ -32,25 +34,57 @@ public class GameMath
 		return new Coordinates((int)delta_stage_x, (int)delta_stage_y, 0);
 	}
 
-    static private void remergeMinMaxEnemyRoutes(LinkedList<LinkedList<Coordinates>> routes, 
-	LinkedList<LinkedList<Coordinates>> left_routes, LinkedList<LinkedList<Coordinates>> right_routes) {
+	public static boolean coordsContainsCoord(LinkedList<Coordinates> coords, Coordinates coord)
+	{
+		for(int current_coord_index = 0; coords != null && current_coord_index < coords.size(); current_coord_index++)
+		{
+			if(isCoordsEqual(coords.get(current_coord_index), coord))
+			{
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	public static boolean routeContainsCoords(LinkedList<Coordinates> route, LinkedList<Coordinates> coords)
+	{
+		for(int current_route_index = 0; route != null && current_route_index < route.size(); current_route_index++)
+		{
+			if(coordsContainsCoord(coords, route.get(current_route_index)))
+			{
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+    private static void remergeMinMaxEnemyRoutes(LinkedList<LinkedList<Coordinates>> routes, 
+	LinkedList<LinkedList<Coordinates>> left_routes, LinkedList<LinkedList<Coordinates>> right_routes) 
+	{
 		int left_index = 0;
 		int right_index = 0;
-		for(int i = 0; i < left_routes.size() + right_routes.size(); i++) {
+		for(int i = 0; i < left_routes.size() + right_routes.size(); i++) 
+		{
 			if(left_index < left_routes.size() && (right_index >= right_routes.size() 
-            || left_routes.get(left_index).size() < right_routes.get(right_index).size())) {
+            || left_routes.get(left_index).size() < right_routes.get(right_index).size())) 
+			{
 				routes.set(i, left_routes.get(left_index));
 				left_index++;
 			}
-			else {
+			else 
+			{
 				routes.set(i, right_routes.get(right_index));
 				right_index++;
 			}
 		}
 	}
 
-	static public void minMaxLengthEnemyRoutesMergeSort(LinkedList<LinkedList<Coordinates>> routes) {
-		if(routes.size() == 1) {
+	public static void minMaxLengthEnemyRoutesMergeSort(LinkedList<LinkedList<Coordinates>> routes) 
+	{
+		if(routes.size() == 1) 
+		{
 			return;
 		}
 
@@ -59,11 +93,13 @@ public class GameMath
 		LinkedList<LinkedList<Coordinates>> left_routes = new LinkedList<LinkedList<Coordinates>>();
 		LinkedList<LinkedList<Coordinates>> right_routes = new LinkedList<LinkedList<Coordinates>>();
 
-		for(int i = 0; i < left_routes_size; i++) {
+		for(int i = 0; i < left_routes_size; i++) 
+		{
 			left_routes.addLast(routes.get(i));
 		}
 
-		for(int i = 0; i < right_routes_size; i++) {
+		for(int i = 0; i < right_routes_size; i++) 
+		{
 			right_routes.addLast(routes.get(left_routes.size() + i));
 		}
 
