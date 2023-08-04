@@ -1,9 +1,9 @@
-package mechanics.behavior;
+package mechanics.behavior.lowerlevel;
 
 import components.Enemy;
 import components.MunchMan;
 import components.Stage;
-import mechanics.bases.EnemyBehaviorBase;
+import mechanics.behaviorbases.EnemyBehaviorBase;
 import mechanics.movement.EntityMovement;
 
 public class EnemyRetreatBehavior extends EnemyBehaviorBase

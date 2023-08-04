@@ -1,11 +1,11 @@
-package mechanics.behavior;
+package mechanics.behavior.lowerlevel;
 
 import components.MunchMan;
 import components.Enemy;
 import components.Stage;
 import fundamentals.Coordinates;
 import fundamentals.mechanic.MechanicScheduler;
-import mechanics.bases.EnemyBehaviorBase;
+import mechanics.behaviorbases.EnemyBehaviorBase;
 import mechanics.movement.EntityMovement;
 
 public class EnemyAnchorBehavior extends EnemyBehaviorBase

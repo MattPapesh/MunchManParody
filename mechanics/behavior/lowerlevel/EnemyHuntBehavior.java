@@ -1,11 +1,11 @@
-package mechanics.behavior;
+package mechanics.behavior.lowerlevel;
 
 import components.Enemy;
 import components.MunchMan;
 import components.Stage;
 import fundamentals.Coordinates;
 import fundamentals.GameMath;
-import mechanics.bases.EnemyBehaviorBase;
+import mechanics.behaviorbases.EnemyBehaviorBase;
 import mechanics.movement.EntityMovement;
 
 public class EnemyHuntBehavior extends EnemyBehaviorBase

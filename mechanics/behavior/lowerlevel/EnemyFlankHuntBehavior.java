@@ -1,4 +1,4 @@
-package mechanics.behavior;
+package mechanics.behavior.lowerlevel;
 
 import components.Enemy;
 import components.MunchMan;
@@ -11,10 +11,15 @@ public class EnemyFlankHuntBehavior extends EnemyHuntBehavior
     private double route_completion_pct = 0.2;
 
     public EnemyFlankHuntBehavior(EntityMovement enemy_movement, Stage stage, Enemy enemy, MunchMan munch_man,
-    int direct_hunt_distance_units, int flank_radius_units, int delta_flank_degrees)
+    int direct_hunt_distance_units, int flank_radius_units, int flank_degrees)
     {
         super(enemy_movement, stage, enemy, munch_man,
-        direct_hunt_distance_units, flank_radius_units, 180 + delta_flank_degrees);
+        direct_hunt_distance_units, flank_radius_units, flank_degrees);
+    }
+
+    public EnemyFlankHuntBehavior(EntityMovement enemy_movement, Stage stage, Enemy enemy, MunchMan munch_man, flank_data flank)
+    {
+        super(enemy_movement, stage, enemy, munch_man, flank);
     }
 
     private void computeFlankHuntBehavior()

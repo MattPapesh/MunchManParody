@@ -1,4 +1,4 @@
-package mechanics.bases;
+package mechanics.behaviorbases;
 
 import java.util.LinkedList;
 

@@ -1,5 +1,5 @@
-package mechanics.behavior;
-import mechanics.bases.EnemyBehaviorGroup;
+package mechanics.behavior.lowerlevel;
+import mechanics.behaviorbases.EnemyBehaviorGroup;
 import mechanics.movement.EntityMovement;
 import components.Stage;
 import components.Enemy;
