@@ -26,7 +26,7 @@ public class AppContainer extends AppBase
     private Stage stage = new Stage();
     //private StageChain stage_chain = new StageChain();
     private MunchMan munch_man = new MunchMan();
-    private Enemy enemy_A = new Enemy(1, 1, ENEMY_DEF_SPEED, new Animation("enemy.png"), new Animation("enemy_blue.png"));
+    private Enemy enemy_A = new Enemy(2, 1, ENEMY_DEF_SPEED, new Animation("enemy.png"), new Animation("enemy_blue.png"));
     //private Enemy enemy_B = new Enemy(1, 30, ENEMY_DEF_SPEED, new Animation("enemy.png"));
     //private Enemy enemy_C = new Enemy(42, 1, ENEMY_DEF_SPEED, new Animation("enemy.png"));
     //private Enemy enemy_D = new Enemy(40, 30, ENEMY_DEF_SPEED, new Animation("enemy.png"));

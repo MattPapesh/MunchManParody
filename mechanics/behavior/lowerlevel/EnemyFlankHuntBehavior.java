@@ -22,9 +22,10 @@ public class EnemyFlankHuntBehavior extends EnemyHuntBehavior
         super(enemy_movement, stage, enemy, munch_man, flank);
     }
 
+    Coordinates computed_stage_coords = new Coordinates(0, 0, 0);
     private void computeFlankHuntBehavior()
     {
-        Coordinates computed_stage_coords = getComputedHuntEnemyStageCoords();
+        computed_stage_coords = getComputedHuntEnemyStageCoords();
         setEnemyTarget(route_completion_pct, -1.0, computed_stage_coords.getX(), computed_stage_coords.getY(), getMunchManStageCoords());
     }
 
@@ -41,6 +42,8 @@ public class EnemyFlankHuntBehavior extends EnemyHuntBehavior
         {
             computeFlankHuntBehavior();
         }
+
+        //System.out.println("(" + computed_stage_coords.getX() + ", " + computed_stage_coords.getY() + ")");
     }
 
     @Override

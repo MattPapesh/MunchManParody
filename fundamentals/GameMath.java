@@ -60,6 +60,26 @@ public class GameMath
 		return false;
 	}
 
+	public static boolean isCoordInStageTunnel(Coordinates coord)
+	{
+		try
+		{
+			Coordinates[][] stage_tunnel_regions = Constants.STAGE_CHARACTERISTICS.STAGE_TUNNEL_REGIONS;
+			for(int current_tunnel_index = 0; current_tunnel_index < stage_tunnel_regions.length; current_tunnel_index++)
+			{
+				Coordinates initial_stage_coord = stage_tunnel_regions[current_tunnel_index][0];
+				Coordinates final_stage_coord = stage_tunnel_regions[current_tunnel_index][1];
+				if(coord.getX() >= initial_stage_coord.getX() && coord.getX() <= final_stage_coord.getX()
+				&& coord.getY() >= initial_stage_coord.getY() && coord.getY() <= final_stage_coord.getY())
+				{
+					return true;
+				}
+			}
+		}
+		catch(IndexOutOfBoundsException e) {}
+		return false; 
+	}
+
     private static void remergeMinMaxEnemyRoutes(LinkedList<LinkedList<Coordinates>> routes, 
 	LinkedList<LinkedList<Coordinates>> left_routes, LinkedList<LinkedList<Coordinates>> right_routes) 
 	{

@@ -12,7 +12,8 @@ public class EntityBase extends ComponentBase
     private Coordinates granular_stage_coords = new Coordinates(stage_coords.getX() * Constants.STAGE_CHARACTERISTICS.STAGE_COORD_SCALER,
     stage_coords.getY() * Constants.STAGE_CHARACTERISTICS.STAGE_COORD_SCALER, 0);
     // Entity coordinate displacement on-screen; used to determine the entity's coords at stage coords: (0, 0) on screen:
-    private Coordinates displacement_coords = new Coordinates(Constants.STAGE_CHARACTERISTICS.COORD_DISPLACEMENT.getX() + 74, 
+    private Coordinates displacement_coords = new Coordinates(Constants.STAGE_CHARACTERISTICS.COORD_DISPLACEMENT.getX() + 74
+    - Constants.STAGE_CHARACTERISTICS.STAGE_COORD_SCALER, 
     Constants.STAGE_CHARACTERISTICS.COORD_DISPLACEMENT.getY() + 96, 0);
     
     public void begin(int stage_x, int stage_y, Animation... animations) 

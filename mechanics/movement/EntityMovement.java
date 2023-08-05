@@ -1,8 +1,9 @@
 package mechanics.movement;
 
 import fundamentals.mechanic.MechanicBase;
+import fundamentals.Constants;
 import fundamentals.Coordinates;
-
+import fundamentals.GameMath;
 import components.EntityBase;
 import components.Stage;
 
@@ -171,28 +172,22 @@ public class EntityMovement extends MechanicBase
                 current_stage_coords.setCoordinates(prev_stage_coords.getX(), prev_stage_coords.getY(), current_stage_coords.getDegrees());
                 is_movement_obstructed = true; 
             }
-        } // Teleporting from left/right side of the stage to the other: 
-        catch(ArrayIndexOutOfBoundsException e)
+        } 
+        catch(ArrayIndexOutOfBoundsException e) {}
+
+        // Teleporting from left/right side of the stage to the other: 
+        // Moving left across stage:
+        if(current_stage_coords.getX() < 0)
         {
-            // Moving left across stage:
-            if(current_stage_coords.getX() < -2)
-            {
-                current_stage_coords.setCoordinates(stage_data[0].length + 1, current_stage_coords.getY(), current_stage_coords.getDegrees());
-                current_gran_stage_coords = entity.convertToGranularStageCoords(current_stage_coords);
-                
-            } // Moving right across stage:
-            else if(current_stage_coords.getX() > stage_data[0].length + 1)
-            {   
-                current_stage_coords.setCoordinates(-2, current_stage_coords.getY(), current_stage_coords.getDegrees());
-                current_gran_stage_coords = entity.convertToGranularStageCoords(current_stage_coords);
-            }
+            current_stage_coords.setCoordinates(stage_data[0].length - 1, current_stage_coords.getY(), current_stage_coords.getDegrees());
+            current_gran_stage_coords = entity.convertToGranularStageCoords(current_stage_coords);
+            
+        } // Moving right across stage:
+        else if(current_stage_coords.getX() > stage_data[0].length - 1)
+        {   
+            current_stage_coords.setCoordinates(0, current_stage_coords.getY(), current_stage_coords.getDegrees());
+            current_gran_stage_coords = entity.convertToGranularStageCoords(current_stage_coords);
         }
-    }
-    
-    @Override
-    public void initialize() 
-    {
-        
     }
 
     @Override
@@ -201,12 +196,6 @@ public class EntityMovement extends MechanicBase
         collisionalMovement();
         updateCoords();
         updateDirection();
-    }
-
-    @Override 
-    public void end(boolean interrupted) 
-    {
-        
     }
 
     @Override

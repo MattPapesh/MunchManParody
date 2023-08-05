@@ -39,12 +39,6 @@ public class EnemyPathFollowing extends MechanicBase
     }
 
     @Override
-    public void execute() 
-    {
-        
-    }   
-
-    @Override
     public void end(boolean interrupted)
     {
         enemy_movement.setTickVelocity(0, 0);

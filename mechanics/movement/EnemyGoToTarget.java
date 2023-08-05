@@ -177,6 +177,7 @@ public class EnemyGoToTarget extends EnemyPredeterminedRoute
             if(!GameMath.isCoordsEqual(route.getLast(), base_route.getLast()) 
             && (base_route.size() == 1 || !GameMath.isOpposingCoordDirections(route.getLast(), base_route.getLast()))
             && (GameMath.isCoordsEqual(route.getLast(), new Coordinates(target_stage_x, target_stage_y, 0)) 
+            || GameMath.isCoordInStageTunnel(target_stage_coords)
             || !GameMath.coordsContainsCoord(avoiding_stage_coords, route.getLast()))
             && stage_data[route.getLast().getY()][route.getLast().getX()] == 1)
             {
