@@ -1,6 +1,7 @@
 package fundamentals.appbase;
 
 import java.awt.Image;
+import java.awt.Toolkit;
 import java.util.LinkedList;
 
 import javax.swing.JFrame;
@@ -81,6 +82,8 @@ public class AppBase extends JFrame implements AppInterface
         {
             try
             {
+                super.setSize((int)Toolkit.getDefaultToolkit().getScreenSize().getWidth(), 
+                (int)Toolkit.getDefaultToolkit().getScreenSize().getHeight());
                 appBasePeriodic();
                 Thread.sleep(Constants.WINDOW_CHARACTERISTICS.REFRESH_RATE_MILLIS);
             }
@@ -95,7 +98,8 @@ public class AppBase extends JFrame implements AppInterface
     {
         prepareAppIcon();
         
-        super.setSize(Constants.WINDOW_CHARACTERISTICS.WINDOW_WIDTH, Constants.WINDOW_CHARACTERISTICS.WINDOW_HEIGHT);
+        super.setSize((int)Toolkit.getDefaultToolkit().getScreenSize().getWidth(), 
+        (int)Toolkit.getDefaultToolkit().getScreenSize().getHeight());
         super.setResizable(false);
         super.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         super.setTitle(Constants.WINDOW_CHARACTERISTICS.APP_TITLE);
