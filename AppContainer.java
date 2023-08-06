@@ -1,6 +1,7 @@
 import fundamentals.appbase.AppBase;
 import fundamentals.mechanic.InstantMechanic;
 import fundamentals.mechanic.MechanicScheduler;
+import mechanics.PuppetMunchMan;
 import mechanics.behavior.lowerlevel.EnemyFlankHuntBehavior;
 import mechanics.behavior.lowerlevel.EnemyHuntBehavior;
 import mechanics.behavior.lowerlevel.EnemyRetreatingWanderBehavior;
@@ -25,13 +26,16 @@ public class AppContainer extends AppBase
 
     private Stage stage = new Stage();
     //private StageChain stage_chain = new StageChain();
-    private MunchMan munch_man = new MunchMan();
+    private MunchMan munch_man = new MunchMan(0, 9, 0);//(23, 15, 0);
+    private MunchMan left_puppet_munch_man = new MunchMan(-1, -1, 0);
+    private MunchMan right_puppet_munch_man = new MunchMan(-1, -1, 0);
     private Enemy enemy_A = new Enemy(2, 1, ENEMY_DEF_SPEED, new Animation("enemy.png"), new Animation("enemy_blue.png"));
     //private Enemy enemy_B = new Enemy(1, 30, ENEMY_DEF_SPEED, new Animation("enemy.png"));
     //private Enemy enemy_C = new Enemy(42, 1, ENEMY_DEF_SPEED, new Animation("enemy.png"));
     //private Enemy enemy_D = new Enemy(40, 30, ENEMY_DEF_SPEED, new Animation("enemy.png"));
 
     //private PlaceStageChain place_stage_chain = new PlaceStageChain(munch_man, stage, stage_chain);
+    private PuppetMunchMan puppet_munch_man = new PuppetMunchMan(munch_man, left_puppet_munch_man, right_puppet_munch_man);
     private EntityMovement player_movement = new EntityMovement(stage, munch_man);
     private EntityMovement enemy_A_movement = new EntityMovement(stage, enemy_A);
     
@@ -52,6 +56,7 @@ public class AppContainer extends AppBase
     public AppContainer() {
         configureButtonBindings();
         player_movement.schedule();
+        puppet_munch_man.schedule();
         enemy_A_movement.enableDirectionalAnimations(false);
         //place_stage_chain.schedule();
         enemy_A_flank_hunt_behavior.schedule();
@@ -61,6 +66,6 @@ public class AppContainer extends AppBase
 
     public void periodic() 
     {
-        //System.out.println(MechanicScheduler.getNumOfMechanics());
+        
     }
 }

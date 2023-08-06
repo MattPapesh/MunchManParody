@@ -39,11 +39,13 @@ public class EntityBase extends ComponentBase
     public void setStageCoords(int stage_x, int stage_y, int degrees)
     {
         stage_coords.setCoordinates(stage_x, stage_y, degrees);
+        granular_stage_coords.setCoordinates(granular_stage_coords.getX(), granular_stage_coords.getY(), degrees);
     }
 
     public void setGranularStageCoords(int granular_x, int granular_y, int degrees)
     {
         granular_stage_coords.setCoordinates(granular_x, granular_y, degrees);
+        stage_coords.setCoordinates(stage_coords.getX(), stage_coords.getY(), degrees);
     }
 
     public Coordinates getGranularStageCoords()
