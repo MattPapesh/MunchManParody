@@ -1,6 +1,8 @@
 package fundamentals.mechanic;
 
 import java.util.LinkedList;
+
+import fundamentals.GameMath;
 import fundamentals.component.ComponentBase;
 
 /**
@@ -23,13 +25,20 @@ public class MechanicBase implements MechanicInterface
     private boolean interrupted = false;
     private int initial_millis = 0;
     private int executional_periodic_delay_millis = 0; 
+    private double probabilistic_scheduling_pct = 0.0;
+    private boolean probabilistic_scheduling = false;
     private boolean mechanic_self_scheduling = false; 
 
     @Override public void initialize() {}
     @Override public void execute() {}
     @Override public boolean isFinished() {return false;}
     @Override public void end(boolean interrupted) {}
-    @Override public boolean isSelfSchedulingConditionsMet() {return false;} 
+
+    @Override public boolean isSelfSchedulingConditionsMet() 
+    {
+        probabilistic_scheduling = (!isInitialized()) ? GameMath.probability(probabilistic_scheduling_pct) : probabilistic_scheduling;
+        return probabilistic_scheduling;
+    } 
 
     /**
      * Once MechanicBase has been extended and become a superclass to a subclass, the subclass must call 
@@ -45,6 +54,11 @@ public class MechanicBase implements MechanicInterface
                 this.component_IDs.addLast(components[i].getComponentID());
             }
         }
+    }
+
+    public void setSelfSchedulingProbabilisticCondition(double probability_pct)
+    {
+        probabilistic_scheduling_pct = Math.max(Math.min(probability_pct, 1.0), 0.0);
     }
 
     public void setSelfScheduling(boolean self_scheduling)
@@ -66,6 +80,11 @@ public class MechanicBase implements MechanicInterface
         {
             MechanicScheduler.removeMechanic(this);
         }
+    }
+
+    public boolean isSelfScheduling()
+    {
+        return mechanic_self_scheduling;
     }
 
     /**

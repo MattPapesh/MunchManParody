@@ -42,8 +42,6 @@ public class EnemyFlankHuntBehavior extends EnemyHuntBehavior
         {
             computeFlankHuntBehavior();
         }
-
-        //System.out.println("(" + computed_stage_coords.getX() + ", " + computed_stage_coords.getY() + ")");
     }
 
     @Override

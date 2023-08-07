@@ -2,6 +2,7 @@ import fundamentals.appbase.AppBase;
 import fundamentals.mechanic.InstantMechanic;
 import fundamentals.mechanic.MechanicScheduler;
 import mechanics.PuppetMunchMan;
+import mechanics.behavior.EnemyRedBehavior;
 import mechanics.behavior.lowerlevel.EnemyFlankHuntBehavior;
 import mechanics.behavior.lowerlevel.EnemyHuntBehavior;
 import mechanics.behavior.lowerlevel.EnemyRetreatingWanderBehavior;
@@ -29,21 +30,17 @@ public class AppContainer extends AppBase
     private MunchMan munch_man = new MunchMan(23, 15, 0);
     private MunchMan left_puppet_munch_man = new MunchMan(-1, -1, 0);
     private MunchMan right_puppet_munch_man = new MunchMan(-1, -1, 0);
-    private Enemy enemy_A = new Enemy(2, 1, ENEMY_DEF_SPEED, new Animation("enemy.png"), new Animation("enemy_blue.png"));
-    //private Enemy enemy_B = new Enemy(1, 30, ENEMY_DEF_SPEED, new Animation("enemy.png"));
-    //private Enemy enemy_C = new Enemy(42, 1, ENEMY_DEF_SPEED, new Animation("enemy.png"));
-    //private Enemy enemy_D = new Enemy(40, 30, ENEMY_DEF_SPEED, new Animation("enemy.png"));
+    private Enemy enemy_red = new Enemy(2, 1, ENEMY_DEF_SPEED, new Animation("enemy.png"), new Animation("enemy_blue.png"));
+    //private Enemy enemy_yellow = new Enemy(1, 30, ENEMY_DEF_SPEED, new Animation("enemy.png"));
+    //private Enemy enemy_blue = new Enemy(42, 1, ENEMY_DEF_SPEED, new Animation("enemy.png"));
+    //private Enemy enemy_pink = new Enemy(40, 30, ENEMY_DEF_SPEED, new Animation("enemy.png"));
 
     //private PlaceStageChain place_stage_chain = new PlaceStageChain(munch_man, stage, stage_chain);
     private PuppetMunchMan puppet_munch_man = new PuppetMunchMan(munch_man, left_puppet_munch_man, right_puppet_munch_man);
     private EntityMovement player_movement = new EntityMovement(stage, munch_man);
-    private EntityMovement enemy_A_movement = new EntityMovement(stage, enemy_A);
-    
-    private EnemyFlankHuntBehavior enemy_A_flank_hunt_behavior = new EnemyFlankHuntBehavior(enemy_A_movement, stage, enemy_A, munch_man, 
-    8, 8, 180);
-    private EnemyRetreatingWanderBehavior enemy_A_rt_wander_behavior = new EnemyRetreatingWanderBehavior(
-    enemy_A_movement, stage, enemy_A, munch_man, 
-    0.40, 15, 15, 20);
+    private EntityMovement enemy_red_movement = new EntityMovement(stage, enemy_red);
+
+    private EnemyRedBehavior enemy_red_behavior = new EnemyRedBehavior(enemy_red_movement, stage, enemy_red, munch_man);
 
     private void configureButtonBindings() {
         
@@ -57,11 +54,9 @@ public class AppContainer extends AppBase
         configureButtonBindings();
         player_movement.schedule();
         puppet_munch_man.schedule();
-        enemy_A_movement.enableDirectionalAnimations(false);
+        enemy_red_movement.enableDirectionalAnimations(false);
+        enemy_red_behavior.schedule();
         //place_stage_chain.schedule();
-        enemy_A_flank_hunt_behavior.schedule();
-        //enemy_A_hunt_behavior.schedule();
-        //enemy_A_rt_wander_behavior.schedule();
     }
 
     public void periodic() 

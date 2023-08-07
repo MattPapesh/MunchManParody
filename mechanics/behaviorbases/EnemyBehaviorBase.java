@@ -8,6 +8,7 @@ import components.MunchMan;
 
 import components.Enemy;
 import fundamentals.Coordinates;
+import fundamentals.GameMath;
 
 public class EnemyBehaviorBase extends MechanicBase implements EnemyBehaviorInterface
 {
@@ -20,9 +21,9 @@ public class EnemyBehaviorBase extends MechanicBase implements EnemyBehaviorInte
     private boolean scheduled_enemy_targeting = false; 
 
     private int max_scheduled_millis = -1;
-    private int initial_scheduled_millis = 0;
-    private int self_scheduling_cooldown_millis = 0;
-    private int final_scheduled_millis = 0;
+    private int initial_scheduled_millis = -1;
+    private int self_scheduling_cooldown_millis = -1;
+    private int final_scheduled_millis = -1;
 
     @Override public void initializeBehavior() {}
     @Override public void executeBehavior() {}
@@ -191,42 +192,40 @@ public class EnemyBehaviorBase extends MechanicBase implements EnemyBehaviorInte
     @Override 
     public void initialize()
     {   
-        if(Math.abs(final_scheduled_millis - MechanicScheduler.getElapsedMillis()) >= self_scheduling_cooldown_millis)
+        if(final_scheduled_millis == -1 || self_scheduling_cooldown_millis == -1
+        || Math.abs(MechanicScheduler.getElapsedMillis() - final_scheduled_millis) >= self_scheduling_cooldown_millis)
         {
             initial_scheduled_millis = MechanicScheduler.getElapsedMillis();
             initializeBehavior();
+        }
+        else 
+        {
+            cancel();
         }
     }
 
     @Override
     public void execute() 
     {
-        if(Math.abs(final_scheduled_millis - MechanicScheduler.getElapsedMillis()) >= self_scheduling_cooldown_millis)
+        executeBehavior();
+        if(isEnemyRouteCompleted())
         {
-            executeBehavior();
-            if(isEnemyRouteCompleted())
-            {
-                scheduled_enemy_targeting = false;
-            }
+            scheduled_enemy_targeting = false;
         }
     }
 
     @Override
     public void end(boolean interrupted) 
     {
-        if(Math.abs(final_scheduled_millis - MechanicScheduler.getElapsedMillis()) >= self_scheduling_cooldown_millis)
-        {
-            endBehavior(interrupted);
-            final_scheduled_millis = MechanicScheduler.getElapsedMillis();
-        }
+        endBehavior(interrupted);
+        final_scheduled_millis = MechanicScheduler.getElapsedMillis();
     }
 
     @Override
     public boolean isFinished() 
     {
-        return (max_scheduled_millis != -1
-        && Math.abs(MechanicScheduler.getElapsedMillis() - initial_scheduled_millis) >= max_scheduled_millis)
-        || Math.abs(final_scheduled_millis - MechanicScheduler.getElapsedMillis()) < self_scheduling_cooldown_millis
+        return initial_scheduled_millis != -1 && max_scheduled_millis != -1
+        && Math.abs(MechanicScheduler.getElapsedMillis() - initial_scheduled_millis) >= max_scheduled_millis
         || isBehaviorFinished(); 
     }
 }
