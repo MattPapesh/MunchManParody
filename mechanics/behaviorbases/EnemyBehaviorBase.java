@@ -100,7 +100,7 @@ public class EnemyBehaviorBase extends MechanicBase implements EnemyBehaviorInte
 
     public boolean isEnemyRouteCompleted()
     {
-        return !enemy_targeting.isScheduled() && scheduled_enemy_targeting;
+        return enemy_targeting != null && !enemy_targeting.isScheduled() && scheduled_enemy_targeting;
     }
 
     public Coordinates getNearStageCoords(int stage_x, int stage_y)

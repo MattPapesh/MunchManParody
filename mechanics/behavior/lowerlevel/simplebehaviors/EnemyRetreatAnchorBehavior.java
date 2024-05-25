@@ -1,9 +1,10 @@
-package mechanics.behavior.lowerlevel;
+package mechanics.behavior.lowerlevel.simplebehaviors;
 
 import components.Enemy;
 import components.MunchMan;
 import components.Stage;
 import fundamentals.Coordinates;
+import mechanics.behavior.lowerlevel.simplebehaviors.EnemyAnchorBehavior.anchor_data;
 import mechanics.movement.EntityMovement;
 
 public class EnemyRetreatAnchorBehavior extends EnemyAnchorBehavior

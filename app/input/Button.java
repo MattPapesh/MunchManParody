@@ -205,7 +205,6 @@ public class Button
     public void run()
     {
         prev_is_active = current_is_active;
-
         if(isActive() && !prev_is_active)
         {
             completed_lifetime_update = true;

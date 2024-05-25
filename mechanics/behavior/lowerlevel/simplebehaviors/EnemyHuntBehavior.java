@@ -1,4 +1,4 @@
-package mechanics.behavior.lowerlevel;
+package mechanics.behavior.lowerlevel.simplebehaviors;
 
 import components.Enemy;
 import components.MunchMan;

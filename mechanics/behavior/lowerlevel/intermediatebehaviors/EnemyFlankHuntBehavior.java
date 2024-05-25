@@ -1,9 +1,10 @@
-package mechanics.behavior.lowerlevel;
+package mechanics.behavior.lowerlevel.intermediatebehaviors;
 
 import components.Enemy;
 import components.MunchMan;
 import components.Stage;
 import fundamentals.Coordinates;
+import mechanics.behavior.lowerlevel.simplebehaviors.EnemyHuntBehavior;
 import mechanics.movement.EntityMovement;
 
 public class EnemyFlankHuntBehavior extends EnemyHuntBehavior

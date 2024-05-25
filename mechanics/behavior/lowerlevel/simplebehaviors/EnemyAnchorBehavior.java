@@ -1,10 +1,9 @@
-package mechanics.behavior.lowerlevel;
+package mechanics.behavior.lowerlevel.simplebehaviors;
 
 import components.MunchMan;
 import components.Enemy;
 import components.Stage;
 import fundamentals.Coordinates;
-import fundamentals.mechanic.MechanicScheduler;
 import mechanics.behaviorbases.EnemyBehaviorBase;
 import mechanics.movement.EntityMovement;
 

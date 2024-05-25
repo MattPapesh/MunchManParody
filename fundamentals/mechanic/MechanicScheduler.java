@@ -73,35 +73,12 @@ public class MechanicScheduler
      * methods, called at; not part of the program can ever be refreshed, updated, or called faster that this refresh rate. 
      */
 
-     /**
-     * Returns a different registered mechanic instance each time the method is called, and loops through the list of registered
-     * mechanic instances. Moreover, when the method is continuously called, and the returned instance's run() method is called,
-     * all registered mechanic instances will function appropriately.
-     * 
-     * @return
-     *  A different registered mechanic instance each time the method is called. 
-     * 
-     * @see
-     * Note: This method is periodically called based on the application's refresh rate! This must happen!
-     * The refresh rate is the fixed rate of delay in milliseconds that the entire application is updated at or, in terms of 
-     * methods, called at. No part of the program can ever be refreshed, updated, or called faster than this refresh rate. 
-     */
-    public static MechanicBase getInstance()
+    public static void run()
     {
-        elapsed_millis += Constants.WINDOW_CHARACTERISTICS.REFRESH_RATE_MILLIS;  
-        MechanicBase mechanic = null;   
-
-        if(!mechanics.isEmpty() && current_instance_index < mechanics.size())
+        elapsed_millis += Constants.WINDOW_CHARACTERISTICS.REFRESH_RATE_MILLIS;   
+        for(int i = 0; i < mechanics.size(); i++) 
         {
-            mechanic = mechanics.get(current_instance_index); 
+            mechanics.get(i).run();
         }
-        else if(!mechanics.isEmpty())
-        {
-            mechanic = mechanics.getFirst(); 
-            current_instance_index = 0;
-        }
-
-        current_instance_index++;
-        return mechanic;
     }
 }

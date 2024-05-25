@@ -47,29 +47,14 @@ public class ControllerScheduler
         }
     }
 
-    /**
-     * Returns a different registered Controller instance each time the method is called, and loops through the list of registered
-     * Controller instances. Moreover, when the method is continuously called, and the run() method is ran from each returned instance's 
-     * Buttons, then all registered GUI instances will function apropriately.
-     * 
-     * @return
-     *  A different registered Controller instance each time the method is called. 
-     */
-    public static Controller getControllerInstance()
-    {
-        Controller controller = null;
-
-        if(!controllers.isEmpty() && current_instance_index < controllers.size())
+    public static void run() 
+    {  
+        for(int i = 0; i < controllers.size(); i++) 
         {
-            controller = controllers.get(current_instance_index);
+            if(controllers.get(i) != null) 
+            {
+                controllers.get(i).run();
+            }
         }
-        else if(!controllers.isEmpty())
-        {
-            controller = controllers.getFirst();
-            current_instance_index = 0;
-        }
-
-        current_instance_index++;
-        return controller;
     }
 }

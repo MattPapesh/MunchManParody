@@ -68,6 +68,7 @@ public class AppGraphics extends JPanel
                 }
             }
             catch(ArrayIndexOutOfBoundsException e) {}
+            catch(IndexOutOfBoundsException e) {}
             catch (NullPointerException e) {}
         }
 

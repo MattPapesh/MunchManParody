@@ -223,15 +223,7 @@ public class AppBase extends JFrame implements AppInterface
 
     private void runMechanics()
     {
-        //MechanicScheduler.interruptSimultaneousComponentUtilization();
-        for(int i = 0; i < MechanicScheduler.getNumOfMechanics(); i++)
-        {
-            MechanicBase mechanic = MechanicScheduler.getInstance();
-            if(mechanic != null)
-            {
-                mechanic.run();
-            }
-        }
+        MechanicScheduler.run();
     }
 
     private void runGUIs()
@@ -246,12 +238,7 @@ public class AppBase extends JFrame implements AppInterface
 
     private void runControllers()
     {
-        Controller controller = ControllerScheduler.getControllerInstance();
-
-        for(int i = 0; controller != null && i < controller.getAmountOfButtons(); i++)
-        {
-            controller.getButtonInstance().run();
-        }
+        ControllerScheduler.run();
     }
 
     // Periodically called by app refresh rate (tick system)
@@ -260,7 +247,7 @@ public class AppBase extends JFrame implements AppInterface
         try
         {
             updateIconImage(1000);
-            determineAppStatus();
+            determineAppStatus(); 
 
             if((prev_app_status != null && prev_app_status.getStatusID() != app_status.getStatusID()) || prev_app_status == null && !app_initialized)
             {
@@ -273,7 +260,7 @@ public class AppBase extends JFrame implements AppInterface
             runGUIs();
             runControllers();
         }
-        catch(NullPointerException e) {}
+        catch(NullPointerException e) {System.out.println("Program Null Exception!");}
     }
 
     /**

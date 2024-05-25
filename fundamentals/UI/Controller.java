@@ -415,29 +415,15 @@ public class Controller
         down_key.whenPressed(mechanic);
     }
 
-    /**
-     * Returns a different Button instance each time the method is called, and loops through the list of Button 
-     * instances. Moreover, when the method is continuously called, and the run() method is called from each instance returned, 
-     * then all Button instances will function apropriately.
-     * 
-     * @return
-     *  A different Button instance each time the method is called. 
-     */
-    public Button getButtonInstance()
-    {
-        Button button = null;
-
-        if(!buttons.isEmpty() && current_instance_index < buttons.size())
+    
+    public void run()
+    {   
+        for(int i = 0; i < buttons.size(); i++) 
         {
-            button = buttons.get(current_instance_index);
+            if(buttons.get(i) != null)
+            {
+                buttons.get(i).run();
+            }
         }
-        else if(!buttons.isEmpty())
-        {
-            button = buttons.getFirst();
-            current_instance_index = 0;
-        }
-
-        current_instance_index++;
-        return button;
     }
 }

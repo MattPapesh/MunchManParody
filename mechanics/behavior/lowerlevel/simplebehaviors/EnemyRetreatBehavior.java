@@ -1,4 +1,4 @@
-package mechanics.behavior.lowerlevel;
+package mechanics.behavior.lowerlevel.simplebehaviors;
 
 import components.Enemy;
 import components.MunchMan;
@@ -48,7 +48,6 @@ public class EnemyRetreatBehavior extends EnemyBehaviorBase
         stage_x = Math.max(Math.min(stage_x, stage_data[0].length - 1), 0);
         stage_y = Math.max(Math.min(stage_y, stage_data.length - 1), 0);
 
-        //System.out.println("Length: " + route_length);
         setEnemyTarget(route_completion_pct, stage_x, stage_y);   
     }
 
@@ -65,7 +64,6 @@ public class EnemyRetreatBehavior extends EnemyBehaviorBase
     {
         setEnemyTarget(route_completion_pct, 10, 10);
     }
-
 
     @Override
     public void executeBehavior()

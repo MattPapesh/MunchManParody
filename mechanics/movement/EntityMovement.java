@@ -1,9 +1,7 @@
 package mechanics.movement;
 
 import fundamentals.mechanic.MechanicBase;
-import fundamentals.Constants;
 import fundamentals.Coordinates;
-import fundamentals.GameMath;
 import components.EntityBase;
 import components.Stage;
 

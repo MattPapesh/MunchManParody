@@ -1,4 +1,6 @@
-package mechanics.behavior.lowerlevel;
+package mechanics.behavior.lowerlevel.advancedbehaviors;
+import mechanics.behavior.lowerlevel.simplebehaviors.EnemyRetreatAnchorBehavior;
+import mechanics.behavior.lowerlevel.simplebehaviors.EnemyRetreatBehavior;
 import mechanics.behaviorbases.EnemyBehaviorGroup;
 import mechanics.movement.EntityMovement;
 import components.Stage;
@@ -11,11 +13,11 @@ public class EnemyRetreatingWanderBehavior extends EnemyBehaviorGroup
     double turn_around_prob_pct, int retreat_distance_units, int anchor_distance_units, int anchor_wandering_raidus_units)
     {
         super(enemy_movement, stage, enemy, munch_man);
-        addSelfSchedulingBehaviors
+        addBehaviors
         (
-            new EnemyRetreatBehavior(enemy_movement, stage, enemy, munch_man, retreat_distance_units), 
-            new EnemyRetreatAnchorBehavior(enemy_movement, stage, enemy, munch_man, 
-            turn_around_prob_pct, anchor_distance_units, anchor_wandering_raidus_units)
+            new behavior(new EnemyRetreatBehavior(enemy_movement, stage, enemy, munch_man, retreat_distance_units)), 
+            new behavior(new EnemyRetreatAnchorBehavior(enemy_movement, stage, enemy, munch_man, 
+            turn_around_prob_pct, anchor_distance_units, anchor_wandering_raidus_units))
         );
     }
 }
