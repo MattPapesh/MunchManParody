@@ -73,7 +73,7 @@ public class EnemyBehaviorGroup extends EnemyBehaviorBase
     }
 
     @Override
-    public void execute()
+    public void executeBehavior()
     {
         if(overrider != null && !overrider.get().isSelfScheduling() && overrider.get().isSelfSchedulingConditionsMet() && !overrider.get().isScheduled())
         {
@@ -119,7 +119,7 @@ public class EnemyBehaviorGroup extends EnemyBehaviorBase
     }
 
     @Override
-    public void end(boolean interrupted)
+    public void endBehavior(boolean interrupted)
     {
         if(scheduled_behavior_index >= 0)
         {

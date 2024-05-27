@@ -18,15 +18,15 @@ public class EnemyCowardiceFlankHuntBehavior extends EnemyBehaviorGroup
         super(enemy_movement, stage, enemy, munch_man);
         addBehaviors
         (
-            new behavior(0.0, 100000, 0, true,
-            new EnemyRetreatBehavior(enemy_movement, stage, enemy, munch_man, 
-            retreat_distance_units)),
+            //new behavior(0.0, -1, -1, true,
+            //new EnemyRetreatBehavior(enemy_movement, stage, enemy, munch_man, 
+            //retreat_distance_units)),
 
-            new behavior(1.0, 100000, 0, false, 
+            new behavior(1.0, -1, -1, false, 
             new EnemyFlankHuntingWander(enemy_movement, stage, enemy, munch_man, 
-            0, 10000, 10000, 
+            0.201, -1, -1, 
             direct_hunt_distance_units, flank_radius_units, flank_degrees,
-            1.0, 50000, 3000, 
+            1.0, -1, -1, 
             0.25, 10))
         );
     }

@@ -20,9 +20,9 @@ public class MechanicBase implements MechanicInterface
 {
     private final double MECHANIC_ID = Math.random();
     private LinkedList<Double> component_IDs = new LinkedList<Double>();
-    private boolean scheduled = false; 
-    private boolean initialized = false;
-    private boolean interrupted = false;
+    protected boolean scheduled = false; 
+    protected boolean initialized = false;
+    protected boolean interrupted = false;
     private int initial_millis = 0;
     private int executional_periodic_delay_millis = 0; 
     private double probabilistic_scheduling_pct = 0.0;
@@ -36,7 +36,7 @@ public class MechanicBase implements MechanicInterface
 
     @Override public boolean isSelfSchedulingConditionsMet() 
     {
-        probabilistic_scheduling = (!isInitialized()) ? GameMath.probability(probabilistic_scheduling_pct) : probabilistic_scheduling;
+        probabilistic_scheduling = (!isScheduled()) ? GameMath.probability(probabilistic_scheduling_pct) : probabilistic_scheduling;
         return probabilistic_scheduling;
     } 
 

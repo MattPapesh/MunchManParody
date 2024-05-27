@@ -18,13 +18,12 @@ public class GameMath
 
     public static boolean probability(double prob_pct)
     {
-        prob_pct = Math.max(Math.min(prob_pct, 1.0), 0.0);
+        prob_pct = Math.max(Math.min(prob_pct, 1.0), 0.0);  
         return prob_pct == 1.0 || Math.random() < prob_pct;
     }
 
 	public static Coordinates getRadialDisplacement(int radius_units, int degrees)
 	{
-		degrees = (int)((((double)degrees / 360.0) - (int)((double)degrees / 360.0)) * 360.0);
 		double radians = (double)degrees * (Math.PI / 180.0);
 		double delta_stage_x = Math.pow(Math.pow(radius_units, 2) - Math.pow((double)radius_units * Math.sin(radians), 2), 0.5);
 		double delta_stage_y = Math.pow(Math.pow(radius_units, 2) - Math.pow((double)radius_units * Math.cos(radians), 2), 0.5);

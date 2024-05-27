@@ -4,7 +4,6 @@ import components.Enemy;
 import components.MunchMan;
 import components.Stage;
 import fundamentals.Coordinates;
-import mechanics.behavior.lowerlevel.simplebehaviors.EnemyAnchorBehavior.anchor_data;
 import mechanics.movement.EntityMovement;
 
 public class EnemyRetreatAnchorBehavior extends EnemyAnchorBehavior
@@ -29,7 +28,7 @@ public class EnemyRetreatAnchorBehavior extends EnemyAnchorBehavior
     {
         int delta_stage_x = getEnemyStageCoords().getX() - getMunchManStageCoords().getX();
         int delta_stage_y = getEnemyStageCoords().getY() - getMunchManStageCoords().getY();
-        return Math.pow(Math.pow(delta_stage_x, 2) + Math.pow(delta_stage_y, 2), 0.5) >= anchor_distance_units;
+        return Math.pow(Math.pow(delta_stage_x, 2) + Math.pow(delta_stage_y, 2), 0.5) > anchor_distance_units;
     }  
 
     @Override 

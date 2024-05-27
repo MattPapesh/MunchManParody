@@ -9,7 +9,7 @@ import mechanics.movement.EntityMovement;
 public class EnemyRetreatBehavior extends EnemyBehaviorBase
 {
     private int[][] stage_data = null;
-    private double route_completion_pct = 0.3;
+    private double route_completion_pct = 0.4;
     private int retreat_coord_length = 3;
     private int min_route_length = 10;
     private int max_route_length = 15;
@@ -56,7 +56,7 @@ public class EnemyRetreatBehavior extends EnemyBehaviorBase
     {
         int delta_stage_x = getEnemyStageCoords().getX() - getMunchManStageCoords().getX();
         int delta_stage_y = getEnemyStageCoords().getY() - getMunchManStageCoords().getY();
-        return Math.pow(Math.pow(delta_stage_x, 2) + Math.pow(delta_stage_y, 2), 0.5) < retreat_distance_units;
+        return Math.pow(Math.pow(delta_stage_x, 2) + Math.pow(delta_stage_y, 2), 0.5) <= retreat_distance_units;
     }
 
     @Override

@@ -26,11 +26,11 @@ public class EnemyFlankHuntingWander extends EnemyBehaviorGroup
         
         addBehaviors
         (
-            new behavior(hunt_scheduling_probability_pct, hunt_max_scheduled_millis, hunt_cooldown_millis, false, 
+            new behavior(hunt_scheduling_probability_pct, 
             new EnemyFlankHuntBehavior(enemy_movement, stage, enemy, munch_man, 
             direct_hunt_distance_units, flank_radius_units, flank_degrees)),
 
-            new behavior(wander_scheduling_probability_pct, wander_max_scheduled_millis, wander_cooldown_millis, false,
+            new behavior(wander_scheduling_probability_pct, 
             new EnemyAnchorBehavior(enemy_movement, stage, enemy, munch_man, anchor))
         );
     }    

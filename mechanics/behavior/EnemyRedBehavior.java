@@ -3,9 +3,13 @@ package mechanics.behavior;
 import components.Enemy;
 import components.MunchMan;
 import components.Stage;
+import fundamentals.Coordinates;
 import mechanics.behavior.lowerlevel.advancedbehaviors.EnemyCowardiceFlankHuntBehavior;
+import mechanics.behavior.lowerlevel.advancedbehaviors.EnemyFlankHuntingWander;
 import mechanics.behavior.lowerlevel.advancedbehaviors.EnemyRetreatingWanderBehavior;
 import mechanics.behavior.lowerlevel.intermediatebehaviors.EnemyFlankHuntBehavior;
+import mechanics.behavior.lowerlevel.simplebehaviors.EnemyAnchorBehavior;
+import mechanics.behavior.lowerlevel.simplebehaviors.EnemyAnchorBehavior.anchor_data;
 import mechanics.behaviorbases.EnemyBehaviorGroup;
 import mechanics.movement.EntityMovement;
 
@@ -15,15 +19,20 @@ public class EnemyRedBehavior extends EnemyBehaviorGroup
     {
         super(enemy_movement, stage, enemy, munch_man);
         addBehaviors(
-            new behavior(1.0, new EnemyCowardiceFlankHuntBehavior(enemy_movement, stage, enemy, munch_man, 
-            50, 0, 0, 10))
-            /*new behavior(0.60, 100000, 10000, false,
+            new behavior(0.5, 5000, 5000, false,
             new EnemyFlankHuntBehavior(enemy_movement, stage, enemy, munch_man, 
-            12, 10, 180)),
+            7,5, 180)),
 
-            new behavior(0.40, 50000, 10000, false,
-            new EnemyRetreatingWanderBehavior(enemy_movement, stage, enemy, munch_man, 
-            0.30, 20, 20, 10))*/
+            new behavior(0.5, 5000, 5000, false,
+            new EnemyFlankHuntBehavior(enemy_movement, stage, enemy, munch_man, 
+            0, 0, 0)),
+
+            new behavior(1.0, 10000, 0, false,
+            new EnemyAnchorBehavior(enemy_movement, stage, enemy, munch_man, new anchor_data() {
+                @Override public double getTurnAroundProbabilityPercentage() {return 0.3;}
+                @Override public Coordinates getStageCoords() {return enemy.getStageCoords();}
+                @Override public int getRadius() {return 8;}
+            }))
         );
     }
 }

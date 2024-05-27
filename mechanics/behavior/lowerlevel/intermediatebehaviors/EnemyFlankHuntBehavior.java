@@ -10,12 +10,14 @@ import mechanics.movement.EntityMovement;
 public class EnemyFlankHuntBehavior extends EnemyHuntBehavior
 {
     private double route_completion_pct = 0.2;
+    private double degrees = 0;
 
     public EnemyFlankHuntBehavior(EntityMovement enemy_movement, Stage stage, Enemy enemy, MunchMan munch_man,
     int direct_hunt_distance_units, int flank_radius_units, int flank_degrees)
     {
         super(enemy_movement, stage, enemy, munch_man,
         direct_hunt_distance_units, flank_radius_units, flank_degrees);
+        degrees = flank_degrees;
     }
 
     public EnemyFlankHuntBehavior(EntityMovement enemy_movement, Stage stage, Enemy enemy, MunchMan munch_man, flank_data flank)
@@ -38,7 +40,12 @@ public class EnemyFlankHuntBehavior extends EnemyHuntBehavior
 
     @Override
     public void executeBehavior()
-    {
+    {   
+        if(degrees == 180)
+        System.out.println("#1: 180");
+        else if(degrees == 0)
+        System.out.println("#2: 0");
+
         if(isEnemyRouteCompleted())
         {
             computeFlankHuntBehavior();
