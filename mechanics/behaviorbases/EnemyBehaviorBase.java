@@ -227,7 +227,6 @@ public class EnemyBehaviorBase extends MechanicBase implements EnemyBehaviorInte
     @Override
     public boolean isFinished() 
     {
-        System.out.println(MechanicScheduler.getElapsedMillis() - initial_scheduled_millis);
         return max_scheduled_millis != -1 && Math.abs(MechanicScheduler.getElapsedMillis() - initial_scheduled_millis) >= max_scheduled_millis
         || isBehaviorFinished(); 
     }

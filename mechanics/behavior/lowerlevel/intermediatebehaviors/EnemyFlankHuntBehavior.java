@@ -41,11 +41,6 @@ public class EnemyFlankHuntBehavior extends EnemyHuntBehavior
     @Override
     public void executeBehavior()
     {   
-        if(degrees == 180)
-        System.out.println("#1: 180");
-        else if(degrees == 0)
-        System.out.println("#2: 0");
-
         if(isEnemyRouteCompleted())
         {
             computeFlankHuntBehavior();

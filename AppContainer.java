@@ -2,6 +2,8 @@ import fundamentals.appbase.AppBase;
 import fundamentals.mechanic.InstantMechanic;
 import mechanics.PuppetMunchMan;
 import mechanics.behavior.EnemyRedBehavior;
+import mechanics.behavior.EnemyYellowBehavior;
+import mechanics.behavior.lowerlevel.advancedbehaviors.EnemyRetreatingWanderBehavior;
 import mechanics.movement.EntityMovement;
 import mechanics.stage.PlaceStageChain;
 //import mechanics.stage.PlaceStageChain;
@@ -28,8 +30,8 @@ public class AppContainer extends AppBase
     private MunchMan munch_man = new MunchMan(23, 15, 0);
     private MunchMan left_puppet_munch_man = new MunchMan(-1, -1, 0);
     private MunchMan right_puppet_munch_man = new MunchMan(-1, -1, 0);
-    private Enemy enemy_red = new Enemy(2, 1, ENEMY_DEF_SPEED, new Animation("enemy.png"), new Animation("enemy_blue.png"));
-    //private Enemy enemy_yellow = new Enemy(1, 30, ENEMY_DEF_SPEED, new Animation("enemy.png"));
+    private Enemy enemy_red = new Enemy(2, 1, ENEMY_DEF_SPEED, new Animation("red_enemy.png"), new Animation("enemy_blue.png"));
+    private Enemy enemy_yellow = new Enemy(1, 30, ENEMY_DEF_SPEED, new Animation("orange_enemy.png"));
     //private Enemy enemy_blue = new Enemy(42, 1, ENEMY_DEF_SPEED, new Animation("enemy.png"));
     //private Enemy enemy_pink = new Enemy(40, 30, ENEMY_DEF_SPEED, new Animation("enemy.png"));
 
@@ -37,8 +39,10 @@ public class AppContainer extends AppBase
     private PuppetMunchMan puppet_munch_man = new PuppetMunchMan(munch_man, left_puppet_munch_man, right_puppet_munch_man);
     private EntityMovement player_movement = new EntityMovement(stage, munch_man);
     private EntityMovement enemy_red_movement = new EntityMovement(stage, enemy_red);
+    private EntityMovement enemy_yellow_movement = new EntityMovement(stage, enemy_yellow);
 
     private EnemyRedBehavior enemy_red_behavior = new EnemyRedBehavior(enemy_red_movement, stage, enemy_red, munch_man);
+    private EnemyYellowBehavior enemy_yellow_behavior = new EnemyYellowBehavior(enemy_yellow_movement, stage, enemy_yellow, munch_man);
 
     private void configureButtonBindings() 
     {    
@@ -57,8 +61,10 @@ public class AppContainer extends AppBase
         //place_stage_chain.schedule();
         // Basic Enemy Mechanics:
         enemy_red_movement.enableDirectionalAnimations(false);
+        enemy_yellow_movement.enableDirectionalAnimations(false);
         // Enemy Behaviors:
-        enemy_red_behavior.schedule();
+        //enemy_red_behavior.schedule();
+        enemy_yellow_behavior.schedule();
     }
 
     public void periodic() 
