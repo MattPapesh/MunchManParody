@@ -63,7 +63,7 @@ public class AppContainer extends AppBase
         enemy_red_movement.enableDirectionalAnimations(false);
         enemy_yellow_movement.enableDirectionalAnimations(false);
         // Enemy Behaviors:
-        //enemy_red_behavior.schedule();
+        enemy_red_behavior.schedule();
         enemy_yellow_behavior.schedule();
     }
 

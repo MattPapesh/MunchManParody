@@ -67,7 +67,7 @@ public class EnemyRetreatBehavior extends EnemyBehaviorBase
             scheduling_trig = true; 
         }
 
-        return scheduling_trig && distance <= retreat_distance_units; // && GameMath.probability(retreat_probability_pct);
+        return scheduling_trig && distance <= retreat_distance_units && GameMath.probability(retreat_probability_pct);
     }
 
     @Override
