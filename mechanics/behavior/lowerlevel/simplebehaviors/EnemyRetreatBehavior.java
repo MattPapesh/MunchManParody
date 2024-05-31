@@ -15,6 +15,8 @@ public class EnemyRetreatBehavior extends EnemyBehaviorBase
     private int min_route_length = 10;
     private int max_route_length = 15;
     private boolean scheduling_trig = false; 
+    private boolean entered_munch_man_proximity = false;
+
     private int trig_retreat_distance_units = 0;
     private int retreat_distance_units = 0;
     private double retreat_probability_pct = 1.0;
@@ -64,11 +66,17 @@ public class EnemyRetreatBehavior extends EnemyBehaviorBase
         int delta_stage_y = getEnemyStageCoords().getY() - getMunchManStageCoords().getY();
         double distance = Math.pow(Math.pow(delta_stage_x, 2) + Math.pow(delta_stage_y, 2), 0.5);
         
-        if(!scheduling_trig && distance <= trig_retreat_distance_units) {
-            scheduling_trig = GameMath.probability(retreat_probability_pct);
+        if(!entered_munch_man_proximity && distance <= trig_retreat_distance_units) {
+            entered_munch_man_proximity = true;
+            scheduling_trig = (!scheduling_trig) ? GameMath.probability(retreat_probability_pct) : scheduled;
+        }
+        else if(entered_munch_man_proximity && scheduling_trig && distance > retreat_distance_units) {
+            //entered_munch_man_proximity = false;
+            //scheduling_trig = false;
         }
 
-        return scheduling_trig && distance < retreat_distance_units;
+        System.out.println(scheduling_trig);
+        return true;// && distance <= retreat_distance_units;
     }
 
     @Override
@@ -90,7 +98,6 @@ public class EnemyRetreatBehavior extends EnemyBehaviorBase
     @Override
     public void endBehavior(boolean interrupted)
     {
-        scheduling_trig = false; 
         setEnemyTarget(0, getEnemyStageCoords().getX(), getEnemyStageCoords().getY());
     }
 

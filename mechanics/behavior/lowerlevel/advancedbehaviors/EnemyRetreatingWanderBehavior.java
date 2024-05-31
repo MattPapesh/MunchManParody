@@ -18,11 +18,11 @@ public class EnemyRetreatingWanderBehavior extends EnemyBehaviorGroup
         super(enemy_movement, stage, enemy, munch_man);
         addBehaviors
         (
-            new behavior(1.0, 3000, 0,
+            new behavior(1.0, 3000, 0, true,
             new EnemyRetreatBehavior(enemy_movement, stage, enemy, munch_man, 
             retreat_prob_pct, trig_retreat_distance_units, retreat_distance_units)),
 
-            new behavior(1.0, 3000, 0,
+            new behavior(1.0, 3000, 0, false, 
             new EnemyAnchorBehavior(enemy_movement, stage, enemy, munch_man, new anchor_data() 
             {
                 @Override public double getTurnAroundProbabilityPercentage() {return turn_around_prob_pct;}
