@@ -66,10 +66,15 @@ public class GameMath
 			Coordinates[][] stage_tunnel_regions = Constants.STAGE_CHARACTERISTICS.STAGE_TUNNEL_REGIONS;
 			for(int current_tunnel_index = 0; current_tunnel_index < stage_tunnel_regions.length; current_tunnel_index++)
 			{
-				Coordinates initial_stage_coord = stage_tunnel_regions[current_tunnel_index][0];
-				Coordinates final_stage_coord = stage_tunnel_regions[current_tunnel_index][1];
-				if(coord.getX() >= initial_stage_coord.getX() && coord.getX() <= final_stage_coord.getX()
-				&& coord.getY() >= initial_stage_coord.getY() && coord.getY() <= final_stage_coord.getY())
+				Coordinates stage_coord_0 = stage_tunnel_regions[current_tunnel_index][0];
+				Coordinates stage_coord_1 = stage_tunnel_regions[current_tunnel_index][1];
+
+				int min_x = Math.min(stage_coord_0.getX(), stage_coord_1.getX());
+				int max_x = Math.max(stage_coord_0.getX(), stage_coord_1.getX());
+				int min_y = Math.min(stage_coord_0.getY(), stage_coord_1.getY());
+				int max_y = Math.max(stage_coord_0.getY(), stage_coord_1.getY());
+
+				if(coord.getX() >= min_x && coord.getX() <= max_x && coord.getY() >= min_y && coord.getY() <= max_y)
 				{
 					return true;
 				}

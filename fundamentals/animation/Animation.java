@@ -19,7 +19,6 @@ import java.awt.*;
 public class Animation 
 {
     private final String file_name;
-    private final BufferedImage original_image;
     private BufferedImage image = null;
     private BufferedImage parent_image = null;
 
@@ -42,7 +41,6 @@ public class Animation
     {
         this.file_name = file_name;
         image = getBufferedImage();
-        original_image = image;
     }
 
     public Animation(int img_x0, int img_y0, int img_x1, int img_y1, Animation parent_animation)
@@ -54,7 +52,6 @@ public class Animation
         this.img_y1 = img_y1;
         parent_image = parent_animation.getBufferedImage();
         image = parent_image.getSubimage(img_x0, img_y0, Math.abs(img_x1 - img_x0), Math.abs(img_y1 - img_y0));
-        original_image = image;
     }
 
     public Image getAnimation()

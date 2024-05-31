@@ -20,21 +20,21 @@ public class EnemyCowardiceFlankHuntBehavior extends EnemyBehaviorGroup
         super(enemy_movement, stage, enemy, munch_man);
         addBehaviors
         (
-            new behavior(1.0, 3000, 0, true,
+            new behavior(0.0, 3000, 0, 
             new EnemyRetreatBehavior(enemy_movement, stage, enemy, munch_man, 
             retreat_probability_pct, trig_retreat_distance_units, retreat_distance_units)),
 
-            new behavior(0.5, 3000, 0, false,
-            new EnemyFlankHuntBehavior(enemy_movement, stage, enemy, munch_man, 
-            direct_hunt_distance_units, flank_radius_units, flank_degrees)),
-
-            new behavior(1.0, 3000, 0, false, 
+            new behavior(0.5, 9000, 0, 
             new EnemyAnchorBehavior(enemy_movement, stage, enemy, munch_man, new anchor_data() 
             {
                 @Override public double getTurnAroundProbabilityPercentage() {return 0.3;}
                 @Override public Coordinates getStageCoords() {return enemy.getStageCoords();}
                 @Override public int getRadius() {return anchor_wandering_radius_units;}
-            }))    
+            })),
+
+            new behavior(1.0, 3000, 0, 
+            new EnemyFlankHuntBehavior(enemy_movement, stage, enemy, munch_man, 
+            direct_hunt_distance_units, flank_radius_units, flank_degrees))
         );
     }
 }

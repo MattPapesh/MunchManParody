@@ -11,7 +11,6 @@ import java.util.LinkedList;
 public class ControllerScheduler 
 {
     private static LinkedList<Controller> controllers = new LinkedList<Controller>();
-    private static int current_instance_index = 0;
 
     /**
      * Given that a Controller's Buttons' run() method must be continuously called in order to function, the GUIScheduler needs to be able to

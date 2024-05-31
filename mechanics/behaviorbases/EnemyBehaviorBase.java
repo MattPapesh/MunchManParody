@@ -8,7 +8,6 @@ import components.MunchMan;
 
 import components.Enemy;
 import fundamentals.Coordinates;
-import fundamentals.GameMath;
 
 public class EnemyBehaviorBase extends MechanicBase implements EnemyBehaviorInterface
 {

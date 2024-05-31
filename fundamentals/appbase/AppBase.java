@@ -5,6 +5,7 @@ import java.awt.Toolkit;
 import java.util.LinkedList;
 
 import javax.swing.JFrame;
+import java.util.concurrent.TimeUnit;
 
 import app.AppGraphics;
 import app.audio.AppAudio;
@@ -85,7 +86,7 @@ public class AppBase extends JFrame implements AppInterface
                 super.setSize((int)Toolkit.getDefaultToolkit().getScreenSize().getWidth(), 
                 (int)Toolkit.getDefaultToolkit().getScreenSize().getHeight());
                 appBasePeriodic();
-                Thread.sleep(Constants.WINDOW_CHARACTERISTICS.REFRESH_RATE_MILLIS);
+                TimeUnit.MICROSECONDS.sleep(Constants.WINDOW_CHARACTERISTICS.REFRESH_RATE_MICROS);
             }
             catch(InterruptedException e) {}
         }

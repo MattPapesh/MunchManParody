@@ -13,7 +13,6 @@ import fundamentals.mechanic.MechanicBase;
 public class Controller 
 {
     private final double CONTROLLER_ID = Math.random();
-    private int current_instance_index = 0;
     private boolean active = false;
 
     private LinkedList<Button> buttons = new LinkedList<Button>();

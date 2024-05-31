@@ -13,8 +13,7 @@ import fundamentals.Constants;
 public class MechanicScheduler 
 {
     private static LinkedList<MechanicBase> mechanics = new LinkedList<MechanicBase>();
-    private static int current_instance_index = 0;
-    private static int elapsed_millis = 0;
+    private static double elapsed_millis = 0;
 
     /**
      * @return The elapsed time in milliseconds since the first time the MechanicScheduler was called. (when the program began running!)
@@ -25,7 +24,7 @@ public class MechanicScheduler
      */
     public static int getElapsedMillis()
     {
-        return elapsed_millis;
+        return (int)elapsed_millis;
     }
 
     public static int getNumOfMechanics() 
@@ -75,7 +74,7 @@ public class MechanicScheduler
 
     public static void run()
     {
-        elapsed_millis += Constants.WINDOW_CHARACTERISTICS.REFRESH_RATE_MILLIS;   
+        elapsed_millis += (Constants.WINDOW_CHARACTERISTICS.REFRESH_RATE_MICROS / 1000.0);   
         for(int i = 0; i < mechanics.size(); i++) 
         {
             mechanics.get(i).run();

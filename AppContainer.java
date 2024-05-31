@@ -3,7 +3,6 @@ import fundamentals.mechanic.InstantMechanic;
 import mechanics.PuppetMunchMan;
 import mechanics.behavior.EnemyRedBehavior;
 import mechanics.behavior.EnemyYellowBehavior;
-import mechanics.behavior.lowerlevel.advancedbehaviors.EnemyRetreatingWanderBehavior;
 import mechanics.movement.EntityMovement;
 import mechanics.stage.PlaceStageChain;
 //import mechanics.stage.PlaceStageChain;
@@ -58,12 +57,12 @@ public class AppContainer extends AppBase
         // Basic Mechanics:
         player_movement.schedule();
         puppet_munch_man.schedule();
-        //place_stage_chain.schedule();
+        place_stage_chain.schedule();
         // Basic Enemy Mechanics:
         enemy_red_movement.enableDirectionalAnimations(false);
         enemy_yellow_movement.enableDirectionalAnimations(false);
         // Enemy Behaviors:
-        enemy_red_behavior.schedule();
+        //enemy_red_behavior.schedule();
         enemy_yellow_behavior.schedule();
     }
 

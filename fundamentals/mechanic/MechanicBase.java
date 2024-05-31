@@ -68,7 +68,7 @@ public class MechanicBase implements MechanicInterface
         {
             MechanicScheduler.registerMechanic(this);
         }
-        else if(!self_scheduling)
+        else
         {
             end(true);
             scheduled = false; 

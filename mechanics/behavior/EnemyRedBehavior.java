@@ -4,9 +4,6 @@ import components.Enemy;
 import components.MunchMan;
 import components.Stage;
 import fundamentals.Coordinates;
-import mechanics.behavior.lowerlevel.advancedbehaviors.EnemyCowardiceFlankHuntBehavior;
-import mechanics.behavior.lowerlevel.advancedbehaviors.EnemyFlankHuntingWander;
-import mechanics.behavior.lowerlevel.advancedbehaviors.EnemyRetreatingWanderBehavior;
 import mechanics.behavior.lowerlevel.intermediatebehaviors.EnemyFlankHuntBehavior;
 import mechanics.behavior.lowerlevel.simplebehaviors.EnemyAnchorBehavior;
 import mechanics.behavior.lowerlevel.simplebehaviors.EnemyAnchorBehavior.anchor_data;
@@ -19,15 +16,15 @@ public class EnemyRedBehavior extends EnemyBehaviorGroup
     {
         super(enemy_movement, stage, enemy, munch_man);
         addBehaviors(
-            new behavior(0.5, 5000, 5000, false,
+            new behavior(0.5, 5000, 5000, 
             new EnemyFlankHuntBehavior(enemy_movement, stage, enemy, munch_man, 
             7,5, 180)),
 
-            new behavior(0.5, 5000, 5000, false,
+            new behavior(0.5, 5000, 5000, 
             new EnemyFlankHuntBehavior(enemy_movement, stage, enemy, munch_man, 
             0, 0, 0)),
 
-            new behavior(1.0, 10000, 0, false,
+            new behavior(1.0, 10000, 0, 
             new EnemyAnchorBehavior(enemy_movement, stage, enemy, munch_man, new anchor_data() {
                 @Override public double getTurnAroundProbabilityPercentage() {return 0.3;}
                 @Override public Coordinates getStageCoords() {return enemy.getStageCoords();}

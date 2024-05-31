@@ -63,11 +63,12 @@ public class EnemyRetreatBehavior extends EnemyBehaviorBase
         int delta_stage_x = getEnemyStageCoords().getX() - getMunchManStageCoords().getX();
         int delta_stage_y = getEnemyStageCoords().getY() - getMunchManStageCoords().getY();
         double distance = Math.pow(Math.pow(delta_stage_x, 2) + Math.pow(delta_stage_y, 2), 0.5);
+        
         if(!scheduling_trig && distance <= trig_retreat_distance_units) {
-            scheduling_trig = true; 
+            scheduling_trig = GameMath.probability(retreat_probability_pct);
         }
 
-        return scheduling_trig && distance <= retreat_distance_units && GameMath.probability(retreat_probability_pct);
+        return scheduling_trig && distance < retreat_distance_units;
     }
 
     @Override
@@ -79,7 +80,7 @@ public class EnemyRetreatBehavior extends EnemyBehaviorBase
     @Override
     public void executeBehavior()
     {
-        System.out.println("EnemyRetreat!");
+        System.out.println("Retreat!");
         if(isEnemyRouteCompleted())
         {
             computeRetreatBehavior();

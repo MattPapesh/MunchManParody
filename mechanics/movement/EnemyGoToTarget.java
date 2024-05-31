@@ -8,7 +8,6 @@ import components.Enemy;
 import components.Stage;
 import fundamentals.Coordinates;
 import fundamentals.GameMath;
-import mechanics.behavior.lowerlevel.simplebehaviors.EnemyRetreatBehavior;
 
 public class EnemyGoToTarget extends EnemyPredeterminedRoute
 {
