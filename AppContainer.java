@@ -3,6 +3,7 @@ import fundamentals.mechanic.InstantMechanic;
 import mechanics.PuppetMunchMan;
 import mechanics.behavior.EnemyRedBehavior;
 import mechanics.behavior.EnemyYellowBehavior;
+import mechanics.behavior.lowerlevel.advancedbehaviors.EnemyCowardiceFlankHuntBehavior;
 import mechanics.movement.EntityMovement;
 import mechanics.stage.PlaceStageChain;
 //import mechanics.stage.PlaceStageChain;
@@ -62,7 +63,7 @@ public class AppContainer extends AppBase
         enemy_red_movement.enableDirectionalAnimations(false);
         enemy_yellow_movement.enableDirectionalAnimations(false);
         // Enemy Behaviors:
-        //enemy_red_behavior.schedule();
+        enemy_red_behavior.schedule();
         enemy_yellow_behavior.schedule();
     }
 

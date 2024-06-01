@@ -112,6 +112,15 @@ public class EnemyBehaviorBase extends MechanicBase implements EnemyBehaviorInte
         return null;
     }
 
+    private String name = "";
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getName() {
+        return name;
+    }
+
     public boolean getCurrentEnemyRouteTurnAroundStatus()
     {
         if(enemy_targeting != null)

@@ -39,7 +39,6 @@ public class EnemyFlankHuntBehavior extends EnemyHuntBehavior
     @Override
     public void executeBehavior()
     {   
-        System.out.println(("Flank!"));
         if(isEnemyRouteCompleted())
         {
             computeFlankHuntBehavior();

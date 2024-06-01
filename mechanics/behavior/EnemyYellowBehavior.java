@@ -13,11 +13,11 @@ public class EnemyYellowBehavior extends EnemyBehaviorGroup
     {
         super(enemy_movement, stage, enemy, munch_man);
         addBehaviors(
-            new behavior(1.0, 5000, 0000, false, 
+            new behavior(1.0, -1, -1, false, 
             new EnemyCowardiceFlankHuntBehavior(enemy_movement, stage, enemy, munch_man, 
             7, 3, 
-            0, 1.0, 4, 
-            20, 10))
+            0, 0.8, 4, 
+            25, 10))
         );
     }
 }

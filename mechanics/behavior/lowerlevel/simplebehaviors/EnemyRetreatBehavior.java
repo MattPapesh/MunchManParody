@@ -3,6 +3,7 @@ package mechanics.behavior.lowerlevel.simplebehaviors;
 import components.Enemy;
 import components.MunchMan;
 import components.Stage;
+import fundamentals.Coordinates;
 import fundamentals.GameMath;
 import mechanics.behaviorbases.EnemyBehaviorBase;
 import mechanics.movement.EntityMovement;
@@ -20,6 +21,10 @@ public class EnemyRetreatBehavior extends EnemyBehaviorBase
     private int trig_retreat_distance_units = 0;
     private int retreat_distance_units = 0;
     private double retreat_probability_pct = 1.0;
+    
+    private double distance = 0;
+    private Coordinates prev_stage_coords = null;
+    private Coordinates current_stage_coords = null;
 
     public EnemyRetreatBehavior(EntityMovement enemy_movement, Stage stage, Enemy enemy, MunchMan munch_man,
     double retreat_probability_pct, int trig_retreat_distance_units, int retreat_distance_units)
@@ -62,33 +67,41 @@ public class EnemyRetreatBehavior extends EnemyBehaviorBase
     @Override
     public boolean isSelfSchedulingConditionsMet()
     {
-        int delta_stage_x = getEnemyStageCoords().getX() - getMunchManStageCoords().getX();
-        int delta_stage_y = getEnemyStageCoords().getY() - getMunchManStageCoords().getY();
-        double distance = Math.pow(Math.pow(delta_stage_x, 2) + Math.pow(delta_stage_y, 2), 0.5);
-        
-        if(!entered_munch_man_proximity && distance <= trig_retreat_distance_units) {
+        int delta_x = getEnemyStageCoords().getX() - getMunchManStageCoords().getX();
+        int delta_y = getEnemyStageCoords().getY() - getMunchManStageCoords().getY();
+        double abs_distance = Math.pow(Math.pow(delta_x, 2) + Math.pow(delta_y, 2), 0.5);
+
+        if(!entered_munch_man_proximity && abs_distance <= trig_retreat_distance_units) {
+            distance = 0;
             entered_munch_man_proximity = true;
-            scheduling_trig = (!scheduling_trig) ? GameMath.probability(retreat_probability_pct) : scheduled;
+            scheduling_trig = GameMath.probability(retreat_probability_pct);
         }
-        else if(entered_munch_man_proximity && scheduling_trig && distance > retreat_distance_units) {
-            //entered_munch_man_proximity = false;
-            //scheduling_trig = false;
+        else if(distance > retreat_distance_units) {
+            entered_munch_man_proximity = false;
+            scheduling_trig = false;
         }
 
-        System.out.println(scheduling_trig);
-        return true;// && distance <= retreat_distance_units;
+        return scheduling_trig;
     }
 
     @Override
     public void initializeBehavior()
     {
+        prev_stage_coords = getEnemyStageCoords();
+        current_stage_coords = getEnemyStageCoords();
         computeRetreatBehavior();
     }
 
     @Override
     public void executeBehavior()
     {
-        System.out.println("Retreat!");
+        prev_stage_coords = current_stage_coords;
+        current_stage_coords = getEnemyStageCoords(); 
+        
+        int delta_x = current_stage_coords.getX() - prev_stage_coords.getX();
+        int delta_y = current_stage_coords.getY() - prev_stage_coords.getY();
+        distance += Math.pow(Math.pow(delta_x, 2) + Math.pow(delta_y, 2), 0.5);
+
         if(isEnemyRouteCompleted())
         {
             computeRetreatBehavior();

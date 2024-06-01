@@ -75,7 +75,8 @@ public class EnemyBehaviorGroup extends EnemyBehaviorBase
     @Override
     public void executeBehavior()
     {
-        if(overrider != null && !overrider.get().isSelfScheduling() && overrider.get().isSelfSchedulingConditionsMet() && !overrider.get().isScheduled())
+        if(overrider != null && !overrider.get().isSelfScheduling() 
+        && overrider.get().isSelfSchedulingConditionsMet())
         {
             overrider.get().setSelfScheduling(true);
             if(scheduled_behavior_index != -1) 
@@ -84,7 +85,8 @@ public class EnemyBehaviorGroup extends EnemyBehaviorBase
                 scheduled_behavior_index = -1;
             }
         }
-        else if(overrider != null && overrider.get().isSelfScheduling() && !overrider.get().isSelfSchedulingConditionsMet() && overrider.get().isScheduled())
+        else if(overrider != null && overrider.get().isSelfScheduling() 
+        && !overrider.get().isSelfSchedulingConditionsMet())
         {
             overrider.get().setSelfScheduling(false);
         }
@@ -92,8 +94,8 @@ public class EnemyBehaviorGroup extends EnemyBehaviorBase
         for(int i = 0; i < behaviors.size() && (overrider == null || !overrider.get().isSelfScheduling()); i++)
         {
             if(behaviors.get(i).get().isSelfSchedulingConditionsMet() 
-            && !behaviors.get(i).get().isSelfScheduling() && !behaviors.get(i).get().isScheduled()
-            && scheduled_behavior_index != -1 && i != scheduled_behavior_index
+            && !behaviors.get(i).get().isSelfScheduling() 
+            && scheduled_behavior_index != -1 && scheduled_behavior_index != i
             && !behaviors.get(scheduled_behavior_index).get().isScheduled())
             {
                 behaviors.get(scheduled_behavior_index).get().setSelfScheduling(false);
@@ -102,7 +104,7 @@ public class EnemyBehaviorGroup extends EnemyBehaviorBase
                 break;
             }
             else if(behaviors.get(i).get().isSelfSchedulingConditionsMet() 
-            && !behaviors.get(i).get().isSelfScheduling() && !behaviors.get(i).get().isScheduled()
+            && !behaviors.get(i).get().isSelfScheduling() 
             && scheduled_behavior_index == -1)
             {
                 behaviors.get(i).get().setSelfScheduling(true);
