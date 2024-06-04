@@ -4,8 +4,8 @@ import components.Enemy;
 import components.MunchMan;
 import components.Stage;
 import fundamentals.Coordinates;
-import mechanics.behavior.lowerlevel.intermediatebehaviors.EnemyFlankHuntBehavior;
 import mechanics.behavior.lowerlevel.simplebehaviors.EnemyAnchorBehavior;
+import mechanics.behavior.lowerlevel.simplebehaviors.EnemyFlankHuntBehavior;
 import mechanics.behavior.lowerlevel.simplebehaviors.EnemyAnchorBehavior.anchor_data;
 import mechanics.behaviorbases.EnemyBehaviorGroup;
 import mechanics.movement.EntityMovement;
@@ -15,7 +15,8 @@ public class EnemyRedBehavior extends EnemyBehaviorGroup
     public EnemyRedBehavior(EntityMovement enemy_movement, Stage stage, Enemy enemy, MunchMan munch_man)
     {
         super(enemy_movement, stage, enemy, munch_man);
-        addBehaviors(
+        addBehaviors
+        (
             new behavior(0.5, 5000, 5000, false,
             new EnemyFlankHuntBehavior(enemy_movement, stage, enemy, munch_man, 
             7,5, 180)),

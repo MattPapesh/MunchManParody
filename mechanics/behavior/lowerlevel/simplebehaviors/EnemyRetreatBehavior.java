@@ -23,8 +23,8 @@ public class EnemyRetreatBehavior extends EnemyBehaviorBase
     private double retreat_probability_pct = 1.0;
     
     private double distance = 0;
-    private Coordinates prev_stage_coords = null;
-    private Coordinates current_stage_coords = null;
+    private Coordinates prev_coords = null;
+    private Coordinates current_coords = null;
 
     public EnemyRetreatBehavior(EntityMovement enemy_movement, Stage stage, Enemy enemy, MunchMan munch_man,
     double retreat_probability_pct, int trig_retreat_distance_units, int retreat_distance_units)
@@ -38,30 +38,30 @@ public class EnemyRetreatBehavior extends EnemyBehaviorBase
 
     private void computeRetreatBehavior()
     {
-        int enemy_stage_x = getEnemyStageCoords().getX();
-        int enemy_stage_y = getEnemyStageCoords().getY();
-        int munch_man_stage_x = getMunchManStageCoords().getX();
-        int munch_man_stage_y = getMunchManStageCoords().getY();
+        int enemy_x = getEnemyStageCoords().getX();
+        int enemy_y = getEnemyStageCoords().getY();
+        int munch_man_x = getMunchManStageCoords().getX();
+        int munch_man_y = getMunchManStageCoords().getY();
 
-        int delta_stage_x = retreat_coord_length * ((enemy_stage_x < munch_man_stage_x) ? -1 : 1);
-        int delta_stage_y = retreat_coord_length * ((enemy_stage_y < munch_man_stage_y) ? -1 : 1);
-        boolean x_out_of_bounds = enemy_stage_x + delta_stage_x < 0 || enemy_stage_x + delta_stage_x >= stage_data[0].length;
-        boolean y_out_of_bounds = enemy_stage_y + delta_stage_y < 0 || enemy_stage_y + delta_stage_y >= stage_data.length;
+        int delta_x = retreat_coord_length * ((enemy_x < munch_man_x) ? -1 : 1);
+        int delta_y = retreat_coord_length * ((enemy_y < munch_man_y) ? -1 : 1);
+        boolean x_out_of_bounds = enemy_x + delta_x < 0 || enemy_x + delta_x >= stage_data[0].length;
+        boolean y_out_of_bounds = enemy_y + delta_y < 0 || enemy_y + delta_y >= stage_data.length;
 
-        delta_stage_x *= ( ((x_out_of_bounds) ? -1 : 1));
-        delta_stage_y *= ( ((y_out_of_bounds) ? -1 : 1));
+        delta_x *= ( ((x_out_of_bounds) ? -1 : 1));
+        delta_y *= ( ((y_out_of_bounds) ? -1 : 1));
 
-        int stage_x = enemy_stage_x + delta_stage_x;
-        int stage_y = enemy_stage_y + delta_stage_y;
-        int route_length = getRouteLength(stage_x, stage_y, getCurrentEnemyRouteTurnAroundStatus());
+        int x = enemy_x + delta_x;
+        int y = enemy_y + delta_y;
+        int route_length = getRouteLength(x, y, getCurrentEnemyRouteTurnAroundStatus());
 
-        stage_x = (route_length > max_route_length) ? stage_x - delta_stage_x + 1 : ((route_length < min_route_length) ? stage_x + delta_stage_x : stage_x);
-        stage_y = (route_length > max_route_length) ? stage_y - delta_stage_y + 1 : ((route_length < min_route_length) ? stage_y + delta_stage_y : stage_y);
+        x = (route_length > max_route_length) ? x - delta_x + 1 : ((route_length < min_route_length) ? x + delta_x : x);
+        y = (route_length > max_route_length) ? y - delta_y + 1 : ((route_length < min_route_length) ? y + delta_y : y);
 
-        stage_x = Math.max(Math.min(stage_x, stage_data[0].length - 1), 0);
-        stage_y = Math.max(Math.min(stage_y, stage_data.length - 1), 0);
+        x = Math.max(Math.min(x, stage_data[0].length - 1), 0);
+        y = Math.max(Math.min(y, stage_data.length - 1), 0);
 
-        setEnemyTarget(route_completion_pct, stage_x, stage_y);   
+        setEnemyTarget(route_completion_pct, x, y);   
     }
 
     @Override
@@ -87,19 +87,19 @@ public class EnemyRetreatBehavior extends EnemyBehaviorBase
     @Override
     public void initializeBehavior()
     {
-        prev_stage_coords = getEnemyStageCoords();
-        current_stage_coords = getEnemyStageCoords();
+        prev_coords = getEnemyStageCoords();
+        current_coords = getEnemyStageCoords();
         computeRetreatBehavior();
     }
 
     @Override
     public void executeBehavior()
     {
-        prev_stage_coords = current_stage_coords;
-        current_stage_coords = getEnemyStageCoords(); 
+        prev_coords = current_coords;
+        current_coords = getEnemyStageCoords(); 
         
-        int delta_x = current_stage_coords.getX() - prev_stage_coords.getX();
-        int delta_y = current_stage_coords.getY() - prev_stage_coords.getY();
+        int delta_x = current_coords.getX() - prev_coords.getX();
+        int delta_y = current_coords.getY() - prev_coords.getY();
         distance += Math.pow(Math.pow(delta_x, 2) + Math.pow(delta_y, 2), 0.5);
 
         if(isEnemyRouteCompleted())

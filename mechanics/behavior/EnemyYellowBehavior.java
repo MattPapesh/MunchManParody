@@ -12,7 +12,8 @@ public class EnemyYellowBehavior extends EnemyBehaviorGroup
     public EnemyYellowBehavior(EntityMovement enemy_movement, Stage stage, Enemy enemy, MunchMan munch_man)
     {
         super(enemy_movement, stage, enemy, munch_man);
-        addBehaviors(
+        addBehaviors
+        (
             new behavior(1.0, -1, -1, false, 
             new EnemyCowardiceFlankHuntBehavior(enemy_movement, stage, enemy, munch_man, 
             7, 3, 

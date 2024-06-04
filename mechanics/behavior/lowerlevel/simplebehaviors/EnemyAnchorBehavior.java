@@ -45,22 +45,22 @@ public class EnemyAnchorBehavior extends EnemyBehaviorBase
     {
         while(true)
         {
-            double stage_x = (2.0 * (Math.random() - 0.5) * (double)radius_units) + anchor_stage_x;
-            double phi = Math.pow(radius_units, 2) - Math.pow(stage_x - anchor_stage_x, 2);
-            double stage_y = (2.0 * (Math.random() - 0.5) * Math.pow(phi, 0.5)) + anchor_stage_y;
+            double x = (2.0 * (Math.random() - 0.5) * (double)radius_units) + anchor_stage_x;
+            double phi = Math.pow(radius_units, 2) - Math.pow(x - anchor_stage_x, 2);
+            double y = (2.0 * (Math.random() - 0.5) * Math.pow(phi, 0.5)) + anchor_stage_y;
             
-            if((int)stage_x >= 0 && (int)stage_x < stage_data[0].length
-            && (int)stage_y >= 0 && (int)stage_y < stage_data.length)
+            if((int)x >= 0 && (int)x < stage_data[0].length
+            && (int)y >= 0 && (int)y < stage_data.length)
             {
-                return new Coordinates((int)stage_x, (int)stage_y, 0);
+                return new Coordinates((int)x, (int)y, 0);
             }
         }
     }
 
     private void computeAnchorBehavior()
     {
-        Coordinates anchored_stage_coords = getRandomStageCoords(anchor.getStageCoords().getX(), anchor.getStageCoords().getY(), anchor.getRadius());
-        setEnemyTarget(route_completion_pct, anchor.getTurnAroundProbabilityPercentage(), anchored_stage_coords.getX(), anchored_stage_coords.getY());
+        Coordinates enemy_coords = getRandomStageCoords(anchor.getStageCoords().getX(), anchor.getStageCoords().getY(), anchor.getRadius());
+        setEnemyTarget(route_completion_pct, anchor.getTurnAroundProbabilityPercentage(), enemy_coords.getX(), enemy_coords.getY());
     }
 
     @Override

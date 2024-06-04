@@ -4,8 +4,8 @@ import components.Enemy;
 import components.MunchMan;
 import components.Stage;
 import fundamentals.Coordinates;
-import mechanics.behavior.lowerlevel.intermediatebehaviors.EnemyFlankHuntBehavior;
 import mechanics.behavior.lowerlevel.simplebehaviors.EnemyAnchorBehavior;
+import mechanics.behavior.lowerlevel.simplebehaviors.EnemyFlankHuntBehavior;
 import mechanics.behaviorbases.EnemyBehaviorGroup;
 import mechanics.movement.EntityMovement;
 

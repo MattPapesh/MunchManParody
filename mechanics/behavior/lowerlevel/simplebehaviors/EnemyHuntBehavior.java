@@ -44,21 +44,21 @@ public class EnemyHuntBehavior extends EnemyBehaviorBase
 
     protected Coordinates getComputedHuntEnemyStageCoords()
     {
-        Coordinates delta_stage_coords = GameMath.getRadialDisplacement(flank.getFlankRadius(), getMunchManStageCoords().getDegrees() + flank.getFlankDegrees());
-        int stage_x = Math.max(Math.min(getMunchManStageCoords().getX() + delta_stage_coords.getX(), stage_data[0].length - 1), 0);
-        int stage_y = Math.max(Math.min(getMunchManStageCoords().getY() - delta_stage_coords.getY(), stage_data.length - 1), 0);
+        Coordinates delta_coords = GameMath.getRadialDisplacement(flank.getFlankRadius(), getMunchManStageCoords().getDegrees() + flank.getFlankDegrees());
+        int x = Math.max(Math.min(getMunchManStageCoords().getX() + delta_coords.getX(), stage_data[0].length - 1), 0);
+        int y = Math.max(Math.min(getMunchManStageCoords().getY() - delta_coords.getY(), stage_data.length - 1), 0);
         double calc_direct_hunt_distance_units = Math.pow(Math.pow(getEnemyStageCoords().getX() - getMunchManStageCoords().getX(), 2) + 
         Math.pow(getEnemyStageCoords().getY() - getMunchManStageCoords().getY(), 2), 0.5);
-        stage_x = (calc_direct_hunt_distance_units > flank.getDirectHuntDistanceUnits()) ? stage_x : getMunchManStageCoords().getX();
-        stage_y = (calc_direct_hunt_distance_units > flank.getDirectHuntDistanceUnits()) ? stage_y : getMunchManStageCoords().getY();
+        x = (calc_direct_hunt_distance_units > flank.getDirectHuntDistanceUnits()) ? x : getMunchManStageCoords().getX();
+        y = (calc_direct_hunt_distance_units > flank.getDirectHuntDistanceUnits()) ? y : getMunchManStageCoords().getY();
         
-        return new Coordinates(stage_x, stage_y, 0);
+        return new Coordinates(x, y, 0);
     }
 
     private void computeHuntBehavior()
     {
-        Coordinates computed_stage_coords = getComputedHuntEnemyStageCoords();
-        setEnemyTarget(route_completion_pct, computed_stage_coords.getX(), computed_stage_coords.getY());
+        Coordinates enemy_coords = getComputedHuntEnemyStageCoords();
+        setEnemyTarget(route_completion_pct, enemy_coords.getX(), enemy_coords.getY());
     }
 
     @Override

@@ -1,15 +1,14 @@
-package mechanics.behavior.lowerlevel.intermediatebehaviors;
+package mechanics.behavior.lowerlevel.simplebehaviors;
 
 import components.Enemy;
 import components.MunchMan;
 import components.Stage;
 import fundamentals.Coordinates;
-import mechanics.behavior.lowerlevel.simplebehaviors.EnemyHuntBehavior;
 import mechanics.movement.EntityMovement;
 
 public class EnemyFlankHuntBehavior extends EnemyHuntBehavior
 {
-    private Coordinates computed_stage_coords = new Coordinates(0, 0, 0);
+    private Coordinates enemy_coords = new Coordinates(0, 0, 0);
     private double route_completion_pct = 0.2;
 
     public EnemyFlankHuntBehavior(EntityMovement enemy_movement, Stage stage, Enemy enemy, MunchMan munch_man,
@@ -26,8 +25,8 @@ public class EnemyFlankHuntBehavior extends EnemyHuntBehavior
 
     private void computeFlankHuntBehavior()
     {
-        computed_stage_coords = getComputedHuntEnemyStageCoords();
-        setEnemyTarget(route_completion_pct, -1.0, computed_stage_coords.getX(), computed_stage_coords.getY(), getMunchManStageCoords());
+        enemy_coords = getComputedHuntEnemyStageCoords();
+        setEnemyTarget(route_completion_pct, -1.0, enemy_coords.getX(), enemy_coords.getY(), getMunchManStageCoords());
     }
 
     @Override
