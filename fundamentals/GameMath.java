@@ -4,6 +4,11 @@ import java.util.LinkedList;
 
 public class GameMath
 {
+	public static double getDistance(double x0, double y0, double x1, double y1)
+	{
+		return Math.pow(Math.pow(x1 - x0, 2.0) + Math.pow(y1 - y0, 2.0), 0.5);
+	}
+
     public static boolean isCoordsEqual(Coordinates primary, Coordinates secondary)
     {
         return primary != null && secondary != null 

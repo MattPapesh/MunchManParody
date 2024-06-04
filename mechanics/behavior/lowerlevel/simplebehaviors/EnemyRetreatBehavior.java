@@ -48,8 +48,8 @@ public class EnemyRetreatBehavior extends EnemyBehaviorBase
         boolean x_out_of_bounds = enemy_x + delta_x < 0 || enemy_x + delta_x >= stage_data[0].length;
         boolean y_out_of_bounds = enemy_y + delta_y < 0 || enemy_y + delta_y >= stage_data.length;
 
-        delta_x *= ( ((x_out_of_bounds) ? -1 : 1));
-        delta_y *= ( ((y_out_of_bounds) ? -1 : 1));
+        delta_x *= (((x_out_of_bounds) ? -1 : 1));
+        delta_y *= (((y_out_of_bounds) ? -1 : 1));
 
         int x = enemy_x + delta_x;
         int y = enemy_y + delta_y;

@@ -41,6 +41,17 @@ public class EnemyAnchorBehavior extends EnemyBehaviorBase
         this.anchor = anchor;
     }   
 
+    public EnemyAnchorBehavior(EntityMovement enemy_movement, Stage stage,  Enemy enemy, MunchMan munch_man)
+    {
+        super(enemy_movement, stage, enemy, munch_man);
+        stage_data = stage.getStageData().clone();
+    }   
+
+    public void setAnchor(anchor_data anchor)
+    {
+        this.anchor = anchor;
+    }
+
     private Coordinates getRandomStageCoords(int anchor_stage_x, int anchor_stage_y, int radius_units)
     {
         while(true)
@@ -57,7 +68,7 @@ public class EnemyAnchorBehavior extends EnemyBehaviorBase
         }
     }
 
-    private void computeAnchorBehavior()
+    protected void computeAnchorBehavior()
     {
         Coordinates enemy_coords = getRandomStageCoords(anchor.getStageCoords().getX(), anchor.getStageCoords().getY(), anchor.getRadius());
         setEnemyTarget(route_completion_pct, anchor.getTurnAroundProbabilityPercentage(), enemy_coords.getX(), enemy_coords.getY());
