@@ -1,9 +1,13 @@
-package org.hid4java.examples;
+package org.hid4java;
 
 import java.util.BitSet;
 
-import org.hid4java.*;
+import org.hid4java.event.HidDevice;
+import org.hid4java.event.HidManager;
+import org.hid4java.event.HidServices;
 import org.hid4java.event.HidServicesEvent;
+import org.hid4java.event.HidServicesListener;
+import org.hid4java.event.HidServicesSpecification;
 import org.hid4java.fundamentals.GameMath;
 
 public class NESMain {

@@ -25,9 +25,6 @@
 
 package org.hid4java.event;
 
-import org.hid4java.HidDevice;
-import org.hid4java.HidServicesListener;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;

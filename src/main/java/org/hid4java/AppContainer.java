@@ -1,4 +1,4 @@
-package org.hid4java.examples;
+package org.hid4java;
 
 import org.hid4java.fundamentals.appbase.AppBase;
 import org.hid4java.fundamentals.mechanic.InstantMechanic;

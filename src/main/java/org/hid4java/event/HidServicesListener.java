@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2014-2016 Gary Rowe
+ * Copyright (c) 2014-2015 Gary Rowe
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,33 +23,45 @@
  *
  */
 
-package org.hid4java;
+package org.hid4java.event;
+
+import java.util.EventListener;
 
 /**
- * Provide a collection of different device enumeration scanning modes so that
- * device attach/detach events can be generated.
+ * Interface to provide the following to API consumers:
+ * <ul>
+ * <li>Notification of a HID event</li>
+ * </ul>
+ *
+ * @since 0.0.1
  */
-public enum ScanMode {
+public interface HidServicesListener extends EventListener {
+  /**
+   * A HID was attached
+   *
+   * @param event The event
+   */
+  void hidDeviceAttached(HidServicesEvent event);
 
   /**
-   * Equivalent to scan interval of zero.
-   */
-  NO_SCAN,
-  /**
-   * Trigger continuous scan at given interval.
-   */
-  SCAN_AT_FIXED_INTERVAL,
-  /**
-   * Trigger continuous scan at given interval but introduce a pause after a write
-   * operation to allow the device time to process data without having to respond
-   * to further enumeration requests.
+   * A HID was detached
    *
-   * This can be a useful strategy for handling devices with constrained processing
-   * power and/or limited USB stacks.
-   *
-   * Note this will affect the time to generate a device attach/detach event since
-   * scanning will be paused.
+   * @param event The event
    */
-  SCAN_AT_FIXED_INTERVAL_WITH_PAUSE_AFTER_WRITE,
+  void hidDeviceDetached(HidServicesEvent event);
+
+  /**
+   * A HID failure occurred (enumeration, data transfer etc)
+   *
+   * @param event The event
+   */
+  void hidFailure(HidServicesEvent event);
+
+  /**
+   * A HID input data buffer was populated
+   *
+   * @param event The event
+   */
+  void hidDataReceived(HidServicesEvent event);
 
 }

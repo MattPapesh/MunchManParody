@@ -1,4 +1,4 @@
-package org.hid4java.examples;
+package org.hid4java;
 
 public class Main
 {

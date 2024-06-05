@@ -23,9 +23,8 @@
  *
  */
 
-package org.hid4java;
+package org.hid4java.event;
 
-import org.hid4java.event.HidServicesListenerList;
 import org.hid4java.jna.HidApi;
 
 import java.io.IOException;

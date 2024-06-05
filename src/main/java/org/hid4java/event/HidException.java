@@ -23,7 +23,7 @@
  *
  */
 
-package org.hid4java;
+package org.hid4java.event;
 
 /**
  * Caught exception to provide the following to API consumers:

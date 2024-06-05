@@ -25,8 +25,6 @@
 
 package org.hid4java.event;
 
-import org.hid4java.HidDevice;
-
 import java.util.Arrays;
 
 

@@ -23,7 +23,7 @@
  *
  */
 
-package org.hid4java;
+package org.hid4java.event;
 
 /**
  * Factory to provide the following to API consumers:

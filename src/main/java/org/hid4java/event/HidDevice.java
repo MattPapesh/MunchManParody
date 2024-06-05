@@ -23,7 +23,7 @@
  *
  */
 
-package org.hid4java;
+package org.hid4java.event;
 
 import org.hid4java.jna.HidApi;
 import org.hid4java.jna.HidDeviceInfoStructure;
