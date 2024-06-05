@@ -1,9 +1,24 @@
 package org.hid4java.fundamentals;
 
+import java.util.BitSet;
 import java.util.LinkedList;
 
 public class GameMath
 {
+	public static BitSet getBinary(int register, int size) {
+        BitSet binary = new BitSet(size);
+        register = Math.abs(register);
+        for(int i = size - 1; i >= 0 && register > 0; i--) {
+            int value = (int)Math.pow(2, i);
+            if(value <= register) {
+                register -= value;
+                binary.set(size - i - 1);
+            }
+        }
+
+        return binary;
+    }
+
 	public static double getDistance(double x0, double y0, double x1, double y1)
 	{
 		return Math.pow(Math.pow(x1 - x0, 2.0) + Math.pow(y1 - y0, 2.0), 0.5);
