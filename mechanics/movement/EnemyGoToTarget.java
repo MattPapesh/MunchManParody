@@ -3,7 +3,6 @@ package mechanics.movement;
 import java.util.LinkedList;
 import java.util.NoSuchElementException;
 
-import components.Dot;
 import components.Enemy;
 import components.Stage;
 import fundamentals.Coordinates;
@@ -162,7 +161,6 @@ public class EnemyGoToTarget extends EnemyPredeterminedRoute
         {
             delta_path_x = route.get(i).getX() - route.get(i - 1).getX();
             delta_path_y = route.get(i).getY() - route.get(i - 1).getY();
-            //dots.addLast(new Dot(route.get(i).getX(), route.get(i).getY()));
             addRelativePath(delta_path_x, delta_path_y);
         }
 
@@ -312,24 +310,6 @@ public class EnemyGoToTarget extends EnemyPredeterminedRoute
         return (double)getCurrentPathIndexScheduled() / (double)getNumOfPaths();
     }
 
-    void printPaths(String prompt, LinkedList<Coordinates> route, int initial_index, int num_of_paths)
-    {
-        String output = prompt + ": { ";
-        if(route.isEmpty() || initial_index < 0 || initial_index >= route.size())
-        {
-            System.out.println(prompt + ": NA");
-            return;
-        }
-
-        for(int i = initial_index; i < route.size() && i - initial_index < num_of_paths; i++)
-        {
-            output = output + "(" + route.get(i).getX() + ", " + route.get(i).getY() + ")";
-            output = (i < route.size() - 1 && i - initial_index < num_of_paths - 1) ? output + ", " : output + " }";
-        }
-
-        System.out.println(output);
-    }
-
     @Override
     public void initialize()
     {
@@ -340,7 +320,6 @@ public class EnemyGoToTarget extends EnemyPredeterminedRoute
         
         LinkedList<Coordinates> current_route = computeRoute(target_stage_coords.getX(), target_stage_coords.getY());
         enemy.setRoute(current_route);
-        //printPaths("[START] Route Trav", current_route, 0, 3);
         sequentialMechanicGroupInitialize();
     }
 
@@ -356,11 +335,6 @@ public class EnemyGoToTarget extends EnemyPredeterminedRoute
         }
 
         enemy.setRoute(route_traveled);
-        //printPaths("[ENDED] Route Trav", route_traveled, route_traveled.size() - 3, 3);
-        /*for(int i = 0; i < dots.size(); i++)
-        {
-            dots.get(i).delete();
-        }*/
     }
  
     @Override

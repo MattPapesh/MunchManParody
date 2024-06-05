@@ -25,6 +25,10 @@ public class EntityMovement extends MechanicBase
     private double prev_delta_x = 0;
     private double prev_delta_y = 0;
 
+    // Decimal speeds in interval range [0.0, 1.0] that updates integer speed by one when these speeds
+    // exceed their +1 upper limit; they then reset to zero. 
+    private double dec_speed_x = 0, dec_speed_y = 0;
+
     public EntityMovement() {}
 
     /**
@@ -115,23 +119,21 @@ public class EntityMovement extends MechanicBase
         entity.setStageCoords(current_stage_coords.getX(), current_stage_coords.getY(), current_stage_coords.getDegrees());
     }
 
-    private double speed_x = 0, speed_y = 0;
-
     private void collisionalMovement()
     {  
         is_movement_obstructed = false;
         prev_gran_stage_coords.setCoordinates(current_gran_stage_coords.getX(), current_gran_stage_coords.getY(), current_gran_stage_coords.getDegrees());
         prev_stage_coords.setCoordinates(current_stage_coords.getX(), current_stage_coords.getY(), current_stage_coords.getDegrees());
         
-        speed_x += current_delta_x; speed_y += current_delta_y;
+        dec_speed_x += current_delta_x; dec_speed_y += current_delta_y;
         int dx = 0, dy = 0;
-        if(Math.abs(speed_x) >= 1.0) {
-            dx = (int)(speed_x / Math.abs(speed_x));
-            speed_x -= dx;
+        if(Math.abs(dec_speed_x) >= 1.0) {
+            dx = (int)(dec_speed_x / Math.abs(dec_speed_x));
+            dec_speed_x -= dx;
         }
-        if(Math.abs(speed_y) >= 1.0) {
-            dy= (int)(speed_y / Math.abs(speed_y));
-            speed_y -= dy;
+        if(Math.abs(dec_speed_y) >= 1.0) {
+            dy = (int)(dec_speed_y / Math.abs(dec_speed_y));
+            dec_speed_y -= dy;
         }
 
         current_gran_stage_coords.setCoordinates(current_gran_stage_coords.getX() + dx, current_gran_stage_coords.getY() + dy, current_gran_stage_coords.getDegrees());

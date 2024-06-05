@@ -5,17 +5,11 @@ import components.MunchMan;
 import components.Stage;
 import fundamentals.Coordinates;
 import fundamentals.GameMath;
-import mechanics.behavior.lowerlevel.simplebehaviors.EnemyAnchorBehavior;
 import mechanics.behaviorbases.EnemyBehaviorBase;
 import mechanics.movement.EntityMovement;
 
 public class EnemyLurkBehavior extends EnemyBehaviorBase
 {   
-    // Calculated Enemy Coords
-    private Coordinates anchor_coords = null;
-    private Coordinates getAnchorCoords() {return anchor_coords;}
-    private Coordinates enemy_coords = null;
-    private Coordinates prev_enemy_coords = null;
     // Other Enemies:
     private Enemy other_0 = null; 
     private Enemy other_1 = null; 
@@ -31,8 +25,6 @@ public class EnemyLurkBehavior extends EnemyBehaviorBase
     {
         super(enemy_movement, stage, enemy, munch_man);
 
-        enemy_coords = enemy.getStageCoords();
-        prev_enemy_coords = new Coordinates(0, 0, 0);
         this.other_0 = other_0;
         this.other_1 = other_1;
         this.other_2 = other_2;
@@ -99,31 +91,30 @@ public class EnemyLurkBehavior extends EnemyBehaviorBase
         double delta_x = c0 * alpha * unitCollapseFunction(zeta) * collapseFunction(c1 * beta * zeta) * Math.cos(radians);
         double delta_y = c0 * c2 * alpha * unitCollapseFunction(zeta) * collapseFunction(c1 * c3 * beta * zeta) * Math.sin(radians);
         // Compute lurk coords:
-        double anchor_x = mx + delta_x;
-        double anchor_y = my + delta_y;
-        // Update coords:
-        //anchor_coords = new Coordinates((int)anchor_x, (int)anchor_y, 0);
-        if(GameMath.getDistance(enemy_coords.getX(), enemy_coords.getY(), prev_enemy_coords.getX(), prev_enemy_coords.getY()) > 3) {
-            prev_enemy_coords = new Coordinates(enemy_coords.getX(), enemy_coords.getY(), 0);
-            setEnemyTarget(0.4, 1.0, (int)anchor_x, (int)anchor_y);
+        Coordinates enemy_coords = new Coordinates((int)(mx + delta_x), (int)(my + delta_y), 0);
+        int enemy_degrees = getEnemyStageCoords().getDegrees();
+        int new_degrees = (int)Math.toDegrees(radians);
+        double turn_around_pct = (Math.abs(new_degrees - enemy_degrees) <= 90) ? 0.0 : 1.0;
+    
+        if(isEnemyRouteCompleted()) 
+        {
+            setEnemyTarget(0.1, turn_around_pct, enemy_coords.getX(), enemy_coords.getY());
         }
-        
-        enemy_coords = new Coordinates((int)anchor_x, (int)anchor_y, 0);
-        
-        // Compute wandering behavior about lurk coords:
-        //computeAnchorBehavior();
     }
 
     @Override
     public void initializeBehavior()
     {
-        computeLurkBehavior();
+        setEnemyTarget(0.1, 0.0, getMunchManStageCoords().getX(), getMunchManStageCoords().getY());
     }
 
     @Override 
     public void executeBehavior()
     {
-        computeLurkBehavior();
+        if(isEnemyRouteCompleted()) 
+        {
+            computeLurkBehavior();
+        }
     }  
 
     @Override

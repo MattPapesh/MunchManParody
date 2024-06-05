@@ -5,7 +5,6 @@ import mechanics.behavior.EnemyBlueBehavior;
 import mechanics.behavior.EnemyPinkBehavior;
 import mechanics.behavior.EnemyRedBehavior;
 import mechanics.behavior.EnemyYellowBehavior;
-import mechanics.behavior.lowerlevel.advancedbehaviors.EnemyCowardiceFlankHuntBehavior;
 import mechanics.movement.EntityMovement;
 import mechanics.stage.PlaceStageChain;
 //import mechanics.stage.PlaceStageChain;

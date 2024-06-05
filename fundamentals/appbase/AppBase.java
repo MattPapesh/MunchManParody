@@ -16,7 +16,6 @@ import fundamentals.UI.ControllerScheduler;
 import fundamentals.UI.GUI.GUI;
 import fundamentals.UI.GUI.GUIScheduler;
 import fundamentals.animation.Animation;
-import fundamentals.mechanic.MechanicBase;
 import fundamentals.mechanic.MechanicScheduler;
 
 /**
