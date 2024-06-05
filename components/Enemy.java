@@ -8,11 +8,11 @@ import fundamentals.animation.Animation;
 public class Enemy extends EntityBase
 {
     // The magnitude of delta_x & delta_y in granular stage coordinates: 
-    private int speed = 0; 
+    private double speed = 0; 
     private LinkedList<Coordinates> route_traveled = new LinkedList<Coordinates>();
 
     public Enemy() {}
-    public Enemy(int stage_x, int stage_y, int speed, Animation... enemy)
+    public Enemy(int stage_x, int stage_y, double speed, Animation... enemy)
     {
         begin(stage_x, stage_y, enemy);  
         this.speed = speed; 
@@ -28,12 +28,12 @@ public class Enemy extends EntityBase
         return route_traveled;
     }
 
-    public void setSpeed(int speed) 
+    public void setSpeed(double speed) 
     {
         this.speed = speed;
     }
 
-    public int getSpeed()
+    public double getSpeed()
     {
         return speed; 
     }

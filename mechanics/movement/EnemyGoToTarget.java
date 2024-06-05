@@ -162,7 +162,7 @@ public class EnemyGoToTarget extends EnemyPredeterminedRoute
         {
             delta_path_x = route.get(i).getX() - route.get(i - 1).getX();
             delta_path_y = route.get(i).getY() - route.get(i - 1).getY();
-            dots.addLast(new Dot(route.get(i).getX(), route.get(i).getY()));
+            //dots.addLast(new Dot(route.get(i).getX(), route.get(i).getY()));
             addRelativePath(delta_path_x, delta_path_y);
         }
 
@@ -357,10 +357,10 @@ public class EnemyGoToTarget extends EnemyPredeterminedRoute
 
         enemy.setRoute(route_traveled);
         //printPaths("[ENDED] Route Trav", route_traveled, route_traveled.size() - 3, 3);
-        for(int i = 0; i < dots.size(); i++)
+        /*for(int i = 0; i < dots.size(); i++)
         {
             dots.get(i).delete();
-        }
+        }*/
     }
  
     @Override

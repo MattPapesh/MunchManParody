@@ -162,7 +162,7 @@ public class EnemyBehaviorBase extends MechanicBase implements EnemyBehaviorInte
         enemy.setSpeed(speed);
     }
 
-    public int getEnemyMovementSpeed() 
+    public double getEnemyMovementSpeed() 
     {
         return enemy.getSpeed();
     }

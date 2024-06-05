@@ -9,7 +9,7 @@ import mechanics.behavior.lowerlevel.simplebehaviors.EnemyAnchorBehavior;
 import mechanics.behaviorbases.EnemyBehaviorBase;
 import mechanics.movement.EntityMovement;
 
-public class EnemyLurkBehavior extends EnemyAnchorBehavior
+public class EnemyLurkBehavior extends EnemyBehaviorBase
 {   
     // Calculated Enemy Coords
     private Coordinates anchor_coords = null;
@@ -30,12 +30,6 @@ public class EnemyLurkBehavior extends EnemyAnchorBehavior
     Enemy other_0, Enemy other_1, Enemy other_2, MunchMan munch_man, int wandering_radius_units)
     {
         super(enemy_movement, stage, enemy, munch_man);
-        setAnchor(new anchor_data() 
-        {
-            @Override public double getTurnAroundProbabilityPercentage() {return 0.3;}
-            @Override public Coordinates getStageCoords() {return getAnchorCoords();}
-            @Override public int getRadius() {return wandering_radius_units;}
-        });
 
         enemy_coords = enemy.getStageCoords();
         prev_enemy_coords = new Coordinates(0, 0, 0);
@@ -111,7 +105,7 @@ public class EnemyLurkBehavior extends EnemyAnchorBehavior
         //anchor_coords = new Coordinates((int)anchor_x, (int)anchor_y, 0);
         if(GameMath.getDistance(enemy_coords.getX(), enemy_coords.getY(), prev_enemy_coords.getX(), prev_enemy_coords.getY()) > 3) {
             prev_enemy_coords = new Coordinates(enemy_coords.getX(), enemy_coords.getY(), 0);
-            setEnemyTarget(1.0, 1.0, (int)anchor_x, (int)anchor_y);
+            setEnemyTarget(0.4, 1.0, (int)anchor_x, (int)anchor_y);
         }
         
         enemy_coords = new Coordinates((int)anchor_x, (int)anchor_y, 0);

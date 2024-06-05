@@ -30,11 +30,11 @@ public class EnemyPathFollowing extends MechanicBase
 
         if(delta_stage_x != 0 && delta_stage_y == 0)
         {   
-            enemy_movement.setTickVelocity((int)(((double)delta_stage_x / (double)Math.abs(delta_stage_x)) * enemy.getSpeed()), 0);
+            enemy_movement.setTickVelocity((((double)delta_stage_x / (double)Math.abs(delta_stage_x)) * enemy.getSpeed()), 0);
         }
         else if(delta_stage_x == 0 && delta_stage_y != 0)
         {   
-            enemy_movement.setTickVelocity(0, (int)(((double)delta_stage_y / (double)Math.abs(delta_stage_y)) * enemy.getSpeed()));
+            enemy_movement.setTickVelocity(0, (((double)delta_stage_y / (double)Math.abs(delta_stage_y)) * enemy.getSpeed()));
         }
     }
 

@@ -33,9 +33,9 @@ public class Constants
         public static final String APP_TITLE = "Munch Man";
         public static final int WINDOW_WIDTH = (int)Toolkit.getDefaultToolkit().getScreenSize().getWidth();
         public static final int WINDOW_HEIGHT = (int)Toolkit.getDefaultToolkit().getScreenSize().getHeight();
-        public static final long REFRESH_RATE_MICROS = 1250;
-        public static final double GRAPHICS_X_SCALER_COEFF = 1.22;
-        public static final double GRAPHICS_Y_SCALER_COEFF = 0.85;
+        public static final long REFRESH_RATE_NANOS = 1;
+        public static final double GRAPHICS_X_SCALER_COEFF = (Toolkit.getDefaultToolkit().getScreenSize().getWidth() / 1302.0) * 1.03;
+        public static final double GRAPHICS_Y_SCALER_COEFF = (Toolkit.getDefaultToolkit().getScreenSize().getHeight() / 975.0) * 0.975;
         public static final int GRAPHICS_X_TRANSLATION = 0;
         public static final int GRAPHICS_Y_TRANSLATION = 0;
     }

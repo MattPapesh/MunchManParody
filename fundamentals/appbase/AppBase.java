@@ -86,7 +86,7 @@ public class AppBase extends JFrame implements AppInterface
                 super.setSize((int)Toolkit.getDefaultToolkit().getScreenSize().getWidth(), 
                 (int)Toolkit.getDefaultToolkit().getScreenSize().getHeight());
                 appBasePeriodic();
-                TimeUnit.MICROSECONDS.sleep(Constants.WINDOW_CHARACTERISTICS.REFRESH_RATE_MICROS);
+                TimeUnit.NANOSECONDS .sleep(Constants.WINDOW_CHARACTERISTICS.REFRESH_RATE_NANOS);
             }
             catch(InterruptedException e) {}
         }

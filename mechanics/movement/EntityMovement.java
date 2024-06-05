@@ -20,10 +20,10 @@ public class EntityMovement extends MechanicBase
     private int[][] stage_data;
     private int collision_tolerance = 0; 
 
-    private int current_delta_x = 0;
-    private int current_delta_y = 0;
-    private int prev_delta_x = 0;
-    private int prev_delta_y = 0;
+    private double current_delta_x = 0;
+    private double current_delta_y = 0;
+    private double prev_delta_x = 0;
+    private double prev_delta_y = 0;
 
     public EntityMovement() {}
 
@@ -65,7 +65,7 @@ public class EntityMovement extends MechanicBase
         }
     }
 
-    public void setTickVelocity(int delta_x, int delta_y)
+    public void setTickVelocity(double delta_x, double delta_y)
     {
         prev_delta_x = current_delta_x;
         prev_delta_y = current_delta_y;
@@ -115,12 +115,26 @@ public class EntityMovement extends MechanicBase
         entity.setStageCoords(current_stage_coords.getX(), current_stage_coords.getY(), current_stage_coords.getDegrees());
     }
 
+    private double speed_x = 0, speed_y = 0;
+
     private void collisionalMovement()
     {  
         is_movement_obstructed = false;
         prev_gran_stage_coords.setCoordinates(current_gran_stage_coords.getX(), current_gran_stage_coords.getY(), current_gran_stage_coords.getDegrees());
         prev_stage_coords.setCoordinates(current_stage_coords.getX(), current_stage_coords.getY(), current_stage_coords.getDegrees());
-        current_gran_stage_coords.setCoordinates(current_gran_stage_coords.getX() + current_delta_x, current_gran_stage_coords.getY() + current_delta_y, current_gran_stage_coords.getDegrees());
+        
+        speed_x += current_delta_x; speed_y += current_delta_y;
+        int dx = 0, dy = 0;
+        if(Math.abs(speed_x) >= 1.0) {
+            dx = (int)(speed_x / Math.abs(speed_x));
+            speed_x -= dx;
+        }
+        if(Math.abs(speed_y) >= 1.0) {
+            dy= (int)(speed_y / Math.abs(speed_y));
+            speed_y -= dy;
+        }
+
+        current_gran_stage_coords.setCoordinates(current_gran_stage_coords.getX() + dx, current_gran_stage_coords.getY() + dy, current_gran_stage_coords.getDegrees());
         current_stage_coords = entity.convertToStageCoords(current_gran_stage_coords);
 
         int horizontal_collision_diff = current_gran_stage_coords.getX() - entity.convertToGranularStageCoords(current_stage_coords).getX();

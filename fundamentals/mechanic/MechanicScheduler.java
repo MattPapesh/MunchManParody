@@ -74,7 +74,7 @@ public class MechanicScheduler
 
     public static void run()
     {
-        elapsed_millis += (Constants.WINDOW_CHARACTERISTICS.REFRESH_RATE_MICROS / 1000.0);   
+        elapsed_millis += (Constants.WINDOW_CHARACTERISTICS.REFRESH_RATE_NANOS / 100000.0);   
         for(int i = 0; i < mechanics.size(); i++) 
         {
             mechanics.get(i).run();

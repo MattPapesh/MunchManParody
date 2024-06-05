@@ -21,8 +21,8 @@ import components.StageChain;
 
 public class AppContainer extends AppBase
 {
-    private final int PLAYER_DEF_SPEED = 1;
-    private final int ENEMY_DEF_SPEED = 1;
+    private final double PLAYER_DEF_SPEED = 0.6;
+    private final double ENEMY_DEF_SPEED = 0.6;
 
     private Controller controller = getController(Constants.CONTROLLER_IDS.LEFT_KEY, Constants.CONTROLLER_IDS.RIGHT_KEY, 
     Constants.CONTROLLER_IDS.UP_KEY, Constants.CONTROLLER_IDS.DOWN_KEY);
@@ -34,7 +34,7 @@ public class AppContainer extends AppBase
     private MunchMan left_puppet_munch_man = new MunchMan(-1, -1, 0);
     private MunchMan right_puppet_munch_man = new MunchMan(-1, -1, 0);
 
-    private Enemy enemy_red = new Enemy(1, 1, ENEMY_DEF_SPEED, new Animation("red_enemy.png"), new Animation("vulnerable_enemy.png"));
+    private Enemy enemy_red = new Enemy(2, 1, ENEMY_DEF_SPEED, new Animation("red_enemy.png"), new Animation("vulnerable_enemy.png"));
     private Enemy enemy_yellow = new Enemy(1, 30, ENEMY_DEF_SPEED, new Animation("orange_enemy.png"), new Animation("vulnerable_enemy.png"));
     private Enemy enemy_blue = new Enemy(8, 1, ENEMY_DEF_SPEED, new Animation("blue_enemy.png"), new Animation("vulnerable_enemy.png"));
     private Enemy enemy_pink = new Enemy(41, 30, ENEMY_DEF_SPEED, new Animation("pink_enemy.png"), new Animation("vulnerable_enemy.png"));
@@ -74,9 +74,9 @@ public class AppContainer extends AppBase
         enemy_blue_movement.enableDirectionalAnimations(false);
         enemy_pink_movement.enableDirectionalAnimations(false);
         // Enemy Behaviors:
-        //enemy_red_behavior.schedule();
-        //enemy_yellow_behavior.schedule();
-        //enemy_blue_behavior.schedule();
+        enemy_red_behavior.schedule();
+        enemy_yellow_behavior.schedule();
+        enemy_blue_behavior.schedule();
         enemy_pink_behavior.schedule();
     }
 
