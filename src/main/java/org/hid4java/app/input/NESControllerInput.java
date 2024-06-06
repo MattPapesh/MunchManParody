@@ -18,13 +18,19 @@ public class NESControllerInput
     public final int HID_SUB_BUFFER_INDEX_0 = 0;
     public final int HID_SUB_BUFFER_INDEX_1 = 2;
 
-    public final int HID_MIN_SUB_BUFFER_0_INDEX = 14; 
-    public final int HID_MIN_SUB_BUFFER_1_INDEX = 12; 
+    private final int HID_MIN_SUB_BUFFER_0_INDEX = 8;//14; 
+    private final int HID_MIN_SUB_BUFFER_1_INDEX = 12; 
 
-    public final int HID_BUFFER_SIZE = 64;
-    public final int HID_BUFFER_ELEMENT_SIZE = 16;
-    public final int HID_SUB_BUFFER_0_SIZE =  HID_BUFFER_ELEMENT_SIZE - HID_MIN_SUB_BUFFER_0_INDEX;
-    public final int HID_SUB_BUFFER_1_SIZE =  HID_BUFFER_ELEMENT_SIZE - HID_MIN_SUB_BUFFER_1_INDEX;
+    private final int HID_BUFFER_SIZE = 64;
+    private final int HID_BUFFER_ELEMENT_SIZE = 16;
+
+    private final int[][] HID_FORMATTED_SUB_BUFFER_0_INDECES = {{8, 9}, {14, 15}};
+    private final int[][] HID_FORMATTED_SUB_BUFFER_1_INDECES = {{12, 15}};
+    private final int HID_FORMATTED_SUB_BUFFER_0_SIZE = 4;
+    private final int HID_FORMATTED_SUB_BUFFER_1_SIZE = 4;
+    private final int CONTROLLER_BUFFER_SIZE = 8;
+
+    private BitSet controller_buffer = new BitSet(CONTROLLER_BUFFER_SIZE);
 
     private  HidServicesListener listener = new HidServicesListener() {
         @Override public void hidDeviceAttached(HidServicesEvent event) {}
@@ -57,14 +63,41 @@ public class NESControllerInput
 
         controller.open();
         byte[] hid_buffer = new byte[HID_BUFFER_SIZE];
+        
         controller.read(hid_buffer);
+        controller.close();
+        hid_services.shutdown();
 
         BitSet buffer_0 = GameMath.getBinary((int)hid_buffer[HID_SUB_BUFFER_INDEX_0], HID_BUFFER_ELEMENT_SIZE, HID_MIN_SUB_BUFFER_0_INDEX);
         BitSet buffer_1 = GameMath.getBinary((int)hid_buffer[HID_SUB_BUFFER_INDEX_1], HID_BUFFER_ELEMENT_SIZE, HID_MIN_SUB_BUFFER_1_INDEX);
-        System.out.print(GameMath.getBinaryString(buffer_0, HID_SUB_BUFFER_0_SIZE, HID_MIN_SUB_BUFFER_0_INDEX) + "\t");
-        System.out.println(GameMath.getBinaryString(buffer_1, HID_SUB_BUFFER_1_SIZE, HID_MIN_SUB_BUFFER_1_INDEX));
+        controller_buffer.clear();
 
-        controller.close();
-        hid_services.shutdown();
+        int formatted_buffer_0_index = 0;
+        for(int group_index = 0; group_index < HID_FORMATTED_SUB_BUFFER_0_INDECES.length; group_index++) {
+            int group_min = HID_FORMATTED_SUB_BUFFER_0_INDECES[group_index][0];
+            int group_max = HID_FORMATTED_SUB_BUFFER_0_INDECES[group_index][1];
+            for(int bit_index = group_min; bit_index <= group_max; bit_index++) {
+                if(buffer_0.get(bit_index)) {
+                    controller_buffer.set(formatted_buffer_0_index + bit_index - group_min);
+                }
+            }
+
+            formatted_buffer_0_index += group_max - group_min + 1;
+        }
+
+        int formatted_buffer_1_index = 0;
+        for(int group_index = 0; group_index < HID_FORMATTED_SUB_BUFFER_1_INDECES.length; group_index++) {
+            int group_min = HID_FORMATTED_SUB_BUFFER_1_INDECES[group_index][0];
+            int group_max = HID_FORMATTED_SUB_BUFFER_1_INDECES[group_index][1];
+            for(int bit_index = group_min; bit_index <= group_max; bit_index++) {
+                if(buffer_1.get(bit_index)) {
+                    controller_buffer.set(HID_FORMATTED_SUB_BUFFER_0_SIZE + formatted_buffer_1_index + bit_index - group_min);
+                }
+            } 
+
+            formatted_buffer_1_index += group_max - group_min + 1;
+        }
+
+        System.out.println(GameMath.getBinaryString(controller_buffer, 8, 0));
     }
 }
