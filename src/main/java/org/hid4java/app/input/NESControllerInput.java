@@ -31,6 +31,50 @@ public class NESControllerInput
     private final int CONTROLLER_BUFFER_SIZE = 8;
 
     private BitSet controller_buffer = new BitSet(CONTROLLER_BUFFER_SIZE);
+    public static enum Button {D_PAD, UP, DOWN, LEFT, RIGHT, SELECT, START, A, B};
+
+    private final NES_button_data D_PAD = new NES_button_data(4, 1, new int[]{0}, Button.D_PAD);
+    private final NES_button_data UP = new NES_button_data(5, 3, new int[]{0,0,0}, Button.UP);
+    private final NES_button_data DOWN = new NES_button_data(5, 3, new int[]{1,0,0}, Button.DOWN);
+    private final NES_button_data LEFT = new NES_button_data(5, 3, new int[]{1,1,0}, Button.LEFT);
+    private final NES_button_data RIGHT = new NES_button_data(5, 3, new int[]{0,1,0}, Button.RIGHT);
+
+    private final NES_button_data SELECT = new NES_button_data(1, 1, new int[]{1}, Button.SELECT);
+    private final NES_button_data START = new NES_button_data(0, 1, new int[]{1}, Button.START);
+    private final NES_button_data A = new NES_button_data(3, 1, new int[]{1}, Button.A);
+    private final NES_button_data B = new NES_button_data(2, 1, new int[]{1}, Button.B);
+
+    private final NES_button_data[] NES_buttons = {D_PAD, UP, DOWN, LEFT, RIGHT, SELECT, START, A, B}; 
+
+    private class NES_button_data
+    {
+        Button id = null;
+        int buffer_index = 0; 
+        int encoding_size = 0;
+        BitSet active_encoding = null; 
+
+        public NES_button_data(int buffer_index, int encoding_size, int[] active_encoding, Button id) {
+            this.id = id;
+            this.buffer_index = buffer_index;
+            this.encoding_size = encoding_size;
+            this.active_encoding = new BitSet(encoding_size);
+            for(int i = 0; i < encoding_size; i++) {
+                if(active_encoding[i] == 1) {
+                    this.active_encoding.set(i);
+                }
+            }
+        }
+
+        public boolean isActive(BitSet controller) {
+            for(int i = 0; i < encoding_size; i++) {
+                if(active_encoding.get(i) != controller.get(buffer_index + i)) {
+                    return false; 
+                }
+            }
+
+            return true;
+        }
+    }
 
     private  HidServicesListener listener = new HidServicesListener() {
         @Override public void hidDeviceAttached(HidServicesEvent event) {}
@@ -40,6 +84,21 @@ public class NESControllerInput
     };
 
     public NESControllerInput() {}
+
+    public boolean isButtonActive(Button button) {
+        for(int i = 0; i < NES_buttons.length; i++) {
+            if(NES_buttons[i].id == button) {
+                boolean result = NES_buttons[i].isActive(controller_buffer);
+                if(result) {
+                    System.out.println(button);
+                }
+
+                return result;
+            }
+        }
+
+        return false;
+    }
 
     public void run() {
         // Configure to use custom specification
@@ -98,6 +157,14 @@ public class NESControllerInput
             formatted_buffer_1_index += group_max - group_min + 1;
         }
 
-        System.out.println(GameMath.getBinaryString(controller_buffer, 8, 0));
+        isButtonActive(Button.D_PAD);
+        isButtonActive(Button.A);
+        isButtonActive(Button.B);
+        isButtonActive(Button.START);
+        isButtonActive(Button.SELECT);
+        isButtonActive(Button.UP);
+        isButtonActive(Button.DOWN);
+        isButtonActive(Button.LEFT);
+        isButtonActive(Button.RIGHT);
     }
 }
