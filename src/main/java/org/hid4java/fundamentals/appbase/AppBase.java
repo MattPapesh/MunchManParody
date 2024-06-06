@@ -10,9 +10,12 @@ import java.util.concurrent.TimeUnit;
 import org.hid4java.app.AppGraphics;
 import org.hid4java.app.audio.AppAudio;
 import org.hid4java.app.input.AppInput;
+import org.hid4java.app.input.NESControllerInput;
+import org.hid4java.app.input.NESControllerInput.Button;
 import org.hid4java.fundamentals.Constants;
 import org.hid4java.fundamentals.UI.Controller;
 import org.hid4java.fundamentals.UI.ControllerScheduler;
+import org.hid4java.fundamentals.UI.NESController;
 import org.hid4java.fundamentals.UI.GUI.GUI;
 import org.hid4java.fundamentals.UI.GUI.GUIScheduler;
 import org.hid4java.fundamentals.animation.Animation;
@@ -31,8 +34,9 @@ public class AppBase extends JFrame implements AppInterface
     private LinkedList<Image> icons = new LinkedList<Image>();
     private int current_icon_index = 0;
 
-    private AppGraphics app_graphics = new AppGraphics();
+    private static AppGraphics app_graphics = new AppGraphics();
     private static AppInput app_input = new AppInput();
+    private static NESControllerInput nes_input = new NESControllerInput();
     private static AppAudio app_audio = new AppAudio();
     
     private prioritizedAppStatus prev_app_status = null;
@@ -81,7 +85,7 @@ public class AppBase extends JFrame implements AppInterface
         while(true)
         {
             try
-            {
+            {   
                 super.setSize((int)Toolkit.getDefaultToolkit().getScreenSize().getWidth(), 
                 (int)Toolkit.getDefaultToolkit().getScreenSize().getHeight());
                 appBasePeriodic();
@@ -219,6 +223,11 @@ public class AppBase extends JFrame implements AppInterface
     public Controller getController(int left_key_id, int right_key_id, int up_key_id, int down_key_id)
     {
         return new Controller(app_input, left_key_id, right_key_id, up_key_id, down_key_id);
+    }
+
+    public NESController getNESController()
+    {
+        return new NESController(nes_input);
     }
 
     private void runMechanics()

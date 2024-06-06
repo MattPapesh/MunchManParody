@@ -10,7 +10,7 @@ import org.hid4java.fundamentals.mechanic.MechanicBase;
  * the status of each key in a controller can be determined with this class while also assigning mechanics to keys; either scheduling
  * each keys' respective mechanic once or continuously when finished whenever a key is pressed. 
  */
-public class Controller 
+public class Controller extends ControllerBase
 {
     private final double CONTROLLER_ID = Math.random();
     private boolean active = false;

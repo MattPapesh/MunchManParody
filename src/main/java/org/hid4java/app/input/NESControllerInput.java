@@ -89,7 +89,7 @@ public class NESControllerInput
         for(int i = 0; i < NES_buttons.length; i++) {
             if(NES_buttons[i].id == button) {
                 boolean result = NES_buttons[i].isActive(controller_buffer);
-                if(result) {
+                if(result && button != Button.D_PAD) {
                     System.out.println(button);
                 }
 
@@ -156,15 +156,5 @@ public class NESControllerInput
 
             formatted_buffer_1_index += group_max - group_min + 1;
         }
-
-        isButtonActive(Button.D_PAD);
-        isButtonActive(Button.A);
-        isButtonActive(Button.B);
-        isButtonActive(Button.START);
-        isButtonActive(Button.SELECT);
-        isButtonActive(Button.UP);
-        isButtonActive(Button.DOWN);
-        isButtonActive(Button.LEFT);
-        isButtonActive(Button.RIGHT);
     }
 }

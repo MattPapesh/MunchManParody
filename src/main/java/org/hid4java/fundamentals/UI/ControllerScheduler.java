@@ -10,7 +10,7 @@ import java.util.LinkedList;
  */
 public class ControllerScheduler 
 {
-    private static LinkedList<Controller> controllers = new LinkedList<Controller>();
+    private static LinkedList<ControllerBase> controllers = new LinkedList<ControllerBase>();
 
     /**
      * Given that a Controller's Buttons' run() method must be continuously called in order to function, the GUIScheduler needs to be able to
@@ -19,7 +19,7 @@ public class ControllerScheduler
      * @param controller
      * - The instance to register. 
      */
-    public static void registerController(Controller controller)
+    public static void registerController(ControllerBase controller)
     {
         if(controller != null)
         {
@@ -34,7 +34,7 @@ public class ControllerScheduler
      * @param controller
      * - The registered instance to remove.
      */
-    public static void removeController(Controller controller)
+    public static void removeController(ControllerBase controller)
     {
         for(int i = 0; i < controllers.size(); i++)
         {

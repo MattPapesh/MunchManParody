@@ -125,18 +125,25 @@ public class EntityMovement extends MechanicBase
         prev_gran_stage_coords.setCoordinates(current_gran_stage_coords.getX(), current_gran_stage_coords.getY(), current_gran_stage_coords.getDegrees());
         prev_stage_coords.setCoordinates(current_stage_coords.getX(), current_stage_coords.getY(), current_stage_coords.getDegrees());
         
-        dec_speed_x += current_delta_x; dec_speed_y += current_delta_y;
-        int dx = 0, dy = 0;
+        // Whole-number speed
+        int speed_x = (int)current_delta_x;
+        int speed_y = (int)current_delta_y;
+        // Difference get only decimal part of speed. (i.e. 0.XXX)
+        dec_speed_x += current_delta_x - speed_x; 
+        dec_speed_y += current_delta_y - speed_y;
+        
         if(Math.abs(dec_speed_x) >= 1.0) {
-            dx = (int)(dec_speed_x / Math.abs(dec_speed_x));
+            int dx = (int)(dec_speed_x / Math.abs(dec_speed_x));
+            speed_x += dx;
             dec_speed_x -= dx;
         }
         if(Math.abs(dec_speed_y) >= 1.0) {
-            dy = (int)(dec_speed_y / Math.abs(dec_speed_y));
+            int dy = (int)(dec_speed_y / Math.abs(dec_speed_y));
+            speed_y += dy;
             dec_speed_y -= dy;
         }
 
-        current_gran_stage_coords.setCoordinates(current_gran_stage_coords.getX() + dx, current_gran_stage_coords.getY() + dy, current_gran_stage_coords.getDegrees());
+        current_gran_stage_coords.setCoordinates(current_gran_stage_coords.getX() + speed_x, current_gran_stage_coords.getY() + speed_y, current_gran_stage_coords.getDegrees());
         current_stage_coords = entity.convertToStageCoords(current_gran_stage_coords);
 
         int horizontal_collision_diff = current_gran_stage_coords.getX() - entity.convertToGranularStageCoords(current_stage_coords).getX();
