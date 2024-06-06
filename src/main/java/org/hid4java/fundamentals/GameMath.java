@@ -5,19 +5,32 @@ import java.util.LinkedList;
 
 public class GameMath
 {
-	public static BitSet getBinary(int register, int size) {
+	public static BitSet getBinary(int register, int size, int start_index) {
         BitSet binary = new BitSet(size);
         register = Math.abs(register);
         for(int i = size - 1; i >= 0 && register > 0; i--) {
             int value = (int)Math.pow(2, i);
             if(value <= register) {
                 register -= value;
-                binary.set(size - i - 1);
-            }
+                if(size - i - 1 >= start_index) {
+					binary.set(size - i - 1);
+				}
+			}
         }
 
         return binary;
     }
+
+	public static String getBinaryString(BitSet binary, int size, int start_index) {
+		String output = "{ ";
+		for(int i = start_index; i < start_index + size; i++) {
+			String delim = (i < start_index + size - 1) ? "" : " }";
+			String bit = binary.get(i) ? "1" : "0";
+			output += bit + delim;
+		}
+
+		return output;
+	}
 
 	public static double getDistance(double x0, double y0, double x1, double y1)
 	{
