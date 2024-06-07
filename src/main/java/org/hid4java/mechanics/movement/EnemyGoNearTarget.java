@@ -2,19 +2,20 @@ package org.hid4java.mechanics.movement;
  
 import java.util.LinkedList;
 import org.hid4java.components.Enemy;
+import org.hid4java.components.MunchMan;
 import org.hid4java.components.Stage;
+import org.hid4java.fundamentals.Constants;
 import org.hid4java.fundamentals.Coordinates;
 import org.hid4java.fundamentals.GameMath;
 
 public class EnemyGoNearTarget extends EnemyGoToTarget 
 {    
-    private int[][] stage_data = null; 
+    private int[][] stage_data = Constants.STAGE_CHARACTERISTICS.STAGE_DATA; 
 
-    public EnemyGoNearTarget(EntityMovement enemy_movement, Stage stage, Enemy enemy, 
+    public EnemyGoNearTarget(EntityMovement enemy_movement, Stage stage, Enemy enemy, MunchMan munch_man, 
     double terminating_completion_pct, int target_stage_x, int target_stage_y) 
     {
-        super(enemy_movement, stage, enemy, terminating_completion_pct);
-        stage_data = stage.getStageData().clone();
+        super(enemy_movement, stage, enemy, munch_man, terminating_completion_pct);
         target_stage_x = Math.max(Math.min(target_stage_x, stage_data[0].length - 1), 0);
         target_stage_y = Math.max(Math.min(target_stage_y, stage_data.length - 1), 0);
         Coordinates target_stage_coords = getNearTargetStageCoords(target_stage_x, target_stage_y);
@@ -22,35 +23,10 @@ public class EnemyGoNearTarget extends EnemyGoToTarget
         addRequirements(stage, enemy);
     }
 
-    public EnemyGoNearTarget(EntityMovement enemy_movement, Stage stage, Enemy enemy, 
+    public EnemyGoNearTarget(EntityMovement enemy_movement, Stage stage, Enemy enemy, MunchMan munch_man, 
     double terminating_completion_pct, double turn_around_pct, int target_stage_x, int target_stage_y) 
     {
-        super(enemy_movement, stage, enemy, terminating_completion_pct, turn_around_pct);
-        stage_data = stage.getStageData().clone();
-        target_stage_x = Math.max(Math.min(target_stage_x, stage_data[0].length - 1), 0);
-        target_stage_y = Math.max(Math.min(target_stage_y, stage_data.length - 1), 0);
-        Coordinates target_stage_coords = getNearTargetStageCoords(target_stage_x, target_stage_y);
-        setTargetStageCoords(target_stage_coords.getX(), target_stage_coords.getY());
-        addRequirements(stage, enemy);
-    }
-
-    public EnemyGoNearTarget(EntityMovement enemy_movement, Stage stage, Enemy enemy, 
-    double terminating_completion_pct, int target_stage_x, int target_stage_y, Coordinates... avoiding_coords) 
-    {
-        super(enemy_movement, stage, enemy, terminating_completion_pct, avoiding_coords);
-        stage_data = stage.getStageData().clone();
-        target_stage_x = Math.max(Math.min(target_stage_x, stage_data[0].length - 1), 0);
-        target_stage_y = Math.max(Math.min(target_stage_y, stage_data.length - 1), 0);
-        Coordinates target_stage_coords = getNearTargetStageCoords(target_stage_x, target_stage_y);
-        setTargetStageCoords(target_stage_coords.getX(), target_stage_coords.getY());
-        addRequirements(stage, enemy);
-    }
-
-    public EnemyGoNearTarget(EntityMovement enemy_movement, Stage stage, Enemy enemy, 
-    double terminating_completion_pct, double turn_around_pct, int target_stage_x, int target_stage_y, Coordinates... avoiding_coords) 
-    {
-        super(enemy_movement, stage, enemy, terminating_completion_pct, turn_around_pct, avoiding_coords);
-        stage_data = stage.getStageData().clone();
+        super(enemy_movement, stage, enemy, munch_man, terminating_completion_pct, turn_around_pct);
         target_stage_x = Math.max(Math.min(target_stage_x, stage_data[0].length - 1), 0);
         target_stage_y = Math.max(Math.min(target_stage_y, stage_data.length - 1), 0);
         Coordinates target_stage_coords = getNearTargetStageCoords(target_stage_x, target_stage_y);

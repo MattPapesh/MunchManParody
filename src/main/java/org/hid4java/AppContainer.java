@@ -7,6 +7,7 @@ import org.hid4java.mechanics.behavior.EnemyBlueBehavior;
 import org.hid4java.mechanics.behavior.EnemyPinkBehavior;
 import org.hid4java.mechanics.behavior.EnemyRedBehavior;
 import org.hid4java.mechanics.behavior.EnemyYellowBehavior;
+import org.hid4java.mechanics.movement.EnemyGoToTarget;
 import org.hid4java.mechanics.movement.EntityMovement;
 import org.hid4java.mechanics.stage.PlaceStageChain;
 //import org.hid4java.mechanics.stage.PlaceStageChain;

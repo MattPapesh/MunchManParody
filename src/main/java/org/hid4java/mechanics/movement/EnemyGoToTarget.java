@@ -4,65 +4,38 @@ import java.util.LinkedList;
 import java.util.NoSuchElementException;
 
 import org.hid4java.components.Enemy;
+import org.hid4java.components.MunchMan;
 import org.hid4java.components.Stage;
+import org.hid4java.fundamentals.Constants;
 import org.hid4java.fundamentals.Coordinates;
 import org.hid4java.fundamentals.GameMath;
 
 public class EnemyGoToTarget extends EnemyPredeterminedRoute
 {
+    private int[][] stage_data = Constants.STAGE_CHARACTERISTICS.STAGE_DATA;
+    private final int STAGE_WIDTH = stage_data[0].length;
+    private final int STAGE_HEIGHT = stage_data.length;
     private EntityMovement enemy_movement = null;
     private Enemy enemy = null; 
-    private int[][] stage_data = null; 
+    private MunchMan munch_man = null;
     private Coordinates target_stage_coords = null;
     private double terminating_completion_pct = 0.0;
     private double turn_around_pct = -1.0;
     private boolean turn_around_status = false; 
     private LinkedList<Coordinates> avoiding_stage_coords = new LinkedList<Coordinates>();
-    // Max number of shortest routes to find and choose from when looking with specific conditions needing to be met. 
-    private final int MAX_SHORTEST_ROUTE_INDEX = 2; 
 
-    public EnemyGoToTarget(EntityMovement enemy_movement, Stage stage, Enemy enemy, 
-    double terminating_completion_pct, int target_stage_x, int target_stage_y)
-    {   
-        super(enemy_movement, enemy);
-        this.terminating_completion_pct = Math.max(Math.min(terminating_completion_pct, 1.0), 0.0);
-        this.enemy_movement = enemy_movement; 
-        this.enemy = enemy; 
-        stage_data = stage.getStageData().clone();
-        target_stage_x = Math.max(Math.min(target_stage_x, stage_data[0].length - 1), 0);
-        target_stage_y = Math.max(Math.min(target_stage_y, stage_data.length - 1), 0);
-        setTargetStageCoords(target_stage_x, target_stage_y);
-        addRequirements(stage, enemy);
-    }
-
-    public EnemyGoToTarget(EntityMovement enemy_movement, Stage stage, Enemy enemy, 
-    double terminating_completion_pct, double turn_around_pct, int target_stage_x, int target_stage_y)
-    {   
-        super(enemy_movement, enemy);
-        this.terminating_completion_pct = Math.max(Math.min(terminating_completion_pct, 1.0), 0.0);
-        this.turn_around_pct = (turn_around_pct != -1.0) ? Math.max(Math.min(turn_around_pct, 1.0), 0.0) : -1.0;
-        this.enemy_movement = enemy_movement; 
-        this.enemy = enemy; 
-        stage_data = stage.getStageData().clone();
-        turn_around_status = GameMath.probability(this.turn_around_pct);
-        target_stage_x = Math.max(Math.min(target_stage_x, stage_data[0].length - 1), 0);
-        target_stage_y = Math.max(Math.min(target_stage_y, stage_data.length - 1), 0);
-        setTargetStageCoords(target_stage_x, target_stage_y);
-        addRequirements(stage, enemy);
-    }
-
-    public EnemyGoToTarget(EntityMovement enemy_movement, Stage stage, Enemy enemy, 
+    public EnemyGoToTarget(EntityMovement enemy_movement, Stage stage, Enemy enemy, MunchMan munch_man, 
     double terminating_completion_pct)
     {   
         super(enemy_movement, enemy);
         this.terminating_completion_pct = Math.max(Math.min(terminating_completion_pct, 1.0), 0.0);
         this.enemy_movement = enemy_movement; 
         this.enemy = enemy; 
-        stage_data = stage.getStageData().clone();
-        addRequirements(stage, enemy);
+        this.munch_man = munch_man;
+        addRequirements(stage, enemy, munch_man);
     }
 
-    public EnemyGoToTarget(EntityMovement enemy_movement, Stage stage, Enemy enemy,
+    public EnemyGoToTarget(EntityMovement enemy_movement, Stage stage, Enemy enemy, MunchMan munch_man,
     double terminating_completion_pct, double turn_around_pct)
     {   
         super(enemy_movement, enemy);
@@ -70,82 +43,24 @@ public class EnemyGoToTarget extends EnemyPredeterminedRoute
         this.turn_around_pct = (turn_around_pct != -1.0) ? Math.max(Math.min(turn_around_pct, 1.0), 0.0) : -1.0;
         this.enemy_movement = enemy_movement; 
         this.enemy = enemy; 
-        stage_data = stage.getStageData().clone();
+        this.munch_man = munch_man;
         turn_around_status = GameMath.probability(this.turn_around_pct);
-        addRequirements(stage, enemy);
+        addRequirements(stage, enemy, munch_man);
     }
 
-    public EnemyGoToTarget(EntityMovement enemy_movement, Stage stage, Enemy enemy, 
-    double terminating_completion_pct, int target_stage_x, int target_stage_y, Coordinates... avoiding_coords)
-    {   
-        super(enemy_movement, enemy);
-        this.terminating_completion_pct = Math.max(Math.min(terminating_completion_pct, 1.0), 0.0);
-        this.enemy_movement = enemy_movement; 
-        this.enemy = enemy; 
-        stage_data = stage.getStageData().clone();
-        target_stage_x = Math.max(Math.min(target_stage_x, stage_data[0].length - 1), 0);
-        target_stage_y = Math.max(Math.min(target_stage_y, stage_data.length - 1), 0);
-        setTargetStageCoords(target_stage_x, target_stage_y);
-        addRequirements(stage, enemy);
-        for(int i = 0; i < avoiding_coords.length; i++)
-        {
-            this.avoiding_stage_coords.addLast(avoiding_coords[i]);
+    public void setAvoidingStageCoordinates(Coordinates... avoiding_coords) {
+        for(int i = 0; i < avoiding_coords.length; i++) {
+            int x = avoiding_coords[i].getX();
+            int y = avoiding_coords[i].getY();
+            if(x >= 0 && x < STAGE_WIDTH && y >= 0 && y < STAGE_WIDTH
+            && !(x == munch_man.getStageCoords().getX() && y == munch_man.getStageCoords().getY())) { 
+                this.avoiding_stage_coords.addLast(avoiding_coords[i]);
+                stage_data[y][x] = 0;
+            }
         }
     }
 
-    public EnemyGoToTarget(EntityMovement enemy_movement, Stage stage, Enemy enemy, 
-    double terminating_completion_pct, double turn_around_pct, int target_stage_x, int target_stage_y, Coordinates... avoiding_coords)
-    {   
-        super(enemy_movement, enemy);
-        this.terminating_completion_pct = Math.max(Math.min(terminating_completion_pct, 1.0), 0.0);
-        this.turn_around_pct = (turn_around_pct != -1.0) ? Math.max(Math.min(turn_around_pct, 1.0), 0.0) : -1.0;
-        this.enemy_movement = enemy_movement; 
-        this.enemy = enemy; 
-        stage_data = stage.getStageData().clone();
-        turn_around_status = GameMath.probability(this.turn_around_pct);
-        target_stage_x = Math.max(Math.min(target_stage_x, stage_data[0].length - 1), 0);
-        target_stage_y = Math.max(Math.min(target_stage_y, stage_data.length - 1), 0);
-        setTargetStageCoords(target_stage_x, target_stage_y);
-        addRequirements(stage, enemy);
-        for(int i = 0; i < avoiding_coords.length; i++)
-        {
-            this.avoiding_stage_coords.addLast(avoiding_coords[i]);
-        }
-    }
-
-    public EnemyGoToTarget(EntityMovement enemy_movement, Stage stage, Enemy enemy, 
-    double terminating_completion_pct, Coordinates... avoiding_coords)
-    {   
-        super(enemy_movement, enemy);
-        this.terminating_completion_pct = Math.max(Math.min(terminating_completion_pct, 1.0), 0.0);
-        this.enemy_movement = enemy_movement; 
-        this.enemy = enemy; 
-        stage_data = stage.getStageData().clone();
-        addRequirements(stage, enemy);
-        for(int i = 0; i < avoiding_coords.length; i++)
-        {
-            this.avoiding_stage_coords.addLast(avoiding_coords[i]);
-        }
-    }
-
-    public EnemyGoToTarget(EntityMovement enemy_movement, Stage stage, Enemy enemy,
-    double terminating_completion_pct, double turn_around_pct, Coordinates... avoiding_coords)
-    {   
-        super(enemy_movement, enemy);
-        this.terminating_completion_pct = Math.max(Math.min(terminating_completion_pct, 1.0), 0.0);
-        this.turn_around_pct = (turn_around_pct != -1.0) ? Math.max(Math.min(turn_around_pct, 1.0), 0.0) : -1.0;
-        this.enemy_movement = enemy_movement; 
-        this.enemy = enemy; 
-        stage_data = stage.getStageData().clone();
-        turn_around_status = GameMath.probability(this.turn_around_pct);
-        addRequirements(stage, enemy);
-        for(int i = 0; i < avoiding_coords.length; i++)
-        {
-            this.avoiding_stage_coords.addLast(avoiding_coords[i]);
-        }
-    }
-
-    protected void setTargetStageCoords(int target_stage_x, int target_stage_y)
+    public void setTargetStageCoords(int target_stage_x, int target_stage_y)
     {
         target_stage_x = Math.max(Math.min(stage_data[0].length, target_stage_x), 0);
         target_stage_y = Math.max(Math.min(stage_data.length, target_stage_y), 0);
@@ -167,114 +82,76 @@ public class EnemyGoToTarget extends EnemyPredeterminedRoute
         compileRelativePaths();
     }
 
-    private LinkedList<Coordinates> getBranchRouteVariant(LinkedList<Coordinates> base_route, LinkedList<Coordinates> route, int target_stage_x, int target_stage_y)
-    {
-        try
-        {
-            if(!GameMath.isCoordsEqual(route.getLast(), base_route.getLast()) 
-            && (base_route.size() == 1 || !GameMath.isOpposingCoordDirections(route.getLast(), base_route.getLast()))
-            && (GameMath.isCoordsEqual(route.getLast(), new Coordinates(target_stage_x, target_stage_y, 0)) 
-            || GameMath.isCoordInStageTunnel(target_stage_coords)
-            || !GameMath.coordsContainsCoord(avoiding_stage_coords, route.getLast()))
-            && stage_data[route.getLast().getY()][route.getLast().getX()] == 1)
-            {
-                return route;
-            }
-        }
-        catch(ArrayIndexOutOfBoundsException e) {}
-        return null;
-    }
-
-    public LinkedList<LinkedList<Coordinates>> getBranchRoutes(LinkedList<Coordinates> base_route, int target_stage_x, int target_stage_y)
-    {
-        // Branch routes:
-        LinkedList<LinkedList<Coordinates>> routes = new LinkedList<LinkedList<Coordinates>>();
-        LinkedList<Coordinates> left_route = new LinkedList<Coordinates>(base_route);
-        LinkedList<Coordinates> right_route = new LinkedList<Coordinates>(base_route);
-        LinkedList<Coordinates> up_route = new LinkedList<Coordinates>(base_route);
-        LinkedList<Coordinates> down_route = new LinkedList<Coordinates>(base_route);
-        
-        left_route.addLast(new Coordinates(base_route.getLast().getX() - 1, base_route.getLast().getY(), 180));
-        right_route.addLast(new Coordinates(base_route.getLast().getX() + 1, base_route.getLast().getY(), 0));
-        up_route.addLast(new Coordinates(base_route.getLast().getX(), base_route.getLast().getY() - 1, 90));
-        down_route.addLast(new Coordinates(base_route.getLast().getX(), base_route.getLast().getY() + 1, 270));
-
-        left_route = getBranchRouteVariant(base_route, left_route, target_stage_x, target_stage_y);
-        right_route = getBranchRouteVariant(base_route, right_route, target_stage_x, target_stage_y);
-        up_route = getBranchRouteVariant(base_route, up_route, target_stage_x, target_stage_y);
-        down_route = getBranchRouteVariant(base_route, down_route, target_stage_x, target_stage_y);
-
-        if(left_route != null)
-            routes.addLast(left_route);
-        if(right_route != null)
-            routes.addLast(right_route);
-        if(up_route != null)
-            routes.addLast(up_route);
-        if(down_route != null)
-            routes.addLast(down_route);
-
-        return routes;
-    }    
-
-    private LinkedList<LinkedList<Coordinates>> getRoutesFound(LinkedList<LinkedList<Coordinates>> routes, int target_stage_x, int target_stage_y)
-    {
-        LinkedList<LinkedList<Coordinates>> routes_found = new LinkedList<LinkedList<Coordinates>>();
-        for(int i = 0; i < routes.size(); i++)
-        {
-            if(routes.get(i).getLast().getX() == target_stage_x && routes.get(i).getLast().getY() == target_stage_y)
-            {
-                routes_found.addLast(routes.get(i));
-            }
-        }
-        
-        if(routes_found.isEmpty()) 
-        {
-            return routes_found;
-        }
-
-        GameMath.minMaxLengthEnemyRoutesMergeSort(routes_found);
-        return routes_found; 
-    }
-
     public LinkedList<Coordinates> getRoute(int target_stage_x, int target_stage_y)
     {
-        LinkedList<Coordinates> initial_route = new LinkedList<Coordinates>();
-        LinkedList<LinkedList<Coordinates>> logged_routes = new LinkedList<LinkedList<Coordinates>>();
-        LinkedList<LinkedList<Coordinates>> found_logged_routes = new LinkedList<LinkedList<Coordinates>>();
-        initial_route.addLast(new Coordinates(enemy.getStageCoords().getX(), enemy.getStageCoords().getY(), enemy.getStageCoords().getDegrees()));
-        logged_routes.addLast(initial_route);
-        LinkedList<Coordinates> prev_route = enemy.getRouteTraveled();
-        boolean route_turns_around = !turn_around_status; 
+        try {
+            // Marks "1" as not discovered, "0" as otherwise. 
+            int[][] discovered_paths = new int[STAGE_HEIGHT][STAGE_WIDTH];
+            int initial_degrees = enemy.getStageCoords().getDegrees();
+            int ignore_direction = -1; 
 
-        while(found_logged_routes.size() - 1 <= MAX_SHORTEST_ROUTE_INDEX)
-        {
-            LinkedList<LinkedList<Coordinates>> updated_logged_routes = new LinkedList<LinkedList<Coordinates>>();
-            for(int i = 0; i < logged_routes.size(); i++)
-            {
-                updated_logged_routes.addAll(getBranchRoutes(logged_routes.get(i), target_stage_x, target_stage_y));
-            }
-
-            logged_routes.clear();
-            logged_routes.addAll(updated_logged_routes);
-            found_logged_routes = getRoutesFound(logged_routes, target_stage_x, target_stage_y);
-            for(int next_shortest_route_index = 0; next_shortest_route_index < found_logged_routes.size()
-            && next_shortest_route_index <= MAX_SHORTEST_ROUTE_INDEX; next_shortest_route_index++)
-            {
-                try
-                {
-                    route_turns_around = GameMath.isCoordsEqual(prev_route.get(prev_route.size() - 2), found_logged_routes.get(next_shortest_route_index).get(1));        
-                    if((turn_around_pct == -1.0 || route_turns_around == turn_around_status)) 
-                    {
-                        return found_logged_routes.get(next_shortest_route_index);
-                    }
+            for(int y = 0; y < STAGE_HEIGHT; y++) {
+                for(int x = 0; x < STAGE_WIDTH; x++) {
+                    discovered_paths[y][x] = stage_data[y][x];
                 }
-                catch(IndexOutOfBoundsException e) {}
-                catch(NoSuchElementException e) {}
-                catch(NullPointerException e) {}
             }
-        }
+            
+            LinkedList<Coordinates> initial_route = new LinkedList<Coordinates>();
+            LinkedList<LinkedList<Coordinates>> routes = new LinkedList<LinkedList<Coordinates>>();
+            initial_route.addLast(new Coordinates(enemy.getStageCoords().getX(), enemy.getStageCoords().getY(), enemy.getStageCoords().getDegrees()));
+            routes.addLast(initial_route);
+            discovered_paths[enemy.getStageCoords().getY()][enemy.getStageCoords().getX()] = 2;
 
-        return found_logged_routes.get(0);
+            if(!turn_around_status) {
+                ignore_direction = initial_degrees + 180;
+            }
+
+            for(int i = 0; !(routes.getLast().getLast().getX() == target_stage_x && routes.getLast().getLast().getY() == target_stage_y); i++) {                
+                LinkedList<Coordinates> route = routes.getFirst();
+                int x = route.getLast().getX();
+                int y = route.getLast().getY();
+
+                if(i >= 4) {
+                    routes.removeFirst();
+                    ignore_direction = -1;
+                    i = 0;
+                }
+
+                if(i == 0 && (ignore_direction == -1 || ignore_direction != 90)
+                && y >= 1 && y < STAGE_HEIGHT && x >= 0 && x < STAGE_WIDTH && discovered_paths[y - 1][x] == 1) {
+                    discovered_paths[y - 1][x] = 0;
+                    LinkedList<Coordinates> up_route = new LinkedList<Coordinates>(route);
+                    up_route.addLast(new Coordinates(x, y - 1, 90));
+                    routes.addLast(up_route);
+                }
+                else if(i == 1 && (ignore_direction == -1 || ignore_direction != 270)
+                && y >= 0 && y < STAGE_HEIGHT - 1 && x >= 0 && x < STAGE_WIDTH && discovered_paths[y + 1][x] == 1) {
+                    discovered_paths[y + 1][x] = 0;
+                    LinkedList<Coordinates> down_route = new LinkedList<Coordinates>(route);
+                    down_route.addLast(new Coordinates(x, y + 1, 270));
+                    routes.addLast(down_route);
+                }
+                else if(i == 2 && (ignore_direction == -1 || ignore_direction != 180)
+                && y >= 0 && y < STAGE_HEIGHT && x >= 1 && x < STAGE_WIDTH && discovered_paths[y][x - 1] == 1) {
+                    discovered_paths[y][x - 1] = 0;
+                    LinkedList<Coordinates> left_route = new LinkedList<Coordinates>(route);
+                    left_route.addLast(new Coordinates(x - 1, y, 180));
+                    routes.addLast(left_route);
+                }
+                else if(i == 3 && (ignore_direction == -1 || ignore_direction != 0)
+                && y >= 0 && y < STAGE_HEIGHT && x >= 0 && x < STAGE_WIDTH - 1 && discovered_paths[y][x + 1] == 1) {
+                    discovered_paths[y][x + 1] = 0;
+                    LinkedList<Coordinates> right_route = new LinkedList<Coordinates>(route);
+                    right_route.addLast(new Coordinates(x + 1, y, 0));
+                    routes.addLast(right_route);
+                } 
+            }
+            
+            return routes.getLast();
+        }
+        catch(NoSuchElementException e) {
+            return new LinkedList<Coordinates>();   
+        }
     }
 
     // when building new route with routes: a route is already logged if the next route found is found in a logged route

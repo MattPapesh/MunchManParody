@@ -1,6 +1,7 @@
 package org.hid4java.mechanics.movement;
 
 import org.hid4java.fundamentals.mechanic.MechanicBase;
+import org.hid4java.fundamentals.Constants;
 import org.hid4java.fundamentals.Coordinates;
 import org.hid4java.components.EntityBase;
 import org.hid4java.components.Stage;
@@ -17,7 +18,7 @@ public class EntityMovement extends MechanicBase
     private Coordinates current_gran_stage_coords = null;
     private Coordinates prev_gran_stage_coords = null;
 
-    private int[][] stage_data;
+    private int[][] stage_data = Constants.STAGE_CHARACTERISTICS.STAGE_DATA;
     private int collision_tolerance = 0; 
 
     private double current_delta_x = 0;
@@ -58,7 +59,6 @@ public class EntityMovement extends MechanicBase
             began = true;
 
             this.entity = (EntityBase)entity;
-            this.stage_data = stage.getStageData();
 
             current_stage_coords = new Coordinates(entity.getStageCoords().getX(), entity.getStageCoords().getY(), entity.getStageCoords().getDegrees());
             prev_stage_coords = new Coordinates(0, 0, 0); 
