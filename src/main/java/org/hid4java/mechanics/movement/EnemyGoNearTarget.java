@@ -34,6 +34,8 @@ public class EnemyGoNearTarget extends EnemyGoToTarget
         addRequirements(stage, enemy);
     }
 
+    
+
     private LinkedList<Coordinates> getBranchSearchVariant(LinkedList<Coordinates> base_search, LinkedList<Coordinates> search, int target_stage_x, int target_stage_y)
     {
         try

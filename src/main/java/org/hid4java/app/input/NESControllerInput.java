@@ -18,7 +18,7 @@ public class NESControllerInput
     public final int HID_SUB_BUFFER_INDEX_0 = 0;
     public final int HID_SUB_BUFFER_INDEX_1 = 2;
 
-    private final int HID_MIN_SUB_BUFFER_0_INDEX = 8;//14; 
+    private final int HID_MIN_SUB_BUFFER_0_INDEX = 8;
     private final int HID_MIN_SUB_BUFFER_1_INDEX = 12; 
 
     private final int HID_BUFFER_SIZE = 64;
@@ -27,7 +27,6 @@ public class NESControllerInput
     private final int[][] HID_FORMATTED_SUB_BUFFER_0_INDECES = {{8, 9}, {14, 15}};
     private final int[][] HID_FORMATTED_SUB_BUFFER_1_INDECES = {{12, 15}};
     private final int HID_FORMATTED_SUB_BUFFER_0_SIZE = 4;
-    private final int HID_FORMATTED_SUB_BUFFER_1_SIZE = 4;
     private final int CONTROLLER_BUFFER_SIZE = 8;
 
     private BitSet controller_buffer = new BitSet(CONTROLLER_BUFFER_SIZE);
@@ -88,12 +87,7 @@ public class NESControllerInput
     public boolean isButtonActive(Button button) {
         for(int i = 0; i < NES_buttons.length; i++) {
             if(NES_buttons[i].id == button) {
-                boolean result = NES_buttons[i].isActive(controller_buffer);
-                if(result && button != Button.D_PAD) {
-                    System.out.println(button);
-                }
-
-                return result;
+                return NES_buttons[i].isActive(controller_buffer);
             }
         }
 

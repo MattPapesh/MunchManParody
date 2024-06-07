@@ -89,18 +89,12 @@ public class EnemyGoToTarget extends EnemyPredeterminedRoute
             int[][] discovered_paths = new int[STAGE_HEIGHT][STAGE_WIDTH];
             int initial_degrees = enemy.getStageCoords().getDegrees();
             int ignore_direction = -1; 
-
-            for(int y = 0; y < STAGE_HEIGHT; y++) {
-                for(int x = 0; x < STAGE_WIDTH; x++) {
-                    discovered_paths[y][x] = stage_data[y][x];
-                }
-            }
             
             LinkedList<Coordinates> initial_route = new LinkedList<Coordinates>();
             LinkedList<LinkedList<Coordinates>> routes = new LinkedList<LinkedList<Coordinates>>();
             initial_route.addLast(new Coordinates(enemy.getStageCoords().getX(), enemy.getStageCoords().getY(), enemy.getStageCoords().getDegrees()));
             routes.addLast(initial_route);
-            discovered_paths[enemy.getStageCoords().getY()][enemy.getStageCoords().getX()] = 2;
+            discovered_paths[enemy.getStageCoords().getY()][enemy.getStageCoords().getX()] = 1;
 
             if(!turn_around_status) {
                 ignore_direction = initial_degrees + 180;
@@ -118,29 +112,33 @@ public class EnemyGoToTarget extends EnemyPredeterminedRoute
                 }
 
                 if(i == 0 && (ignore_direction == -1 || ignore_direction != 90)
-                && y >= 1 && y < STAGE_HEIGHT && x >= 0 && x < STAGE_WIDTH && discovered_paths[y - 1][x] == 1) {
-                    discovered_paths[y - 1][x] = 0;
+                && y >= 1 && y < STAGE_HEIGHT && x >= 0 && x < STAGE_WIDTH 
+                && stage_data[y - 1][x] == 1 && discovered_paths[y - 1][x] == 0) {
+                    discovered_paths[y - 1][x] = 1;
                     LinkedList<Coordinates> up_route = new LinkedList<Coordinates>(route);
                     up_route.addLast(new Coordinates(x, y - 1, 90));
                     routes.addLast(up_route);
                 }
                 else if(i == 1 && (ignore_direction == -1 || ignore_direction != 270)
-                && y >= 0 && y < STAGE_HEIGHT - 1 && x >= 0 && x < STAGE_WIDTH && discovered_paths[y + 1][x] == 1) {
-                    discovered_paths[y + 1][x] = 0;
+                && y >= 0 && y < STAGE_HEIGHT - 1 && x >= 0 && x < STAGE_WIDTH 
+                && stage_data[y + 1][x] == 1 && discovered_paths[y + 1][x] == 0) {
+                    discovered_paths[y + 1][x] = 1;
                     LinkedList<Coordinates> down_route = new LinkedList<Coordinates>(route);
                     down_route.addLast(new Coordinates(x, y + 1, 270));
                     routes.addLast(down_route);
                 }
                 else if(i == 2 && (ignore_direction == -1 || ignore_direction != 180)
-                && y >= 0 && y < STAGE_HEIGHT && x >= 1 && x < STAGE_WIDTH && discovered_paths[y][x - 1] == 1) {
-                    discovered_paths[y][x - 1] = 0;
+                && y >= 0 && y < STAGE_HEIGHT && x >= 1 && x < STAGE_WIDTH 
+                && stage_data[y][x - 1] == 1 && discovered_paths[y][x - 1] == 0) {
+                    discovered_paths[y][x - 1] = 1;
                     LinkedList<Coordinates> left_route = new LinkedList<Coordinates>(route);
                     left_route.addLast(new Coordinates(x - 1, y, 180));
                     routes.addLast(left_route);
                 }
                 else if(i == 3 && (ignore_direction == -1 || ignore_direction != 0)
-                && y >= 0 && y < STAGE_HEIGHT && x >= 0 && x < STAGE_WIDTH - 1 && discovered_paths[y][x + 1] == 1) {
-                    discovered_paths[y][x + 1] = 0;
+                && y >= 0 && y < STAGE_HEIGHT && x >= 0 && x < STAGE_WIDTH - 1 
+                && stage_data[y][x + 1] == 1 && discovered_paths[y][x + 1] == 0) {
+                    discovered_paths[y][x + 1] = 1;
                     LinkedList<Coordinates> right_route = new LinkedList<Coordinates>(route);
                     right_route.addLast(new Coordinates(x + 1, y, 0));
                     routes.addLast(right_route);
