@@ -2,14 +2,11 @@ package org.hid4java.fundamentals.UI;
 
 import java.util.LinkedList;
 
-import org.hid4java.app.input.Button;
 import org.hid4java.app.input.NESControllerInput;
 import org.hid4java.fundamentals.mechanic.MechanicBase;
 
 public class NESButton 
 {
-    // determines if the button is currently being held down and is active
-    private boolean completed_lifetime_update = false; 
     private boolean current_is_active = false;
     private boolean prev_is_active = false;
     private NESControllerInput nes_input = null;
@@ -75,7 +72,6 @@ public class NESButton
     public void run() {
         prev_is_active = current_is_active;
         if(isActive() && !prev_is_active) {
-            completed_lifetime_update = true;
             runButtonMechanics(when_pressed_mechanics);
         }
         else if(!isActive() && prev_is_active) {

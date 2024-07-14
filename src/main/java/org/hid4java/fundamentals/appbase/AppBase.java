@@ -11,7 +11,6 @@ import org.hid4java.app.AppGraphics;
 import org.hid4java.app.audio.AppAudio;
 import org.hid4java.app.input.AppInput;
 import org.hid4java.app.input.NESControllerInput;
-import org.hid4java.app.input.NESControllerInput.Button;
 import org.hid4java.fundamentals.Constants;
 import org.hid4java.fundamentals.UI.Controller;
 import org.hid4java.fundamentals.UI.ControllerScheduler;
@@ -265,11 +264,12 @@ public class AppBase extends JFrame implements AppInterface
             }
 
             app_status.prioritizedPeriodic();
-            runMechanics();
+            
             runGUIs();
             runControllers();
         }
-        catch(NullPointerException e) {System.out.println("Program Null Exception!");}
+        catch(NullPointerException e) {System.out.println("AppBase.java: Program Null Exception!");}
+        runMechanics();
     }
 
     /**

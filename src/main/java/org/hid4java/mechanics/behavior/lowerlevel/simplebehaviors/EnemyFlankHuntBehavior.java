@@ -9,7 +9,7 @@ import org.hid4java.mechanics.movement.EntityMovement;
 public class EnemyFlankHuntBehavior extends EnemyHuntBehavior
 {
     private Coordinates enemy_coords = new Coordinates(0, 0, 0);
-    private double route_completion_pct = 0.2;
+    private double route_completion_pct = 1.0;//0.2;
 
     public EnemyFlankHuntBehavior(EntityMovement enemy_movement, Stage stage, Enemy enemy, MunchMan munch_man,
     int direct_hunt_distance_units, int flank_radius_units, int flank_degrees)

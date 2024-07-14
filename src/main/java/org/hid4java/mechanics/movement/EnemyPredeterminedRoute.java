@@ -3,12 +3,15 @@ package org.hid4java.mechanics.movement;
 import java.util.LinkedList;
 
 import org.hid4java.components.Enemy;
+import org.hid4java.fundamentals.Coordinates;
+import org.hid4java.fundamentals.GameMath;
 import org.hid4java.fundamentals.mechanic.SequentialMechanicGroup;
 
 public class EnemyPredeterminedRoute extends SequentialMechanicGroup
 {
     private EntityMovement enemy_movement = null; 
     private Enemy enemy = null; 
+    private Coordinates prev_gran_stage_coords = null;
     private LinkedList<EnemyPathFollowing> enemy_paths = new LinkedList<EnemyPathFollowing>();
 
     public EnemyPredeterminedRoute(EntityMovement enemy_movement, Enemy enemy)
@@ -48,5 +51,26 @@ public class EnemyPredeterminedRoute extends SequentialMechanicGroup
         {
             addMechanics(enemy_paths.get(i));
         }
+    }
+
+    @Override
+    public void initialize()
+    {
+        sequentialMechanicGroupInitialize();
+        prev_gran_stage_coords = enemy.getGranularStageCoords();
+    }
+
+    @Override
+    public void execute()
+    {
+        sequentialMechanicGroupExecute();
+        prev_gran_stage_coords = enemy.getGranularStageCoords();
+    }
+
+    @Override
+    public boolean isFinished()
+    {
+        return /*(GameMath.isCoordsEqual(prev_gran_stage_coords, enemy.getGranularStageCoords())) 
+        || */sequentialMechanicGroupIsFinished();
     }
 }

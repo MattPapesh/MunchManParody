@@ -49,13 +49,34 @@ public class EnemyGoToTarget extends EnemyPredeterminedRoute
     }
 
     public void setAvoidingStageCoordinates(Coordinates... avoiding_coords) {
+        Coordinates[][] tunnels = Constants.STAGE_CHARACTERISTICS.STAGE_TUNNEL_REGIONS.clone();
+        for(int i = 0; i < tunnels.length; i++) {
+            Coordinates p0 = tunnels[i][0], p1 = tunnels[i][1];
+            int min_x = Math.min(p0.getX(), p1.getX()), max_x = Math.max(p0.getX(), p1.getX());
+            int min_y = Math.min(p0.getY(), p1.getY()), max_y = Math.max(p0.getY(), p1.getY());
+            for(int k = 0; k < avoiding_coords.length; k++) {
+                if(avoiding_coords[k] == null) {
+                    continue;
+                }
+
+                int x = avoiding_coords[k].getX(), y = avoiding_coords[k].getY();
+                if((x >= min_x && x <= max_x && y >= min_y && y <= max_y)) {
+                    avoiding_coords[k] = null;
+                }
+            }
+        }
+
         for(int i = 0; i < avoiding_coords.length; i++) {
+            if(avoiding_coords[i] == null) {
+                continue;
+            }
+
             int x = avoiding_coords[i].getX();
             int y = avoiding_coords[i].getY();
             if(x >= 0 && x < STAGE_WIDTH && y >= 0 && y < STAGE_WIDTH
             && !(x == munch_man.getStageCoords().getX() && y == munch_man.getStageCoords().getY())) { 
-                this.avoiding_stage_coords.addLast(avoiding_coords[i]);
-                stage_data[y][x] = 0;
+                //this.avoiding_stage_coords.addLast(avoiding_coords[i]);
+                //stage_data[y][x] = 0;
             }
         }
     }

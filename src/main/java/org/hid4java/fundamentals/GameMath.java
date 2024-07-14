@@ -21,6 +21,18 @@ public class GameMath
         return binary;
     }
 
+	/*public static BitSet getBinary2(int register, int size, int start_index) {
+		BitSet binary = new BitSet(size);
+		register = Math.abs(register);
+		int value = (int)Math.pow(2, size - 1);
+		for(int i = 0; i < size; i++) {
+			if(value <= register) {
+				register -= value;
+				//binary.set()
+			}
+		}
+	}*/
+
 	public static String getBinaryString(BitSet binary, int size, int start_index) {
 		String output = "{ ";
 		for(int i = start_index; i < start_index + size; i++) {

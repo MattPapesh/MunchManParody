@@ -56,7 +56,9 @@ public class EntityBase extends ComponentBase
     // Returns entity coordinates in terms of the stage.
     public Coordinates getStageCoords()
     {
-        return stage_coords;
+        int x = Math.max(Math.min(stage_coords.getX(), Constants.STAGE_CHARACTERISTICS.STAGE_DATA[0].length - 1), 0);
+        int y = Math.max(Math.min(stage_coords.getY(), Constants.STAGE_CHARACTERISTICS.STAGE_DATA.length - 1), 0);
+        return new Coordinates(x, y, stage_coords.getDegrees());
     }
 
     // Returns entity coordinate displacement on-screen; used to determine the entity's coords at stage coords: (0, 0) on screen.

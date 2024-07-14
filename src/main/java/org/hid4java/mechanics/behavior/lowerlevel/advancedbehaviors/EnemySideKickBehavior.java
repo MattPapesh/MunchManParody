@@ -3,6 +3,7 @@ package org.hid4java.mechanics.behavior.lowerlevel.advancedbehaviors;
 import org.hid4java.components.Enemy;
 import org.hid4java.components.MunchMan;
 import org.hid4java.components.Stage;
+import org.hid4java.fundamentals.Constants;
 import org.hid4java.mechanics.behaviorbases.EnemyBehaviorBase;
 import org.hid4java.mechanics.movement.EntityMovement;
 
@@ -22,6 +23,14 @@ public class EnemySideKickBehavior extends EnemyBehaviorBase{
         int munch_man_y = getMunchManStageCoords().getY();
         int enemy_x = (2 * munch_man_x) - hero_enemy.getStageCoords().getX();
         int enemy_y = (2 * munch_man_y) - hero_enemy.getStageCoords().getY();
+
+        double w = Constants.STAGE_CHARACTERISTICS.STAGE_DATA[0].length;
+        double h = Constants.STAGE_CHARACTERISTICS.STAGE_DATA.length;
+        for(int i = 0; i < 3 && !(enemy_x >= 0 && enemy_x < w && enemy_y >= 0 && enemy_y < h); i++) {
+            enemy_x = (int)((enemy_x >= w) ? (2.0 * w) - enemy_x : ((enemy_x < 0) ? -enemy_x : enemy_x));
+            enemy_y = (int)((enemy_y >= h) ? (2.0 * h) - enemy_y : ((enemy_y < 0) ? -enemy_y : enemy_y));
+        }
+
         setEnemyTarget(route_completion_pct, enemy_x, enemy_y);
     }
 
