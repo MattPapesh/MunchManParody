@@ -70,7 +70,7 @@ public class EnemyPredeterminedRoute extends SequentialMechanicGroup
     @Override
     public boolean isFinished()
     {
-        return /*(GameMath.isCoordsEqual(prev_gran_stage_coords, enemy.getGranularStageCoords())) 
-        || */sequentialMechanicGroupIsFinished();
+        return (GameMath.isCoordsEqual(prev_gran_stage_coords, enemy.getGranularStageCoords())) 
+        || sequentialMechanicGroupIsFinished();
     }
 }

@@ -33,9 +33,6 @@ public class NESControllerInput
 
     private final String DISCONNECTED_ERROR_ID = "0x0000048F";
 
-    private int hid_device_count = 0; 
-    private int prev_hid_device_count = 0;
-
     private BitSet controller_buffer = new BitSet(CONTROLLER_BUFFER_SIZE);
     public static enum Button {D_PAD, UP, DOWN, LEFT, RIGHT, SELECT, START, A, B};
 
@@ -62,6 +59,9 @@ public class NESControllerInput
     // Calls of run() required to elapse before polling controller data. 
     private final int POLL_PERIOD_CALL_DELAY = 1;
     private int elapsed_poll_calls = 0;
+    // The amount of elapse time since hid device disconnection.
+    private final int DISCONNECT_PERIOD_DELAY_MILLIS = 250;
+    private long prev_disconnection_millis = 0;
 
     private class NES_button_data
     {
@@ -148,11 +148,12 @@ public class NESControllerInput
             return;
         }
 
-        
         elapsed_poll_calls = 0;
-        System.out.println(isConnected());
-        if(!isConnected()) {
+        if(MechanicScheduler.getElapsedMillis() - prev_disconnection_millis >= DISCONNECT_PERIOD_DELAY_MILLIS) {
+            prev_disconnection_millis = MechanicScheduler.getElapsedMillis();
+            System.out.println("e");
             open();
+            return;
         }
 
         // Read raw data

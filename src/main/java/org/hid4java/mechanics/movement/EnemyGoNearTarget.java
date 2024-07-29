@@ -1,7 +1,6 @@
 package org.hid4java.mechanics.movement;
  
 import java.util.LinkedList;
-import java.util.NoSuchElementException;
 
 import org.hid4java.components.Enemy;
 import org.hid4java.components.MunchMan;

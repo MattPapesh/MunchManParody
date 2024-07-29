@@ -25,12 +25,13 @@ public class EnemySideKickBehavior extends EnemyBehaviorBase{
         int enemy_y = (2 * munch_man_y) - hero_enemy.getStageCoords().getY();
 
         double w = Constants.STAGE_CHARACTERISTICS.STAGE_DATA[0].length;
-        double h = Constants.STAGE_CHARACTERISTICS.STAGE_DATA.length;
-        for(int i = 0; i < 3 && !(enemy_x >= 0 && enemy_x < w && enemy_y >= 0 && enemy_y < h); i++) {
-            enemy_x = (int)((enemy_x >= w) ? (2.0 * w) - enemy_x : ((enemy_x < 0) ? -enemy_x : enemy_x));
-            enemy_y = (int)((enemy_y >= h) ? (2.0 * h) - enemy_y : ((enemy_y < 0) ? -enemy_y : enemy_y));
-        }
-
+        double h = Constants.STAGE_CHARACTERISTICS.STAGE_DATA.length; 
+        
+        for(int i = 0; i < 3 && !(enemy_x >= 0 && enemy_x < w); i++)
+            enemy_x = (int)((enemy_x >= w) ? enemy_x  - (2.0 * w): ((enemy_x < 0) ? -enemy_x : enemy_x));
+        for(int i = 0; i < 3 && !(enemy_y >= 0 && enemy_y < h); i++)
+            enemy_y = (int)((enemy_y >= h) ? enemy_y - (2.0 * h) : ((enemy_y < 0) ? -enemy_y : enemy_y));
+        
         setEnemyTarget(route_completion_pct, enemy_x, enemy_y);
     }
 
