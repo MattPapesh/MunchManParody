@@ -38,6 +38,8 @@ public class StageChain extends ComponentBase
     {
         if(stage_x >= 0 && stage_x < Constants.STAGE_CHARACTERISTICS.STAGE_DATA[0].length
         && stage_y >= 0 && stage_y < Constants.STAGE_CHARACTERISTICS.STAGE_DATA.length
+        && !(stage_x >= Constants.STAGE_CHARACTERISTICS.SPAWN_REGION[0].getX() && stage_x <= Constants.STAGE_CHARACTERISTICS.SPAWN_REGION[1].getX()
+        && stage_y >= Constants.STAGE_CHARACTERISTICS.SPAWN_REGION[0].getY() && stage_y <= Constants.STAGE_CHARACTERISTICS.SPAWN_REGION[1].getY())
         && !isChainPlacementLogged(stage_x, stage_y))
         {
             logged_chain_data.addLast(new Coordinates(stage_x, stage_y, 0));

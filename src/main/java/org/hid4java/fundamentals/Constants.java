@@ -68,6 +68,9 @@ public class Constants
             BOTTOM_LEFT_STAGE_TUNNEL_REGION, BOTTOM_RIGHT_STAGE_TUNNEL_REGION
         };
 
+        public static final Coordinates[] SPAWN_REGION = 
+        {new Coordinates(18, 15, 0), new Coordinates(28, 15, 0)};
+
         public static final int[][] STAGE_DATA = 
         {   // Tunnel regions: [9][0]->[9][5], [9][41]->[9][46], [30][0]->[27][5], [27][41]->[30][46]
             {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
