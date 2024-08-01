@@ -2,6 +2,7 @@ package org.hid4java;
 
 import org.hid4java.fundamentals.appbase.AppBase;
 import org.hid4java.fundamentals.mechanic.InstantMechanic;
+import org.hid4java.mechanics.EatPowerPellet;
 import org.hid4java.mechanics.PuppetMunchMan;
 import org.hid4java.mechanics.behavior.EnemyBlueBehavior;
 import org.hid4java.mechanics.behavior.EnemyPinkBehavior;
@@ -15,6 +16,7 @@ import org.hid4java.fundamentals.animation.Animation;
 import org.hid4java.app.input.NESControllerInput.Button;
 import org.hid4java.components.Enemy;
 import org.hid4java.components.MunchMan;
+import org.hid4java.components.PowerPellet;
 import org.hid4java.components.Stage;
 import org.hid4java.components.StageChain;
 
@@ -30,14 +32,21 @@ public class AppContainer extends AppBase
     private Stage stage = new Stage();
     private StageChain stage_chain = new StageChain();
 
+    private PowerPellet A = new PowerPellet(2, 3, 0.005);
+    private PowerPellet B = new PowerPellet(44, 3, 0.005);
+    private PowerPellet C = new PowerPellet(2, 22, 0.005);
+    private PowerPellet D = new PowerPellet(44, 22, 0.005);
+    
     private MunchMan munch_man = new MunchMan(23, 15, 0);
     private MunchMan left_puppet_munch_man = new MunchMan(-1, -1, 0);
     private MunchMan right_puppet_munch_man = new MunchMan(-1, -1, 0);
-
+    
     private Enemy enemy_red = new Enemy(2, 1, ENEMY_DEF_SPEED, new Animation("red_enemy.png"), new Animation("vulnerable_enemy.png"));
     private Enemy enemy_yellow = new Enemy(1, 30, ENEMY_DEF_SPEED, new Animation("orange_enemy.png"), new Animation("vulnerable_enemy.png"));
     private Enemy enemy_blue = new Enemy(8, 1, ENEMY_DEF_SPEED, new Animation("blue_enemy.png"), new Animation("vulnerable_enemy.png"));
     private Enemy enemy_pink = new Enemy(41, 30, ENEMY_DEF_SPEED, new Animation("pink_enemy.png"), new Animation("vulnerable_enemy.png"));
+
+    
 
     private PlaceStageChain place_stage_chain = new PlaceStageChain(munch_man, stage, stage_chain);
     private PuppetMunchMan puppet_munch_man = new PuppetMunchMan(munch_man, left_puppet_munch_man, right_puppet_munch_man);
@@ -50,8 +59,13 @@ public class AppContainer extends AppBase
 
     private EnemyRedBehavior enemy_red_behavior = new EnemyRedBehavior(enemy_red_movement, stage, enemy_red, munch_man);
     private EnemyYellowBehavior enemy_yellow_behavior = new EnemyYellowBehavior(enemy_yellow_movement, stage, enemy_yellow, munch_man);
-    private EnemyBlueBehavior enemy_blue_behavior = new EnemyBlueBehavior(enemy_blue_movement, stage, enemy_blue, enemy_red, munch_man);
+    private EnemyBlueBehavior enemy_blue_behavior = new EnemyBlueBehavior(enemy_blue_movement, stage, enemy_blue, enemy_red, munch_man, A, B, C, D);
     private EnemyPinkBehavior enemy_pink_behavior = new EnemyPinkBehavior(enemy_pink_movement, stage, enemy_pink, enemy_red, enemy_yellow, enemy_blue, munch_man);
+
+    private EatPowerPellet eat_pellot_A = new EatPowerPellet(munch_man, A);
+    private EatPowerPellet eat_pellot_B = new EatPowerPellet(munch_man, B);
+    private EatPowerPellet eat_pellot_C = new EatPowerPellet(munch_man, C);
+    private EatPowerPellet eat_pellot_D = new EatPowerPellet(munch_man, D);
 
     private void configureButtonBindings() 
     {    
@@ -84,6 +98,11 @@ public class AppContainer extends AppBase
         enemy_yellow_behavior.schedule();
         enemy_blue_behavior.schedule();
         enemy_pink_behavior.schedule();
+
+        eat_pellot_A.schedule();
+        eat_pellot_B.schedule();
+        eat_pellot_C.schedule();
+        eat_pellot_D.schedule();
     }
 
     public void periodic() 

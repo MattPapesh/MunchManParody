@@ -54,13 +54,18 @@ public class AppGraphics extends JPanel
 
                     AffineTransform original_transformation = graphics_2d.getTransform();
                     double radians = Math.toRadians(current_component.getCoordinates().getDegrees());
-                
+                    int delta_x = current_component.getCoordinates().getX() + 0*current_component.getWidth();
+                    int delta_y = current_component.getCoordinates().getY() + 0*current_component.getHeight();
+
                     graphics_2d.setClip(0, 0, Constants.WINDOW_CHARACTERISTICS.WINDOW_WIDTH, Constants.WINDOW_CHARACTERISTICS.WINDOW_HEIGHT);
-                    //graphics_2d.translate(current_component.getCoordinates().getX(), current_component.getCoordinates().getY());
+                    
+                    graphics_2d.scale(Constants.WINDOW_CHARACTERISTICS.GRAPHICS_X_SCALER_COEFF,
+                    Constants.WINDOW_CHARACTERISTICS.GRAPHICS_Y_SCALER_COEFF);
+                    
+                    graphics_2d.translate(delta_x, delta_y);
                     graphics_2d.rotate(radians);
-                    graphics_2d.scale(x_scaler * Constants.WINDOW_CHARACTERISTICS.GRAPHICS_X_SCALER_COEFF, 
-                    y_scaler * Constants.WINDOW_CHARACTERISTICS.GRAPHICS_Y_SCALER_COEFF);
-                    //graphics_2d.translate(-current_component.getCoordinates().getX(), -current_component.getCoordinates().getY());
+                    graphics_2d.translate(-delta_x, -delta_y);
+
                     graphics_2d.setComposite(AlphaComposite.SrcOver.derive((float)current_component.getOpacicty()));
                     graphics_2d.drawImage(current_component.getAnimation(), x, y, null);
                     graphics_2d.setComposite(AlphaComposite.SrcOver.derive(1));

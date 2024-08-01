@@ -9,7 +9,7 @@ import org.hid4java.mechanics.movement.EntityMovement;
 
 public class EnemySideKickBehavior extends EnemyBehaviorBase{
     private Enemy hero_enemy = null;
-    private double route_completion_pct = 0.3;
+    private double route_completion_pct = 0.1;
 
     public EnemySideKickBehavior(EntityMovement enemy_movement, Stage stage, Enemy side_kick, Enemy hero, MunchMan munch_man)
     {
@@ -27,12 +27,12 @@ public class EnemySideKickBehavior extends EnemyBehaviorBase{
         double w = Constants.STAGE_CHARACTERISTICS.STAGE_DATA[0].length;
         double h = Constants.STAGE_CHARACTERISTICS.STAGE_DATA.length; 
         
-        for(int i = 0; i < 3 && !(enemy_x >= 0 && enemy_x < w); i++)
+        for(int i = 0; i < 1 && !(enemy_x >= 0 && enemy_x < w); i++)
             enemy_x = (int)((enemy_x >= w) ? enemy_x  - (2.0 * w): ((enemy_x < 0) ? -enemy_x : enemy_x));
-        for(int i = 0; i < 3 && !(enemy_y >= 0 && enemy_y < h); i++)
+        for(int i = 0; i < 1 && !(enemy_y >= 0 && enemy_y < h); i++)
             enemy_y = (int)((enemy_y >= h) ? enemy_y - (2.0 * h) : ((enemy_y < 0) ? -enemy_y : enemy_y));
-        
-        setEnemyTarget(route_completion_pct, enemy_x, enemy_y);
+
+        setEnemyTarget(route_completion_pct, 1, enemy_x, enemy_y);
     }
 
     @Override
