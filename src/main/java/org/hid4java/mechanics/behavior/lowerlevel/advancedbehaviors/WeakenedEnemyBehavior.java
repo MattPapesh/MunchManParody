@@ -9,9 +9,10 @@ import org.hid4java.mechanics.movement.EntityMovement;
 
 public class WeakenedEnemyBehavior extends EnemyRetreatingWanderBehavior
 {
-    boolean pellet_A_eaten = false, pellet_B_eaten = false, pellet_C_eaten = false, pellet_D_eaten = false, trigger = false; 
-    PowerPellet A = null, B = null, C = null, D = null;
-    int millis = 0; long init_millis = 0;
+    private boolean pellet_A_eaten = false, pellet_B_eaten = false, pellet_C_eaten = false, pellet_D_eaten = false, trigger = false; 
+    private PowerPellet A = null, B = null, C = null, D = null;
+    private int millis = 0; long init_millis = 0;
+    private Enemy enemy = null;
 
     public WeakenedEnemyBehavior(EntityMovement enemy_movement, Stage stage, Enemy enemy, MunchMan munch_man,
     PowerPellet A, PowerPellet B, PowerPellet C, PowerPellet D, int millis) 
@@ -21,7 +22,20 @@ public class WeakenedEnemyBehavior extends EnemyRetreatingWanderBehavior
         this.B = B;
         this.C = C; 
         this.D = D; 
+        this.enemy = enemy;
         this.millis = millis;
+    }
+
+    @Override
+    public void initializeBehavior() 
+    {
+        enemy.setAnimation(enemy.getAnimation(1).getName());;
+    }
+
+    @Override
+    public void endBehavior(boolean interrupted) 
+    {
+        enemy.setAnimation(enemy.getAnimation(0).getName());
     }
 
     @Override

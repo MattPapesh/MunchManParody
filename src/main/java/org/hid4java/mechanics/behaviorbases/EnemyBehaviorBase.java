@@ -199,6 +199,7 @@ public class EnemyBehaviorBase extends MechanicBase implements EnemyBehaviorInte
     public void execute() 
     {
         executeBehavior();
+        enemy.setNextAnimation();
         if(isEnemyRouteCompleted())
         {
             scheduled_enemy_targeting = false;

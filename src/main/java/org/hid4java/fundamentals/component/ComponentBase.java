@@ -159,11 +159,11 @@ public class ComponentBase
     }
 
     /**
-     * @return An Image instance from the animation/image that the component is currently using. 
+     * @return The current Animation instance;
      */
-    public Image getAnimation()
+    public Animation getAnimation()
     {
-        return current_animation.getAnimation();
+        return current_animation;
     }
 
     /**

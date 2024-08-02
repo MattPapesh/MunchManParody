@@ -22,8 +22,8 @@ import org.hid4java.components.StageChain;
 
 public class AppContainer extends AppBase
 {
-    private final double PLAYER_DEF_SPEED = 0.3;
-    private final double ENEMY_DEF_SPEED = 0.3;
+    private final double PLAYER_DEF_SPEED = 0.2;
+    private final double ENEMY_DEF_SPEED = 0.2;
 
     private NESController nes_controller = getNESController();
     //private Controller controller = getController(Constants.CONTROLLER_IDS.LEFT_KEY, Constants.CONTROLLER_IDS.RIGHT_KEY, 
@@ -41,10 +41,11 @@ public class AppContainer extends AppBase
     private MunchMan left_puppet_munch_man = new MunchMan(-1, -1, 0);
     private MunchMan right_puppet_munch_man = new MunchMan(-1, -1, 0);
     
-    private Enemy enemy_red = new Enemy(2, 1, ENEMY_DEF_SPEED, new Animation("red_enemy.png"), new Animation("vulnerable_enemy.png"));
-    private Enemy enemy_yellow = new Enemy(1, 30, ENEMY_DEF_SPEED, new Animation("orange_enemy.png"), new Animation("vulnerable_enemy.png"));
-    private Enemy enemy_blue = new Enemy(8, 1, ENEMY_DEF_SPEED, new Animation("blue_enemy.png"), new Animation("vulnerable_enemy.png"));
-    private Enemy enemy_pink = new Enemy(41, 30, ENEMY_DEF_SPEED, new Animation("pink_enemy.png"), new Animation("vulnerable_enemy.png"));
+    int type = 3;
+    private Enemy enemy_red = new Enemy(2, 1, ENEMY_DEF_SPEED, Constants.ENEMY_HUE[0], Constants.ENEMY[type]);
+    private Enemy enemy_yellow = new Enemy(1, 30, ENEMY_DEF_SPEED, Constants.ENEMY_HUE[3], Constants.ENEMY[type]);
+    private Enemy enemy_blue = new Enemy(8, 1, ENEMY_DEF_SPEED, Constants.ENEMY_HUE[2], Constants.ENEMY[type]);
+    private Enemy enemy_pink = new Enemy(41, 30, ENEMY_DEF_SPEED, Constants.ENEMY_HUE[1], Constants.ENEMY[type]);
 
     
 

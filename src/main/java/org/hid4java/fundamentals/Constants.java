@@ -2,6 +2,8 @@ package org.hid4java.fundamentals;
 
 import java.awt.Toolkit;
 
+import org.hid4java.fundamentals.animation.Animation;
+
 /**
  * All global constants defined in specific sub-classes that were statically declared and defined. 
  */
@@ -107,4 +109,51 @@ public class Constants
             {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}
         };
     }
+
+    public static final float[] ENEMY_HUE = 
+    {
+        // Red      Pink         Blue         Orange
+        (float)0.93, (float)0.67, (float)0.43, (float)0.0
+    };
+
+    public static final Animation[] BLAZE = 
+    {
+        
+        new Animation("blaze/blaze_0.png"), new Animation("blaze/blaze_1.png"), new Animation("blaze/blaze_2.png"),
+        new Animation("blaze/blaze_3.png"), new Animation("blaze/blaze_4.png"), new Animation("blaze/blaze_5.png"),
+        new Animation("blaze/blaze_6.png"), new Animation("blaze/blaze_7.png"), new Animation("blaze/blaze_8.png"),
+        new Animation("blaze/blaze_9.png"), new Animation("blaze/blaze_10.png"), new Animation("blaze/blaze_11.png"),
+        new Animation("blaze/blaze_12.png"), new Animation("blaze/blaze_13.png"), new Animation("blaze/blaze_14.png")
+        
+    };
+
+    public static final Animation[] SUIT = 
+    {
+        new Animation("suit/suit_0.png"), new Animation("suit/suit_1.png"), new Animation("suit/suit_2.png"), 
+        new Animation("suit/suit_3.png"), new Animation("suit/suit_4.png"), new Animation("suit/suit_5.png")
+    };
+
+    public static final Animation[] SPIKE = 
+    {
+        new Animation("spike/spike_0.png"), new Animation("spike/spike_0.png"), new Animation("spike/spike_1.png"), 
+        new Animation("spike/spike_1.png"), new Animation("spike/spike_2.png"), new Animation("spike/spike_2.png"), 
+        new Animation("spike/spike_3.png"), new Animation("spike/spike_3.png"), new Animation("spike/spike_4.png"), 
+        new Animation("spike/spike_4.png"), new Animation("spike/spike_5.png"), new Animation("spike/spike_5.png"),
+        new Animation("spike/spike_6.png"), new Animation("spike/spike_6.png"), new Animation("spike/spike_7.png"), 
+        new Animation("spike/spike_7.png"), new Animation("spike/spike_8.png"), new Animation("spike/spike_8.png"), 
+        new Animation("spike/spike_9.png"), new Animation("spike/spike_9.png"), new Animation("spike/spike_10.png"), 
+        new Animation("spike/spike_10.png"), new Animation("spike/spike_11.png"), new Animation("spike/spike_11.png")
+    };
+
+    public static final Animation[] MUNCHER = 
+    {
+        new Animation("muncher/muncher_0.png"), new Animation("muncher/muncher_1.png"), new Animation("muncher/muncher_2.png"), 
+        new Animation("muncher/muncher_3.png"), new Animation("muncher/muncher_4.png"), new Animation("muncher/muncher_5.png"), 
+        new Animation("muncher/muncher_6.png"), new Animation("muncher/muncher_7.png"), new Animation("muncher/muncher_8.png"), 
+    };
+
+    public static final Animation[][] ENEMY = 
+    {
+        BLAZE, SUIT, SPIKE, MUNCHER
+    };
 }

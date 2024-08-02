@@ -65,9 +65,8 @@ public class AppGraphics extends JPanel
                     graphics_2d.translate(delta_x, delta_y);
                     graphics_2d.rotate(radians);
                     graphics_2d.translate(-delta_x, -delta_y);
-
                     graphics_2d.setComposite(AlphaComposite.SrcOver.derive((float)current_component.getOpacicty()));
-                    graphics_2d.drawImage(current_component.getAnimation(), x, y, null);
+                    graphics_2d.drawImage(current_component.getAnimation().getAnimation(), x, y, null);
                     graphics_2d.setComposite(AlphaComposite.SrcOver.derive(1));
                     graphics_2d.setTransform(original_transformation);
                 }

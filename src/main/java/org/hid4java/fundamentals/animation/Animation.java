@@ -20,6 +20,7 @@ public class Animation
 {
     private final String file_name;
     private BufferedImage image = null;
+    private Image other_image = null;
     private BufferedImage parent_image = null;
 
     private int img_x0 = 0; 
@@ -54,9 +55,43 @@ public class Animation
         image = parent_image.getSubimage(img_x0, img_y0, Math.abs(img_x1 - img_x0), Math.abs(img_y1 - img_y0));
     }
 
+    public Animation(BufferedImage image) 
+    {
+        this.file_name = "";
+        this.image = image; 
+    }
+
+    public Animation(Image image) 
+    {
+        this.file_name = "";
+        this.other_image = image; 
+    }
+
     public Image getAnimation()
     {
-        return image; 
+        return (image != null) ? image : other_image; 
+    }
+
+    public Image getHuedAnimation(double hue_offset) 
+    {
+        BufferedImage image = getBufferedImage();
+        for(int y = 0; y < image.getHeight(); y++) {
+            for(int x = 0; x < image.getWidth(); x++) {
+                int rgba = image.getRGB(x, y);
+                Color color = new Color(rgba, true);
+
+                float[] hsb = Color.RGBtoHSB(color.getRed(), color.getGreen(), color.getBlue(), null);
+                hsb[0] += (float)hue_offset;
+
+                int final_rgb = Color.HSBtoRGB(hsb[0], hsb[1], hsb[2]);
+                int final_alpha = (rgba >> 24) & 0xff;
+                int final_rgba = (final_alpha << 24) | (final_rgb & 0x00ffffff);
+
+                image.setRGB(x, y, final_rgba);
+            }
+        }
+
+        return image;
     }
 
     /**
@@ -162,9 +197,13 @@ public class Animation
         {
             return getImageIcon().getIconWidth();
         }
-        else if(file_name == "")
+        else if(image != null) 
         {
-            return Math.abs(img_x1 - img_x0);
+            return image.getWidth();
+        }
+        else if(other_image != null) 
+        {
+            return other_image.getWidth(null);
         }
 
         return 0;
@@ -186,11 +225,15 @@ public class Animation
         {
             return getImageIcon().getIconHeight();
         }
-        else if(file_name == "")
+        else if(image != null) 
         {
-            return Math.abs(img_y1 - img_y0);
+            return image.getHeight();
         }
-
+        else if(other_image != null) 
+        {
+            return other_image.getHeight(null);
+        }
+        
         return 0;
     }
 
