@@ -57,7 +57,8 @@ public class EnemyGoNearTarget extends EnemyGoToTarget
             searches.addLast(initial_search);
             discovered_paths[target_stage_y][target_stage_x] = 1;
 
-            for(int i = 0; stage_data[searches.getLast().getLast().getY()][searches.getLast().getLast().getX()] != 1; i++) {                
+            for(int i = 0; !(stage_data[searches.getLast().getLast().getY()][searches.getLast().getLast().getX()] == 1
+            || stage_data[searches.getLast().getLast().getY()][searches.getLast().getLast().getX()] == 2); i++) {                
                 LinkedList<Coordinates> search = searches.getFirst();
                 int x = search.getLast().getX();
                 int y = search.getLast().getY();
@@ -113,9 +114,5 @@ public class EnemyGoNearTarget extends EnemyGoToTarget
             }
             
             return searches.getLast().getLast();
-        //}
-        //catch(NoSuchElementException e) {
-        //    return new Coordinates(target_stage_x, target_stage_y, enemy.getStageCoords().getDegrees());   
-        //}
     }    
 }

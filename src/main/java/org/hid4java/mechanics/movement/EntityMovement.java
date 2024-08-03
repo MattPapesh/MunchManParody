@@ -12,6 +12,7 @@ public class EntityMovement extends MechanicBase
     private boolean began = false;  
     private boolean is_movement_obstructed = false; 
     private boolean enable_directional_animations = true;
+    private boolean enable_spawn_point_access = false; 
 
     private Coordinates current_stage_coords = null;
     private Coordinates prev_stage_coords = null;
@@ -41,6 +42,11 @@ public class EntityMovement extends MechanicBase
         begin(stage, entity);
     }   
 
+    public void enableSpawnPointAccess(boolean enable) 
+    {
+        enable_spawn_point_access = enable;
+    }
+
     public void enableDirectionalAnimations(boolean enable)
     {
         enable_directional_animations = enable;
@@ -57,7 +63,6 @@ public class EntityMovement extends MechanicBase
         if(!began)
         {
             began = true;
-
             this.entity = (EntityBase)entity;
 
             current_stage_coords = new Coordinates(entity.getStageCoords().getX(), entity.getStageCoords().getY(), entity.getStageCoords().getDegrees());
@@ -87,25 +92,29 @@ public class EntityMovement extends MechanicBase
     {
         try
         {
-            if(enable_directional_animations && current_delta_x > 0 && current_delta_y == 0)
+            if(current_delta_x > 0 && current_delta_y == 0)
             {
                 entity.setStageCoords(entity.getStageCoords().getX(), entity.getStageCoords().getY(), 0);
-                entity.setAnimation(entity.getAnimation(0).getName());
+                if(enable_directional_animations)
+                    entity.setAnimation(entity.getAnimation(0).getName());
             }
-            else if(enable_directional_animations && current_delta_x < 0 && current_delta_y == 0)
+            else if(current_delta_x < 0 && current_delta_y == 0)
             {
                 entity.setStageCoords(entity.getStageCoords().getX(), entity.getStageCoords().getY(), 180);
-                entity.setAnimation(entity.getAnimation(1).getName());
+                if(enable_directional_animations)
+                    entity.setAnimation(entity.getAnimation(1).getName());
             }
-            else if(enable_directional_animations && current_delta_x == 0 && current_delta_y > 0)
+            else if(current_delta_x == 0 && current_delta_y > 0)
             {
                 entity.setStageCoords(entity.getStageCoords().getX(), entity.getStageCoords().getY(), 270);
-                entity.setAnimation(entity.getAnimation(2).getName());
+                if(enable_directional_animations)
+                    entity.setAnimation(entity.getAnimation(2).getName());
             }
-            else if(enable_directional_animations && current_delta_x == 0 && current_delta_y < 0)
+            else if(current_delta_x == 0 && current_delta_y < 0)
             {
                 entity.setStageCoords(entity.getStageCoords().getX(), entity.getStageCoords().getY(), 90);
-                entity.setAnimation(entity.getAnimation(3).getName());
+                if(enable_directional_animations)
+                    entity.setAnimation(entity.getAnimation(3).getName());
             }
         }
         catch(NullPointerException e) {}
@@ -154,8 +163,12 @@ public class EntityMovement extends MechanicBase
             // Vertical to horizontal turn:
             if((Math.abs(prev_delta_x) != Math.abs(current_delta_x) || Math.abs(prev_delta_y) != Math.abs(current_delta_y))
             && current_delta_x == 0 && current_delta_y != 0 
-            && ((stage_data[current_stage_coords.getY() - 1][current_stage_coords.getX()] == 1 && current_delta_y < 0)
-            || (stage_data[current_stage_coords.getY() + 1][current_stage_coords.getX()] == 1 && current_delta_y > 0)))
+            && (((stage_data[current_stage_coords.getY() - 1][current_stage_coords.getX()] == 1 
+            || (enable_spawn_point_access && stage_data[current_stage_coords.getY() - 1][current_stage_coords.getX()] == 2)) 
+            && current_delta_y < 0)
+            || ((stage_data[current_stage_coords.getY() + 1][current_stage_coords.getX()] == 1 
+            || (enable_spawn_point_access && stage_data[current_stage_coords.getY() + 1][current_stage_coords.getX()] == 2)) 
+            && current_delta_y > 0)))
             {
                 setTickVelocity(current_delta_x, current_delta_y);
                 current_gran_stage_coords.setCoordinates(entity.convertToGranularStageCoords(current_stage_coords).getX(), 
@@ -163,8 +176,12 @@ public class EntityMovement extends MechanicBase
             }// Horizontal to vertical turn:
             else if((Math.abs(prev_delta_x) != Math.abs(current_delta_x) || Math.abs(prev_delta_y) != Math.abs(current_delta_y))
             && current_delta_x != 0 && current_delta_y == 0
-            && ((stage_data[current_stage_coords.getY()][current_stage_coords.getX() - 1] == 1 && current_delta_x < 0)
-            || (stage_data[current_stage_coords.getY()][current_stage_coords.getX() + 1] == 1 && current_delta_x > 0)))
+            && (((stage_data[current_stage_coords.getY()][current_stage_coords.getX() - 1] == 1
+            || (enable_spawn_point_access && stage_data[current_stage_coords.getY()][current_stage_coords.getX() - 1] == 2)) 
+            && current_delta_x < 0)
+            || ((stage_data[current_stage_coords.getY()][current_stage_coords.getX() + 1] == 1
+            || (enable_spawn_point_access && stage_data[current_stage_coords.getY()][current_stage_coords.getX() + 1] == 2)) 
+            && current_delta_x > 0)))
             {
                 setTickVelocity(current_delta_x, current_delta_y);
                 current_gran_stage_coords.setCoordinates(current_gran_stage_coords.getX(),  

@@ -15,7 +15,7 @@ public class PowerPellet extends EntityBase
 
     public PowerPellet(int stage_x, int stage_y, double tick_speed) 
     {
-        begin(stage_x, stage_y, pellet);
+        begin(stage_x, stage_y, 0, pellet);
         this.tick_speed = tick_speed;
     }
 

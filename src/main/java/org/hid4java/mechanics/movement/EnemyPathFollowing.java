@@ -50,7 +50,7 @@ public class EnemyPathFollowing extends MechanicBase
     public boolean isFinished()
     { 
         Coordinates delta_gran_stage = enemy.convertToGranularStageCoords(
-        new Coordinates(delta_stage_x, delta_stage_y, enemy.getGranularStageCoords().getDegrees()));
+        new Coordinates(delta_stage_x, delta_stage_y, enemy.getStageCoords().getDegrees()));
         
         return initial_stage_coords != null && initial_gran_stage_coords != null 
         && ((delta_stage_x != 0 && delta_stage_y == 0 

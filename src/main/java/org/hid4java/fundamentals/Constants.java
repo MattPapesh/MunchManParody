@@ -73,6 +73,21 @@ public class Constants
         public static final Coordinates[] SPAWN_REGION = 
         {new Coordinates(18, 15, 0), new Coordinates(28, 15, 0)};
 
+        public static final Coordinates RED_SPAWN_STAGE_COORD = new Coordinates(14, 12, 0);
+        public static final Coordinates PINK_SPAWN_STAGE_COORD = new Coordinates(32, 12, 180);
+        public static final Coordinates YELLOW_SPAWN_STAGE_COORD = new Coordinates(14, 18, 0);
+        public static final Coordinates BLUE_SPAWN_STAGE_COORD = new Coordinates(32, 18, 180); 
+
+        public static final Coordinates RED_START_STAGE_COORD = new Coordinates(17, 12, 90);
+        public static final Coordinates PINK_START_STAGE_COORD = new Coordinates(29, 12, 90);
+        public static final Coordinates YELLOW_START_STAGE_COORD = new Coordinates(17, 18, 270);
+        public static final Coordinates BLUE_START_STAGE_COORD = new Coordinates(29, 18, 270);
+
+        public static final Coordinates RED_HOME_STAGE_COORD = new Coordinates(2, 1, 0);
+        public static final Coordinates PINK_HOME_STAGE_COORD = new Coordinates(44, 1, 0);
+        public static final Coordinates YELLOW_HOME_STAGE_COORD = new Coordinates(5, 27, 0);
+        public static final Coordinates BLUE_HOME_STAGE_COORD = new Coordinates(41, 27, 0);
+
         public static final int[][] STAGE_DATA = 
         {   // Tunnel regions: [9][0]->[9][5], [9][41]->[9][46], [30][0]->[27][5], [27][41]->[30][46]
             {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
@@ -87,13 +102,13 @@ public class Constants
             {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
             {0,0,0,0,0,1,0,0,0,0,0,1,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,1,0,0,0,0,0,1,0,0,0,0,0},
             {0,0,0,0,0,1,0,0,0,0,0,1,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,1,0,0,0,0,0,1,0,0,0,0,0},
-            {0,0,0,0,0,1,0,0,0,0,0,1,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,1,0,0,0,0,0,1,0,0,0,0,0},
+            {0,0,0,0,0,1,0,0,0,0,0,1,0,0,2,2,2,1,0,0,0,0,0,0,0,0,0,0,0,1,2,2,2,0,0,1,0,0,0,0,0,1,0,0,0,0,0},//14,12 -- 32,12
             {0,0,0,0,0,1,0,0,0,0,0,1,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,1,0,0,0,0,0,1,0,0,0,0,0},
             {0,0,0,0,0,1,0,0,0,0,0,1,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,1,0,0,0,0,0,1,0,0,0,0,0},
             {0,0,0,0,0,1,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,1,0,0,0,0,0},
             {0,0,0,0,0,1,0,0,0,0,0,1,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,1,0,0,0,0,0,1,0,0,0,0,0},
             {0,0,0,0,0,1,0,0,0,0,0,1,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,1,0,0,0,0,0,1,0,0,0,0,0},
-            {0,0,0,0,0,1,0,0,0,0,0,1,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,1,0,0,0,0,0,1,0,0,0,0,0},
+            {0,0,0,0,0,1,0,0,0,0,0,1,0,0,2,2,2,1,0,0,0,0,0,0,0,0,0,0,0,1,2,2,2,0,0,1,0,0,0,0,0,1,0,0,0,0,0},//14,18 -- 32,18
             {0,0,0,0,0,1,0,0,0,0,0,1,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,1,0,0,0,0,0,1,0,0,0,0,0},
             {0,0,0,0,0,1,0,0,0,0,0,1,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,1,0,0,0,0,0,1,0,0,0,0,0},
             {0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0},

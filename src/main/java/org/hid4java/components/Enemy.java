@@ -14,14 +14,14 @@ public class Enemy extends EntityBase
     private LinkedList<Coordinates> route_traveled = new LinkedList<Coordinates>();
 
     public Enemy() {}
-    public Enemy(int stage_x, int stage_y, double speed, double hue, Animation... enemy)
+    public Enemy(int stage_x, int stage_y, int degrees, double speed, double hue, Animation... enemy)
     {   
         Animation[] hued_enemy = new Animation[enemy.length];
         for(int i = 0; i < enemy.length; i++) {
             hued_enemy[i] = new Animation(enemy[i].getHuedAnimation(hue));
         }
 
-        begin(stage_x, stage_y, hued_enemy);  
+        begin(stage_x, stage_y, degrees, hued_enemy);  
         this.speed = speed; 
         this.hue = hue; 
     }

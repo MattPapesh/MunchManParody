@@ -16,9 +16,9 @@ public class EntityBase extends ComponentBase
     - Constants.STAGE_CHARACTERISTICS.STAGE_COORD_SCALER, 
     Constants.STAGE_CHARACTERISTICS.COORD_DISPLACEMENT.getY() + 96, 0);
     
-    public void begin(int stage_x, int stage_y, Animation... animations) 
+    public void begin(int stage_x, int stage_y, int degrees, Animation... animations) 
     {
-        stage_coords.setCoordinates(stage_x, stage_y, 0);
+        stage_coords.setCoordinates(stage_x, stage_y, degrees);
         addRequirements(displacement_coords.getX() + (stage_coords.getX() * Constants.STAGE_CHARACTERISTICS.STAGE_COORD_SCALER), 
         displacement_coords.getY() + (stage_coords.getY() * Constants.STAGE_CHARACTERISTICS.STAGE_COORD_SCALER), 0, animations);
     }

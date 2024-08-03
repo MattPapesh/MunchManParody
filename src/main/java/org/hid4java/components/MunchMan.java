@@ -13,6 +13,6 @@ public class MunchMan extends EntityBase
     public MunchMan(int stage_x, int stage_y, int degrees) 
     {
         initial_stage_coords = new Coordinates(stage_x, stage_y, degrees);
-        begin(initial_stage_coords.getX(), initial_stage_coords.getY(), munch_man);
+        begin(stage_x, stage_y, degrees, munch_man);
     }
 }
