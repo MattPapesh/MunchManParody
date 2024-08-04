@@ -1,8 +1,11 @@
 package org.hid4java.mechanics.stage;
 
+import java.lang.invoke.ConstantCallSite;
+
 import org.hid4java.components.MunchMan;
 import org.hid4java.components.Stage;
 import org.hid4java.components.StageChain;
+import org.hid4java.fundamentals.Constants;
 import org.hid4java.fundamentals.mechanic.MechanicBase;
 
 public class PlaceStageChain extends MechanicBase
@@ -30,17 +33,18 @@ public class PlaceStageChain extends MechanicBase
     {   
         stage_chain.update(munch_man.getCoordinates().getX(), munch_man.getCoordinates().getY());
         stage_chain.logChainPlacement(munch_man.getStageCoords().getX(), munch_man.getStageCoords().getY());
+        Constants.score = stage_chain.numOfChain();
     }
 
     @Override
     public void end(boolean interrupted)
     {
-        System.out.print("You Win! :)");
+        
     }
 
     @Override
     public boolean isFinished()
     {
-        return stage_chain.isAllChainPlaced();
+        return false;
     }
 }

@@ -33,9 +33,11 @@ public class Constants
     {
         public static final String[] APP_ICON_IMAGES = {"icon.png", "icon.png"};
         public static final String APP_TITLE = "Munch Man";
+        public static final String FONT = "src/main/java/org/hid4java/assets/fonts/PressStart2P-vaV7.ttf";
+        public static final float FONT_SIZE = 30f; 
         public static final int WINDOW_WIDTH = (int)Toolkit.getDefaultToolkit().getScreenSize().getWidth();
         public static final int WINDOW_HEIGHT = (int)Toolkit.getDefaultToolkit().getScreenSize().getHeight();
-        public static final long REFRESH_RATE_NANOS = 1000;
+        public static final long REFRESH_RATE_NANOS = 0;
         public static final double GRAPHICS_X_SCALER_COEFF = (Toolkit.getDefaultToolkit().getScreenSize().getWidth() / 1302.0) * 1.03;
         public static final double GRAPHICS_Y_SCALER_COEFF = (Toolkit.getDefaultToolkit().getScreenSize().getHeight() / 975.0) * 0.975;
         public static final int GRAPHICS_X_TRANSLATION = 0;
@@ -125,6 +127,11 @@ public class Constants
         };
     }
 
+    public static int score = 0, high_score = 0, level = 0;
+
+    public static final int PELLET_PTS = 10; 
+    public static final int POWER_PELLET_PTS = 500; 
+
     public static final float[] ENEMY_HUE = 
     {
         // Red      Pink         Blue         Orange
@@ -150,14 +157,10 @@ public class Constants
 
     public static final Animation[] SPIKE = 
     {
-        new Animation("spike/spike_0.png"), new Animation("spike/spike_0.png"), new Animation("spike/spike_1.png"), 
-        new Animation("spike/spike_1.png"), new Animation("spike/spike_2.png"), new Animation("spike/spike_2.png"), 
-        new Animation("spike/spike_3.png"), new Animation("spike/spike_3.png"), new Animation("spike/spike_4.png"), 
-        new Animation("spike/spike_4.png"), new Animation("spike/spike_5.png"), new Animation("spike/spike_5.png"),
-        new Animation("spike/spike_6.png"), new Animation("spike/spike_6.png"), new Animation("spike/spike_7.png"), 
-        new Animation("spike/spike_7.png"), new Animation("spike/spike_8.png"), new Animation("spike/spike_8.png"), 
-        new Animation("spike/spike_9.png"), new Animation("spike/spike_9.png"), new Animation("spike/spike_10.png"), 
-        new Animation("spike/spike_10.png"), new Animation("spike/spike_11.png"), new Animation("spike/spike_11.png")
+        new Animation("spike/spike_0.png"), new Animation("spike/spike_1.png"), new Animation("spike/spike_2.png"), 
+        new Animation("spike/spike_3.png"), new Animation("spike/spike_4.png"), new Animation("spike/spike_5.png"), 
+        new Animation("spike/spike_6.png"), new Animation("spike/spike_7.png"), new Animation("spike/spike_8.png"), 
+        new Animation("spike/spike_9.png"), new Animation("spike/spike_10.png"), new Animation("spike/spike_11.png")
     };
 
     public static final Animation[] MUNCHER = 

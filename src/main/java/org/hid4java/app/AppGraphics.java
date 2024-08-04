@@ -2,6 +2,9 @@ package org.hid4java.app;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
+import java.io.File;
+import java.io.IOException;
+
 import javax.swing.JPanel;
 
 import org.hid4java.fundamentals.Constants;
@@ -40,7 +43,6 @@ public class AppGraphics extends JPanel
         Toolkit.getDefaultToolkit().getScreenSize().getWidth();
         double y_scaler = (double)Constants.WINDOW_CHARACTERISTICS.WINDOW_HEIGHT /
         Toolkit.getDefaultToolkit().getScreenSize().getHeight();
-
         for(int i = 0; i < ComponentScheduler.getComponents().size(); i++)
         {
             try
@@ -76,6 +78,25 @@ public class AppGraphics extends JPanel
             catch (NullPointerException e) {}
         }
 
+        float font_size = Constants.WINDOW_CHARACTERISTICS.FONT_SIZE;
+        double width = Constants.WINDOW_CHARACTERISTICS.WINDOW_WIDTH; 
+        double height = Constants.WINDOW_CHARACTERISTICS.WINDOW_HEIGHT;
+
+        // Custom font type:
+        try { 
+            File font_file = new File(Constants.WINDOW_CHARACTERISTICS.FONT);
+            Font font = Font.createFont(Font.TRUETYPE_FONT, font_file).deriveFont(font_size);
+            graphics_2d.setFont(font);
+        } 
+        catch(IOException | FontFormatException e) {System.out.println(e);} 
+
+        String score = "SCORE: " + Constants.score + "    HIGH SCORE: " + Constants.high_score;
+        String lives = "LIVES: ";
+        String level = "LVL: " + Constants.level;
+
+        graphics_2d.drawString(score, (int)(width - (font_size * score.length())) / 2, (int)(height * 0.05));
+        graphics_2d.drawString(lives, (int)(width * 0.8) - (font_size * (lives.length() / 2)), (int)(height * 0.05));
+        graphics_2d.drawString(level, (int)(width * 0.1) - (font_size * (level.length() / 2)), (int)(height * 0.05));
         repaint();
     }
 }

@@ -2,8 +2,10 @@ package org.hid4java.mechanics.behavior;
 
 import org.hid4java.components.Enemy;
 import org.hid4java.components.MunchMan;
+import org.hid4java.components.PowerPellet;
 import org.hid4java.components.Stage;
 import org.hid4java.fundamentals.Coordinates;
+import org.hid4java.mechanics.behavior.lowerlevel.advancedbehaviors.WeakenedEnemyBehavior;
 import org.hid4java.mechanics.behavior.lowerlevel.simplebehaviors.EnemyAnchorBehavior;
 import org.hid4java.mechanics.behavior.lowerlevel.simplebehaviors.EnemyFlankHuntBehavior;
 import org.hid4java.mechanics.behavior.lowerlevel.simplebehaviors.EnemyAnchorBehavior.anchor_data;
@@ -12,20 +14,24 @@ import org.hid4java.mechanics.movement.EntityMovement;
 
 public class EnemyRedBehavior extends EnemyBehaviorGroup
 {
-    public EnemyRedBehavior(EntityMovement enemy_movement, Stage stage, Enemy enemy, MunchMan munch_man)
+    public EnemyRedBehavior(EntityMovement enemy_movement, Stage stage, Enemy enemy, MunchMan munch_man,
+    PowerPellet A, PowerPellet B, PowerPellet C, PowerPellet D)
     {
         super(enemy_movement, stage, enemy, munch_man);
         addBehaviors
         (
-            new behavior(0, 5000, 5000, false,
+            new behavior(0, 10000, 0, true,
+            new WeakenedEnemyBehavior(enemy_movement, stage, enemy, munch_man, A, B, C, D, 10000)),
+
+            new behavior(0.5, 5000, 5000, false,
             new EnemyFlankHuntBehavior(enemy_movement, stage, enemy, munch_man, 
             7,5, 180)),
 
-            new behavior(1.0, 5000, 5000, false,
+            new behavior(0.5, 5000, 5000, false,
             new EnemyFlankHuntBehavior(enemy_movement, stage, enemy, munch_man, 
             0, 0, 0)),
 
-            new behavior(0, 10000, 0, false,
+            new behavior(1.0, 10000, 0, false,
             new EnemyAnchorBehavior(enemy_movement, stage, enemy, munch_man, new anchor_data() {
                 @Override public double getTurnAroundProbabilityPercentage() {return 0.3;}
                 @Override public Coordinates getStageCoords() {return enemy.getStageCoords();}

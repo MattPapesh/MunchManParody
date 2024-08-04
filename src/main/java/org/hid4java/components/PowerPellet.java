@@ -23,9 +23,6 @@ public class PowerPellet extends EntityBase
     {
         ticks = (ticks + tick_speed <= 2.0 * Math.PI) ? ticks + tick_speed : 0;
         setCoordinates(getCoordinates().getX(), getCoordinates().getY(), (int)(MAX_DEGREES * Math.sin(ticks)));
-        if(ticks == 0) {
-            reset();
-        }
     }
 
     public void eat() 

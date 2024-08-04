@@ -23,12 +23,12 @@ import org.hid4java.components.StageChain;
 
 public class AppContainer extends AppBase
 {
-    private final double PLAYER_DEF_SPEED = 0.2;
-    private final double ENEMY_DEF_SPEED = 0.2;
+    private final double PLAYER_DEF_SPEED = 0.1;
+    private final double ENEMY_DEF_SPEED = 0.1;
 
-    private NESController nes_controller = getNESController();
-    //private Controller controller = getController(Constants.CONTROLLER_IDS.LEFT_KEY, Constants.CONTROLLER_IDS.RIGHT_KEY, 
-    //Constants.CONTROLLER_IDS.UP_KEY, Constants.CONTROLLER_IDS.DOWN_KEY);
+    //private NESController nes_controller = getNESController();
+    private Controller controller = getController(Constants.CONTROLLER_IDS.LEFT_KEY, Constants.CONTROLLER_IDS.RIGHT_KEY, 
+    Constants.CONTROLLER_IDS.UP_KEY, Constants.CONTROLLER_IDS.DOWN_KEY);
 
     private Stage stage = new Stage();
     private StageChain stage_chain = new StageChain();
@@ -61,10 +61,10 @@ public class AppContainer extends AppBase
     private EntityMovement enemy_blue_movement = new EntityMovement(stage, enemy_blue);
     private EntityMovement enemy_pink_movement = new EntityMovement(stage, enemy_pink);
 
-    private EnemyRedBehavior enemy_red_behavior = new EnemyRedBehavior(enemy_red_movement, stage, enemy_red, munch_man);
-    private EnemyYellowBehavior enemy_yellow_behavior = new EnemyYellowBehavior(enemy_yellow_movement, stage, enemy_yellow, munch_man);
+    private EnemyRedBehavior enemy_red_behavior = new EnemyRedBehavior(enemy_red_movement, stage, enemy_red, munch_man, A, B, C, D);
+    private EnemyYellowBehavior enemy_yellow_behavior = new EnemyYellowBehavior(enemy_yellow_movement, stage, enemy_yellow, munch_man, A, B, C, D);
     private EnemyBlueBehavior enemy_blue_behavior = new EnemyBlueBehavior(enemy_blue_movement, stage, enemy_blue, enemy_red, munch_man, A, B, C, D);
-    private EnemyPinkBehavior enemy_pink_behavior = new EnemyPinkBehavior(enemy_pink_movement, stage, enemy_pink, enemy_red, enemy_yellow, enemy_blue, munch_man);
+    private EnemyPinkBehavior enemy_pink_behavior = new EnemyPinkBehavior(enemy_pink_movement, stage, enemy_pink, enemy_red, enemy_yellow, enemy_blue, munch_man, A, B, C, D);
 
     private LevelBehavior red_level = new LevelBehavior(enemy_red_movement, stage, enemy_red, munch_man, Constants.STAGE_CHARACTERISTICS.RED_SPAWN_STAGE_COORD, 
     Constants.STAGE_CHARACTERISTICS.RED_START_STAGE_COORD, Constants.STAGE_CHARACTERISTICS.RED_HOME_STAGE_COORD, enemy_red_behavior);
@@ -83,15 +83,15 @@ public class AppContainer extends AppBase
     private void configureButtonBindings() 
     {    
         // NES Controller Button Bindings:
-        nes_controller.whenPressed(Button.LEFT, new InstantMechanic(()->{ player_movement.setTickVelocity(-PLAYER_DEF_SPEED, 0); }));
-        nes_controller.whenPressed(Button.RIGHT, new InstantMechanic(()->{ player_movement.setTickVelocity(PLAYER_DEF_SPEED, 0); }));
-        nes_controller.whenPressed(Button.UP, new InstantMechanic(()->{ player_movement.setTickVelocity(0, -PLAYER_DEF_SPEED); }));
-        nes_controller.whenPressed(Button.DOWN, new InstantMechanic(()->{ player_movement.setTickVelocity(0, PLAYER_DEF_SPEED); }));
+        //nes_controller.whenPressed(Button.LEFT, new InstantMechanic(()->{ player_movement.setTickVelocity(-PLAYER_DEF_SPEED, 0); }));
+        //nes_controller.whenPressed(Button.RIGHT, new InstantMechanic(()->{ player_movement.setTickVelocity(PLAYER_DEF_SPEED, 0); }));
+        //nes_controller.whenPressed(Button.UP, new InstantMechanic(()->{ player_movement.setTickVelocity(0, -PLAYER_DEF_SPEED); }));
+        //nes_controller.whenPressed(Button.DOWN, new InstantMechanic(()->{ player_movement.setTickVelocity(0, PLAYER_DEF_SPEED); }));
         // Keyboard Controller Button Bindings:
-        //controller.whenLeftPressed(new InstantMechanic(()->{ player_movement.setTickVelocity(-PLAYER_DEF_SPEED, 0); }));
-        //controller.whenRightPressed(new InstantMechanic(()->{ player_movement.setTickVelocity(PLAYER_DEF_SPEED, 0); }));
-        //controller.whenUpPressed(new InstantMechanic(()->{ player_movement.setTickVelocity(0, -PLAYER_DEF_SPEED); }));
-        //controller.whenDownPressed(new InstantMechanic(()->{ player_movement.setTickVelocity(0, PLAYER_DEF_SPEED); }));
+        controller.whenLeftPressed(new InstantMechanic(()->{ player_movement.setTickVelocity(-PLAYER_DEF_SPEED, 0); }));
+        controller.whenRightPressed(new InstantMechanic(()->{ player_movement.setTickVelocity(PLAYER_DEF_SPEED, 0); }));
+        controller.whenUpPressed(new InstantMechanic(()->{ player_movement.setTickVelocity(0, -PLAYER_DEF_SPEED); }));
+        controller.whenDownPressed(new InstantMechanic(()->{ player_movement.setTickVelocity(0, PLAYER_DEF_SPEED); }));
     }
 
     public AppContainer() 

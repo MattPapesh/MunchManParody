@@ -19,6 +19,7 @@ public class EnemyBlueBehavior extends EnemyBehaviorGroup
         addBehaviors
         (   new behavior(0, 10000, 0, true,
             new WeakenedEnemyBehavior(enemy_movement, stage, enemy, munch_man, A, B, C, D, 10000)),
+            
             new behavior(1.0, 5000, 0, false, 
             new EnemySideKickBehavior(enemy_movement, stage, enemy, hero, munch_man))
         );

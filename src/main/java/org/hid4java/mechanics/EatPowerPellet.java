@@ -2,6 +2,7 @@ package org.hid4java.mechanics;
 
 import org.hid4java.components.MunchMan;
 import org.hid4java.components.PowerPellet;
+import org.hid4java.fundamentals.Constants;
 import org.hid4java.fundamentals.GameMath;
 import org.hid4java.fundamentals.mechanic.MechanicBase;
 
@@ -26,6 +27,7 @@ public class EatPowerPellet extends MechanicBase
     {
         pellet.run();
         if(!pellet.getEaten() && GameMath.isCoordsEqual(munch_man.getStageCoords(), pellet.getStageCoords())) {
+            Constants.score += Constants.POWER_PELLET_PTS;
             pellet.eat();
         }
     }
