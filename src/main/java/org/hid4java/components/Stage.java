@@ -13,10 +13,24 @@ public class Stage extends ComponentBase {
     {
         addRequirements((stage.getImageWidth() / 2) + Constants.STAGE_CHARACTERISTICS.COORD_DISPLACEMENT.getX(), 
         (stage.getImageHeight() / 2) + Constants.STAGE_CHARACTERISTICS.COORD_DISPLACEMENT.getY(), 0, stage);
+
+        Animation[] hued_stages = {
+            stage, 
+            new Animation(stage.getHSVAnimation(-0.10, 0, 0)),
+            new Animation(stage.getHSVAnimation(0.40, 0, 0)), 
+            new Animation(stage.getHSVAnimation(0.25, 0, 0)), 
+            new Animation(stage.getHSVAnimation(0.1, 0, 0)),
+            new Animation(stage.getHSVAnimation(-0.20, 0, 0)),
+            new Animation(stage.getHSVAnimation(0.64, 0, 0))
+        };
+
+        importAnimations(hued_stages);
     }
 
     public int[][] getStageData() 
     {
         return stage_data;
     }
+
+
 }

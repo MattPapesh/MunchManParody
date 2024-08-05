@@ -16,6 +16,9 @@ public class LevelBehavior extends EnemyBehaviorBase
     private EnemyBehaviorBase behavior = null; 
     private Enemy enemy = null; 
 
+    private Coordinates prev_gran_coords = new Coordinates(0, 0, 0);
+    private Coordinates current_gran_coords = new Coordinates(0, 0, 0);
+
     private boolean spawned = false; 
     private boolean started = false; 
     private boolean homed = false; 
@@ -40,13 +43,13 @@ public class LevelBehavior extends EnemyBehaviorBase
         spawned = false; 
         started = false; 
         homed = false; 
-        enemy.setStageCoords(spawn_stage_coord.getX(), spawn_stage_coord.getY(), spawn_stage_coord.getDegrees());
+        enemy.reset();
         behavior.cancel();
     }
 
     public void nextLevel(int level) 
     {
-        setLevel(level + 1);
+        setLevel(level);
     }
 
     public void reset() 
@@ -63,20 +66,23 @@ public class LevelBehavior extends EnemyBehaviorBase
     @Override
     public void executeBehavior() 
     {
+        prev_gran_coords = current_gran_coords; 
+        current_gran_coords = enemy.getGranularStageCoords();
+
         if(!spawned) 
         {
             spawned = true;
             setEnemyTarget(1.0, start_stage_coord.getX(), start_stage_coord.getY());
         }
-        else if(GameMath.isCoordsEqual(enemy.getStageCoords(), start_stage_coord) && !started) 
+        else if(GameMath.isCoordsEqual(enemy.getGranularStageCoords(), enemy.convertToGranularStageCoords(start_stage_coord)) && !started) 
         {
             started = true;
-            setEnemyTarget(0, enemy.getStageCoords().getX(), enemy.getStageCoords().getY());
             setEnemyTarget(1.0, home_stage_coord.getX(), home_stage_coord.getY());
         }
-        else if(GameMath.isCoordsEqual(enemy.getStageCoords(), home_stage_coord) && !homed) 
+        else if(GameMath.isCoordsEqual(enemy.getGranularStageCoords(), enemy.convertToGranularStageCoords(home_stage_coord)) && !homed) 
         {
-            setEnemyTarget(0, enemy.getStageCoords().getX(), enemy.getStageCoords().getY());
+            homed = true;
+            setEnemyTarget(1, enemy.getStageCoords().getX(), enemy.getStageCoords().getY());
             behavior.schedule();
         }
     }

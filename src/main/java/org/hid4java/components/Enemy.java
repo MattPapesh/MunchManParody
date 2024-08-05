@@ -6,6 +6,7 @@ import java.util.function.Function;
 
 import org.hid4java.fundamentals.Coordinates;
 import org.hid4java.fundamentals.animation.Animation;
+import org.hid4java.mechanics.movement.EntityMovement;
 
 public class Enemy extends EntityBase
 {
@@ -15,8 +16,10 @@ public class Enemy extends EntityBase
     private Animation[] enemy = null; 
     private Animation[] weakened_enemy = null;
     private boolean is_weakened_state = false; 
-    private boolean is_eaten_state = false; 
+    private EntityMovement enemy_movement = null; 
     public final Coordinates SPAWN_STAGE_COORD;
+
+    boolean initialized = false; 
 
     public Enemy(int stage_x, int stage_y, int degrees, double speed, 
     double hue, double weakened_hue, Function<Integer, Double> weakened_saturation, Animation... enemy)
@@ -38,9 +41,33 @@ public class Enemy extends EntityBase
         this.SPAWN_STAGE_COORD = new Coordinates(stage_x, stage_y, degrees);
     }
 
-    public void enableEatenState(boolean enable) 
+    public void appendEntityMovement(EntityMovement movement) 
     {
-        is_eaten_state = enable;
+        enemy_movement = movement;
+    } 
+
+    public void reset(int stage_x, int stage_y, int degree) 
+    {
+        initialized = false;
+        if(enemy_movement != null) {
+            enemy_movement.reset(stage_x, stage_y, degree);
+            importAnimations(enemy);
+        }
+    } 
+
+    public void reset() 
+    {
+        reset(SPAWN_STAGE_COORD.getX(), SPAWN_STAGE_COORD.getY(), SPAWN_STAGE_COORD.getDegrees());
+    }
+
+    public boolean isEnemyInitialized() 
+    {
+        return initialized;
+    }
+
+    public void initializeEnemy() 
+    {
+        initialized = true;
     }
     
     public void enableWeakenedState(boolean enable) 
@@ -57,11 +84,6 @@ public class Enemy extends EntityBase
     public boolean isWeakenedState() 
     {
         return is_weakened_state;
-    }
-
-    public boolean isEatenState() 
-    {
-        return is_eaten_state;
     }
 
     public void setRoute(LinkedList<Coordinates> route) 

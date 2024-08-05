@@ -3,6 +3,7 @@ package org.hid4java;
 import org.hid4java.fundamentals.appbase.AppBase;
 import org.hid4java.fundamentals.mechanic.InstantMechanic;
 import org.hid4java.mechanics.EatPowerPellet;
+import org.hid4java.mechanics.KillMunchMan;
 import org.hid4java.mechanics.PuppetMunchMan;
 import org.hid4java.mechanics.behavior.EnemyBlueBehavior;
 import org.hid4java.mechanics.behavior.EnemyPinkBehavior;
@@ -12,11 +13,13 @@ import org.hid4java.mechanics.behavior.LevelBehavior;
 import org.hid4java.mechanics.movement.EntityMovement;
 import org.hid4java.mechanics.stage.PlaceStageChain;
 import org.hid4java.fundamentals.Constants;
+import org.hid4java.fundamentals.GameMath;
 import org.hid4java.fundamentals.UI.*;
 import org.hid4java.fundamentals.animation.Animation;
 import org.hid4java.app.input.NESControllerInput.Button;
 import org.hid4java.components.Enemy;
 import org.hid4java.components.MunchMan;
+import org.hid4java.components.MunchManLives;
 import org.hid4java.components.PowerPellet;
 import org.hid4java.components.Stage;
 import org.hid4java.components.StageChain;
@@ -32,13 +35,15 @@ public class AppContainer extends AppBase
 
     private Stage stage = new Stage();
     private StageChain stage_chain = new StageChain();
+    private MunchManLives lives = new MunchManLives();
 
     private PowerPellet A = new PowerPellet(2, 3, 0.005);
     private PowerPellet B = new PowerPellet(44, 3, 0.005);
     private PowerPellet C = new PowerPellet(2, 22, 0.005);
     private PowerPellet D = new PowerPellet(44, 22, 0.005);
     
-    private MunchMan munch_man = new MunchMan(23, 15, 0);
+    private MunchMan munch_man = new MunchMan(Constants.STAGE_CHARACTERISTICS.MUNCHMAN_SPAWN.getX(), 
+    Constants.STAGE_CHARACTERISTICS.MUNCHMAN_SPAWN.getY(), Constants.STAGE_CHARACTERISTICS.MUNCHMAN_SPAWN.getDegrees());
     private MunchMan left_puppet_munch_man = new MunchMan(-1, -1, 0);
     private MunchMan right_puppet_munch_man = new MunchMan(-1, -1, 0);
     
@@ -83,6 +88,8 @@ public class AppContainer extends AppBase
     private EatPowerPellet eat_pellot_C = new EatPowerPellet(munch_man, C, enemy_red, enemy_yellow, enemy_blue, enemy_pink, Constants.POWER_PELLOT_DURATION_MILLIS);
     private EatPowerPellet eat_pellot_D = new EatPowerPellet(munch_man, D, enemy_red, enemy_yellow, enemy_blue, enemy_pink, Constants.POWER_PELLOT_DURATION_MILLIS);
 
+    private KillMunchMan kill_munch_man = new KillMunchMan(munch_man, lives, enemy_yellow, enemy_red, enemy_pink, enemy_blue, yellow_level, red_level, pink_level, blue_level);
+
     private void configureButtonBindings() 
     {    
         // NES Controller Button Bindings:
@@ -91,12 +98,13 @@ public class AppContainer extends AppBase
         //nes_controller.whenPressed(Button.UP, new InstantMechanic(()->{ player_movement.setTickVelocity(0, -PLAYER_DEF_SPEED); }));
         //nes_controller.whenPressed(Button.DOWN, new InstantMechanic(()->{ player_movement.setTickVelocity(0, PLAYER_DEF_SPEED); }));
         // Keyboard Controller Button Bindings:
-        controller.whenLeftPressed(new InstantMechanic(()->{ player_movement.setTickVelocity(-PLAYER_DEF_SPEED, 0); }));
-        controller.whenRightPressed(new InstantMechanic(()->{ player_movement.setTickVelocity(PLAYER_DEF_SPEED, 0); }));
-        controller.whenUpPressed(new InstantMechanic(()->{ player_movement.setTickVelocity(0, -PLAYER_DEF_SPEED); }));
-        controller.whenDownPressed(new InstantMechanic(()->{ player_movement.setTickVelocity(0, PLAYER_DEF_SPEED); }));
+        controller.whenLeftPressed(new InstantMechanic(()->{ if(!munch_man.isKilled()) player_movement.setTickVelocity(-PLAYER_DEF_SPEED, 0); }));
+        controller.whenRightPressed(new InstantMechanic(()->{ if(!munch_man.isKilled()) player_movement.setTickVelocity(PLAYER_DEF_SPEED, 0); }));
+        controller.whenUpPressed(new InstantMechanic(()->{ if(!munch_man.isKilled()) player_movement.setTickVelocity(0, -PLAYER_DEF_SPEED); }));
+        controller.whenDownPressed(new InstantMechanic(()->{ if(!munch_man.isKilled()) player_movement.setTickVelocity(0, PLAYER_DEF_SPEED); }));
     }
 
+    long x = 0;
     public AppContainer() 
     {
         configureButtonBindings();
@@ -114,11 +122,17 @@ public class AppContainer extends AppBase
         enemy_yellow_movement.enableSpawnPointAccess(true);
         enemy_blue_movement.enableSpawnPointAccess(true);
         enemy_pink_movement.enableSpawnPointAccess(true);
-        // Enemy Behaviors:
-        //enemy_red_behavior.schedule();
-        //enemy_yellow_behavior.schedule();
-        //enemy_blue_behavior.schedule();
-        //enemy_pink_behavior.schedule();
+
+        enemy_red_movement.schedule();
+        enemy_yellow_movement.schedule();
+        enemy_blue_movement.schedule();
+        enemy_pink_movement.schedule();
+   
+        munch_man.appendEntityMovement(player_movement);
+        enemy_red.appendEntityMovement(enemy_red_movement);
+        enemy_yellow.appendEntityMovement(enemy_yellow_movement);
+        enemy_blue.appendEntityMovement(enemy_blue_movement);
+        enemy_pink.appendEntityMovement(enemy_pink_movement);
 
         red_level.schedule();
         yellow_level.schedule();
@@ -129,10 +143,25 @@ public class AppContainer extends AppBase
         eat_pellot_B.schedule();
         eat_pellot_C.schedule();
         eat_pellot_D.schedule();
+
+        kill_munch_man.schedule();
     }
 
     public void periodic() 
     {
-        
+        if(stage_chain.isAllChainPlaced()) {
+            Constants.level++;
+            stage_chain.reset();
+
+            A.reset();
+            B.reset();
+            C.reset();
+            D.reset();
+
+            red_level.nextLevel(Constants.level);
+            yellow_level.nextLevel(Constants.level);
+            blue_level.nextLevel(Constants.level);
+            pink_level.nextLevel(Constants.level);
+        }
     }
 }

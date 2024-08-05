@@ -76,15 +76,17 @@ public class Constants
         public static final Coordinates[] SPAWN_REGION = 
         {new Coordinates(18, 15, 0), new Coordinates(28, 15, 0)};
 
-        public static final Coordinates RED_SPAWN_STAGE_COORD = new Coordinates(14, 12, 0);
-        public static final Coordinates PINK_SPAWN_STAGE_COORD = new Coordinates(32, 12, 180);
-        public static final Coordinates YELLOW_SPAWN_STAGE_COORD = new Coordinates(14, 18, 0);
-        public static final Coordinates BLUE_SPAWN_STAGE_COORD = new Coordinates(32, 18, 180); 
+        public static final Coordinates MUNCHMAN_SPAWN = new Coordinates(23, 15, 0);
 
-        public static final Coordinates RED_START_STAGE_COORD = new Coordinates(17, 12, 90);
-        public static final Coordinates PINK_START_STAGE_COORD = new Coordinates(29, 12, 90);
-        public static final Coordinates YELLOW_START_STAGE_COORD = new Coordinates(17, 18, 270);
-        public static final Coordinates BLUE_START_STAGE_COORD = new Coordinates(29, 18, 270);
+        public static final Coordinates RED_SPAWN_STAGE_COORD = new Coordinates(14, 12, 0);
+        public static final Coordinates PINK_SPAWN_STAGE_COORD = new Coordinates(32, 12, 0);
+        public static final Coordinates YELLOW_SPAWN_STAGE_COORD = new Coordinates(14, 18, 0);
+        public static final Coordinates BLUE_SPAWN_STAGE_COORD = new Coordinates(32, 18, 00); 
+
+        public static final Coordinates RED_START_STAGE_COORD = new Coordinates(17, 12, 0);
+        public static final Coordinates PINK_START_STAGE_COORD = new Coordinates(29, 12, 0);
+        public static final Coordinates YELLOW_START_STAGE_COORD = new Coordinates(17, 18, 0);
+        public static final Coordinates BLUE_START_STAGE_COORD = new Coordinates(29, 18, 0);
 
         public static final Coordinates RED_HOME_STAGE_COORD = new Coordinates(2, 1, 0);
         public static final Coordinates PINK_HOME_STAGE_COORD = new Coordinates(44, 1, 0);
@@ -128,13 +130,13 @@ public class Constants
         };
     }
 
-    public static int score = 0, high_score = 0, level = 1;
+    public static int score = 0, high_score = 0, level = 1, lives = 3;
 
     public static final int PELLET_PTS = 10; 
     public static final int POWER_PELLET_PTS = 50; 
     public static final int EAT_ENEMY_PTR = 500; 
 
-    public static final int POWER_PELLOT_DURATION_MILLIS = 20000;
+    public static final int POWER_PELLOT_DURATION_MILLIS = 10000;
 
     public static final float[] ENEMY_HUE = 
     {
@@ -150,6 +152,13 @@ public class Constants
         {
             return MAX_WEAKENED_ENEMY_SATURATION_OFFSET * Math.sin(i);
         }
+    };
+
+    public static final Animation[] MUNCHMAN_DEATH = 
+    {
+        new Animation("death/munchman_death_0.png"), new Animation("death/munchman_death_1.png"), new Animation("death/munchman_death_2.png"), 
+        new Animation("death/munchman_death_3.png"), new Animation("death/munchman_death_4.png"), new Animation("death/munchman_death_5.png"), 
+        new Animation("death/munchman_death_6.png"), new Animation("death/munchman_death_7.png") 
     };
 
     public static final Animation[] BLAZE = 

@@ -24,11 +24,11 @@ public class EnemyRedBehavior extends EnemyBehaviorGroup
             new behavior(0, 10000, 0, true,
             new WeakenedEnemyBehavior(enemy_movement, stage, enemy, munch_man, A, B, C, D, Constants.POWER_PELLOT_DURATION_MILLIS)),
 
-            new behavior(0.5, 5000, 5000, false,
+            new behavior(0.75, 5000, 5000, false,
             new EnemyFlankHuntBehavior(enemy_movement, stage, enemy, munch_man, 
             7,5, 180)),
 
-            new behavior(0.5, 5000, 5000, false,
+            new behavior(0.75, 5000, 5000, false,
             new EnemyFlankHuntBehavior(enemy_movement, stage, enemy, munch_man, 
             0, 0, 0)),
 

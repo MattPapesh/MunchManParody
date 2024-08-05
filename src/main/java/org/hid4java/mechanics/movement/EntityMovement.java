@@ -120,10 +120,18 @@ public class EntityMovement extends MechanicBase
         catch(NullPointerException e) {}
     }
 
+    public void reset(int stage_x, int stage_y, int degrees) 
+    {
+        entity.setStageCoords(stage_x, stage_y, degrees);
+        setTickVelocity(0, 0);
+        current_gran_stage_coords = entity.getGranularStageCoords();
+    }
+
     private void updateCoords() 
     {
         entity.setCoordinates(current_gran_stage_coords.getX() + entity.getDisplacementCoords().getX(), 
         current_gran_stage_coords.getY() + entity.getDisplacementCoords().getY(), entity.getCoordinates().getDegrees());
+
         entity.setGranularStageCoords(current_gran_stage_coords.getX(), current_gran_stage_coords.getY(), current_gran_stage_coords.getDegrees());
         entity.setStageCoords(current_stage_coords.getX(), current_stage_coords.getY(), current_stage_coords.getDegrees());
     }

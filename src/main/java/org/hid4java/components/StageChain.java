@@ -46,6 +46,13 @@ public class StageChain extends ComponentBase
         }
     }
 
+    public void reset() 
+    {
+        logged_chain_data.clear();
+        stage_chain.setAlpha(0, 0, Constants.WINDOW_CHARACTERISTICS.WINDOW_WIDTH, 
+        Constants.WINDOW_CHARACTERISTICS.WINDOW_HEIGHT, 0);
+    }
+
     public boolean isAllChainPlaced()
     {
         return logged_chain_data.size() >= MAX_NUM_OF_CHAIN;
