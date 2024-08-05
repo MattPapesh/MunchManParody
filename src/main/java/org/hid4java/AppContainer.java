@@ -49,18 +49,17 @@ public class AppContainer extends AppBase
     private MunchMan left_puppet_munch_man = new MunchMan(-1, -1, 0);
     private MunchMan right_puppet_munch_man = new MunchMan(-1, -1, 0);
     
-    int type = 3;
     private Enemy enemy_red = new Enemy(Constants.STAGE_CHARACTERISTICS.RED_SPAWN_STAGE_COORD.getX(), Constants.STAGE_CHARACTERISTICS.RED_SPAWN_STAGE_COORD.getY(), 
-    Constants.STAGE_CHARACTERISTICS.RED_SPAWN_STAGE_COORD.getDegrees(), ENEMY_DEF_SPEED, Constants.ENEMY_HUE[0], Constants.ENEMY_HUE[4], Constants.WEAKENED_ENEMY_SATURATION, Constants.ENEMY[type]);
+    Constants.STAGE_CHARACTERISTICS.RED_SPAWN_STAGE_COORD.getDegrees(), ENEMY_DEF_SPEED, Constants.ENEMY_HUE[0], Constants.ENEMY_HUE[4], Constants.WEAKENED_ENEMY_SATURATION);
 
     private Enemy enemy_yellow = new Enemy(Constants.STAGE_CHARACTERISTICS.YELLOW_SPAWN_STAGE_COORD.getX(), Constants.STAGE_CHARACTERISTICS.YELLOW_SPAWN_STAGE_COORD.getY(), 
-    Constants.STAGE_CHARACTERISTICS.YELLOW_SPAWN_STAGE_COORD.getDegrees(), ENEMY_DEF_SPEED, Constants.ENEMY_HUE[3], Constants.ENEMY_HUE[4], Constants.WEAKENED_ENEMY_SATURATION, Constants.ENEMY[type]);
+    Constants.STAGE_CHARACTERISTICS.YELLOW_SPAWN_STAGE_COORD.getDegrees(), ENEMY_DEF_SPEED, Constants.ENEMY_HUE[3], Constants.ENEMY_HUE[4], Constants.WEAKENED_ENEMY_SATURATION);
 
     private Enemy enemy_blue = new Enemy(Constants.STAGE_CHARACTERISTICS.BLUE_SPAWN_STAGE_COORD.getX(), Constants.STAGE_CHARACTERISTICS.BLUE_SPAWN_STAGE_COORD.getY(), 
-    Constants.STAGE_CHARACTERISTICS.BLUE_SPAWN_STAGE_COORD.getDegrees(), ENEMY_DEF_SPEED, Constants.ENEMY_HUE[2], Constants.ENEMY_HUE[4], Constants.WEAKENED_ENEMY_SATURATION, Constants.ENEMY[type]);
+    Constants.STAGE_CHARACTERISTICS.BLUE_SPAWN_STAGE_COORD.getDegrees(), ENEMY_DEF_SPEED, Constants.ENEMY_HUE[2], Constants.ENEMY_HUE[4], Constants.WEAKENED_ENEMY_SATURATION);
 
     private Enemy enemy_pink = new Enemy(Constants.STAGE_CHARACTERISTICS.PINK_SPAWN_STAGE_COORD.getX(), Constants.STAGE_CHARACTERISTICS.PINK_SPAWN_STAGE_COORD.getY(), 
-    Constants.STAGE_CHARACTERISTICS.PINK_SPAWN_STAGE_COORD.getDegrees(), ENEMY_DEF_SPEED, Constants.ENEMY_HUE[1], Constants.ENEMY_HUE[4], Constants.WEAKENED_ENEMY_SATURATION, Constants.ENEMY[type]);
+    Constants.STAGE_CHARACTERISTICS.PINK_SPAWN_STAGE_COORD.getDegrees(), ENEMY_DEF_SPEED, Constants.ENEMY_HUE[1], Constants.ENEMY_HUE[4], Constants.WEAKENED_ENEMY_SATURATION);
 
     private PlaceStageChain place_stage_chain = new PlaceStageChain(munch_man, stage, stage_chain);
     private PuppetMunchMan puppet_munch_man = new PuppetMunchMan(munch_man, left_puppet_munch_man, right_puppet_munch_man);
@@ -158,10 +157,11 @@ public class AppContainer extends AppBase
             else {
                 Constants.high_score = (Constants.score > Constants.high_score) ? Constants.score : Constants.high_score;
                 Constants.score = 0;
-                Constants.level = 0;
+                Constants.level = 1;
                 Constants.lives = 3;
             }
 
+            stage.setNextAnimation();
             stage_chain.reset();
             A.reset();
             B.reset();

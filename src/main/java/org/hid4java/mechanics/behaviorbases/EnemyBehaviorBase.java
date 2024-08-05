@@ -97,7 +97,7 @@ public class EnemyBehaviorBase extends MechanicBase implements EnemyBehaviorInte
     {
         if(enemy_targeting != null)
         {
-            return enemy_targeting.getNearTargetStageCoords(stage_x, stage_y);
+            return EnemyGoNearTarget.getNearTargetStageCoords(stage_x, stage_y, enemy);
         }
 
         return null;
@@ -211,6 +211,11 @@ public class EnemyBehaviorBase extends MechanicBase implements EnemyBehaviorInte
         {
             //enemy.initializeEnemy();
             //setEnemyTarget(1.0, enemy.getStageCoords().getX(), enemy.getStageCoords().getY(), enemy.getStageCoords().getDegrees());
+        }
+
+        if(Constants.STAGE_CHARACTERISTICS.STAGE_DATA[enemy.getStageCoords().getY()][enemy.getStageCoords().getX()] == 0) {
+            Coordinates c = EnemyGoNearTarget.getNearTargetStageCoords(enemy.getStageCoords().getX(), enemy.getStageCoords().getY(), enemy);
+            enemy.reset(c.getX(), c.getY(), enemy.getStageCoords().getDegrees());
         }
 
         if(!enemy.isWeakenedState() && GameMath.isCoordsEqual(enemy.getStageCoords(), munch_man.getStageCoords()))

@@ -10,9 +10,9 @@ import org.hid4java.fundamentals.Coordinates;
 
 public class EnemyGoNearTarget extends EnemyGoToTarget 
 {    
-    private int[][] stage_data = Constants.STAGE_CHARACTERISTICS.STAGE_DATA;
-    private int STAGE_WIDTH = stage_data[0].length;
-    private int STAGE_HEIGHT = stage_data.length;
+    private static int[][] stage_data = Constants.STAGE_CHARACTERISTICS.STAGE_DATA;
+    private static int STAGE_WIDTH = stage_data[0].length;
+    private static int STAGE_HEIGHT = stage_data.length;
     private Enemy enemy = null;
 
     public EnemyGoNearTarget(EntityMovement enemy_movement, Stage stage, Enemy enemy, MunchMan munch_man, 
@@ -22,7 +22,7 @@ public class EnemyGoNearTarget extends EnemyGoToTarget
         this.enemy = enemy;
         target_stage_x = Math.max(Math.min(target_stage_x, stage_data[0].length - 1), 0);
         target_stage_y = Math.max(Math.min(target_stage_y, stage_data.length - 1), 0);
-        Coordinates target_stage_coords = getNearTargetStageCoords(target_stage_x, target_stage_y);
+        Coordinates target_stage_coords = getNearTargetStageCoords(target_stage_x, target_stage_y, enemy);
         setTargetStageCoords(target_stage_coords.getX(), target_stage_coords.getY());
         addRequirements(stage, enemy);
     }
@@ -34,12 +34,12 @@ public class EnemyGoNearTarget extends EnemyGoToTarget
         this.enemy = enemy;
         target_stage_x = Math.max(Math.min(target_stage_x, stage_data[0].length - 1), 0);
         target_stage_y = Math.max(Math.min(target_stage_y, stage_data.length - 1), 0);
-        Coordinates target_stage_coords = getNearTargetStageCoords(target_stage_x, target_stage_y);
+        Coordinates target_stage_coords = getNearTargetStageCoords(target_stage_x, target_stage_y, enemy);
         setTargetStageCoords(target_stage_coords.getX(), target_stage_coords.getY());
         addRequirements(stage, enemy);
     }
 
-    public Coordinates getNearTargetStageCoords(int target_stage_x, int target_stage_y) 
+    public static Coordinates getNearTargetStageCoords(int target_stage_x, int target_stage_y, Enemy enemy) 
     {
         target_stage_x = Math.min(Math.max(target_stage_x, 0), STAGE_WIDTH - 1);
         target_stage_y = Math.min(Math.max(target_stage_y, 0), STAGE_HEIGHT - 1);

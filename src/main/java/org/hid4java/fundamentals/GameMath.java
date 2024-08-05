@@ -5,6 +5,12 @@ import java.util.LinkedList;
 
 public class GameMath
 {
+	public static int getWrapAroundMapping(int wrapper_length, int extrap_index) {
+        double x = (double)extrap_index / (double)wrapper_length;
+        double y = (Math.floor(x) != x) ? x - (int)x : 1;
+        return (int)(y * (double)(wrapper_length - 1));
+    }
+
 	public static BitSet getBinary(int register, int size, int start_index) {
         BitSet binary = new BitSet(size);
         register = Math.abs(register);
