@@ -4,7 +4,7 @@ import org.hid4java.components.Enemy;
 import org.hid4java.components.MunchMan;
 import org.hid4java.components.PowerPellet;
 import org.hid4java.components.Stage;
-import org.hid4java.mechanics.behavior.lowerlevel.advancedbehaviors.EnemyRetreatingWanderBehavior;
+import org.hid4java.fundamentals.Constants;
 import org.hid4java.mechanics.behavior.lowerlevel.advancedbehaviors.EnemySideKickBehavior;
 import org.hid4java.mechanics.behavior.lowerlevel.advancedbehaviors.WeakenedEnemyBehavior;
 import org.hid4java.mechanics.behaviorbases.EnemyBehaviorGroup;
@@ -18,8 +18,8 @@ public class EnemyBlueBehavior extends EnemyBehaviorGroup
         super(enemy_movement, stage, enemy, munch_man);
         addBehaviors
         (   new behavior(0, 10000, 0, true,
-            new WeakenedEnemyBehavior(enemy_movement, stage, enemy, munch_man, A, B, C, D, 10000)),
-            
+            new WeakenedEnemyBehavior(enemy_movement, stage, enemy, munch_man, A, B, C, D, Constants.POWER_PELLOT_DURATION_MILLIS)),
+
             new behavior(1.0, 5000, 0, false, 
             new EnemySideKickBehavior(enemy_movement, stage, enemy, hero, munch_man))
         );

@@ -1,6 +1,7 @@
 package org.hid4java.fundamentals;
 
 import java.awt.Toolkit;
+import java.util.function.Function;
 
 import org.hid4java.fundamentals.animation.Animation;
 
@@ -127,15 +128,28 @@ public class Constants
         };
     }
 
-    public static int score = 0, high_score = 0, level = 0;
+    public static int score = 0, high_score = 0, level = 1;
 
     public static final int PELLET_PTS = 10; 
-    public static final int POWER_PELLET_PTS = 500; 
+    public static final int POWER_PELLET_PTS = 50; 
+    public static final int EAT_ENEMY_PTR = 500; 
+
+    public static final int POWER_PELLOT_DURATION_MILLIS = 20000;
 
     public static final float[] ENEMY_HUE = 
     {
-        // Red      Pink         Blue         Orange
-        (float)0.93, (float)0.67, (float)0.43, (float)0.0
+        // Red         Pink         Blue         Orange      Weakened
+        (float)0.93, (float)0.67, (float)0.43, (float)0.0, (float)0.50
+    };
+
+    public static final double MAX_WEAKENED_ENEMY_SATURATION_OFFSET = 0.1;
+    public static Function<Integer, Double> WEAKENED_ENEMY_SATURATION = new Function<Integer, Double>() 
+    {
+        @Override 
+        public Double apply(Integer i) 
+        {
+            return MAX_WEAKENED_ENEMY_SATURATION_OFFSET * Math.sin(i);
+        }
     };
 
     public static final Animation[] BLAZE = 

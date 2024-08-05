@@ -36,16 +36,29 @@ public class EntityBase extends ComponentBase
         stage_coords.getY() * Constants.STAGE_CHARACTERISTICS.STAGE_COORD_SCALER, stage_coords.getDegrees());
     }
 
+    boolean f = false; 
+
     public void setStageCoords(int stage_x, int stage_y, int degrees)
     {
+        if(degrees == -2) {
+            f = true;
+        } 
+        
+
+        if(f) {
+            return;
+        }
+
         stage_coords.setCoordinates(stage_x, stage_y, degrees);
-        granular_stage_coords.setCoordinates(granular_stage_coords.getX(), granular_stage_coords.getY(), degrees);
+        granular_stage_coords = convertToGranularStageCoords(stage_coords);
+        //granular_stage_coords.setCoordinates(granular_stage_coords.getX(), granular_stage_coords.getY(), degrees);
     }
 
     public void setGranularStageCoords(int granular_x, int granular_y, int degrees)
     {
         granular_stage_coords.setCoordinates(granular_x, granular_y, degrees);
-        stage_coords.setCoordinates(stage_coords.getX(), stage_coords.getY(), degrees);
+        stage_coords = convertToStageCoords(granular_stage_coords);
+        //stage_coords.setCoordinates(stage_coords.getX(), stage_coords.getY(), degrees);
     }
 
     public Coordinates getGranularStageCoords()

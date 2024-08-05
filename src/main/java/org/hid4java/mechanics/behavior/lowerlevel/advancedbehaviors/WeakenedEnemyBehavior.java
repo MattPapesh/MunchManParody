@@ -4,6 +4,7 @@ import org.hid4java.components.Enemy;
 import org.hid4java.components.MunchMan;
 import org.hid4java.components.PowerPellet;
 import org.hid4java.components.Stage;
+import org.hid4java.fundamentals.GameMath;
 import org.hid4java.fundamentals.mechanic.MechanicScheduler;
 import org.hid4java.mechanics.movement.EntityMovement;
 
@@ -13,7 +14,7 @@ public class WeakenedEnemyBehavior extends EnemyRetreatingWanderBehavior
     private PowerPellet A = null, B = null, C = null, D = null;
     private int millis = 0; long init_millis = 0;
     private Enemy enemy = null;
-
+    private boolean eaten = false; 
     public WeakenedEnemyBehavior(EntityMovement enemy_movement, Stage stage, Enemy enemy, MunchMan munch_man,
     PowerPellet A, PowerPellet B, PowerPellet C, PowerPellet D, int millis) 
     {
@@ -29,13 +30,21 @@ public class WeakenedEnemyBehavior extends EnemyRetreatingWanderBehavior
     @Override
     public void initializeBehavior() 
     {
-        enemy.setAnimation(enemy.getAnimation(1).getName());;
+        eaten = false;
+        enemy.setAnimation(enemy.getAnimation(1).getName());
+        enemy.setSpeed(enemy.getSpeed() * 0.5);
     }
 
     @Override
-    public void endBehavior(boolean interrupted) 
-    {
+    public void endBehavior(boolean interrupted)
+    {   
+        enemy.setSpeed(enemy.getSpeed() * 2.0);
         enemy.setAnimation(enemy.getAnimation(0).getName());
+        if(scheduled_behavior_index >= 0)
+        {
+            behaviors.get(scheduled_behavior_index).get().setSelfScheduling(false);
+            scheduled_behavior_index = -1;
+        }
     }
 
     @Override
@@ -46,6 +55,8 @@ public class WeakenedEnemyBehavior extends EnemyRetreatingWanderBehavior
 
     @Override
     public boolean isSelfSchedulingConditionsMet() {
+        eaten = enemy.isWeakenedState() && GameMath.isCoordsEqual(getMunchManStageCoords(), getEnemyStageCoords());
+        enemy.enableEatenState((eaten) ? true : enemy.isEatenState());
         if(!pellet_A_eaten && A.getEaten()) {
             trigger = true;
             pellet_A_eaten = true; 
@@ -66,8 +77,9 @@ public class WeakenedEnemyBehavior extends EnemyRetreatingWanderBehavior
             pellet_D_eaten = true; 
             init_millis = System.currentTimeMillis();
         }
-        if(System.currentTimeMillis() - init_millis >= millis) {
+        if(System.currentTimeMillis() - init_millis >= millis || eaten) {
             trigger = false; 
+
         }
 
         return trigger;  

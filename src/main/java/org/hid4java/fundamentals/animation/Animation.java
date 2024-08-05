@@ -8,6 +8,7 @@ import org.hid4java.fundamentals.Constants;
 import java.awt.image.*;
 import java.io.File;
 import java.io.IOException;
+import java.util.function.Function;
 import java.awt.*;
 
 /**
@@ -72,7 +73,7 @@ public class Animation
         return (image != null) ? image : other_image; 
     }
 
-    public Image getHuedAnimation(double hue_offset) 
+    public Image getHSVAnimation(double hue_offset, double saturation_offset, double value_offset) 
     {
         BufferedImage image = getBufferedImage();
         for(int y = 0; y < image.getHeight(); y++) {
@@ -80,10 +81,12 @@ public class Animation
                 int rgba = image.getRGB(x, y);
                 Color color = new Color(rgba, true);
 
-                float[] hsb = Color.RGBtoHSB(color.getRed(), color.getGreen(), color.getBlue(), null);
-                hsb[0] += (float)hue_offset;
+                float[] hsv = Color.RGBtoHSB(color.getRed(), color.getGreen(), color.getBlue(), null);
+                hsv[0] += hue_offset;
+                hsv[1] += saturation_offset;
+                hsv[2] += value_offset;
 
-                int final_rgb = Color.HSBtoRGB(hsb[0], hsb[1], hsb[2]);
+                int final_rgb = Color.HSBtoRGB(hsv[0], hsv[1], hsv[2]);
                 int final_alpha = (rgba >> 24) & 0xff;
                 int final_rgba = (final_alpha << 24) | (final_rgb & 0x00ffffff);
 

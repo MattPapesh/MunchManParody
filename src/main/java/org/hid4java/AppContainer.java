@@ -44,13 +44,16 @@ public class AppContainer extends AppBase
     
     int type = 3;
     private Enemy enemy_red = new Enemy(Constants.STAGE_CHARACTERISTICS.RED_SPAWN_STAGE_COORD.getX(), Constants.STAGE_CHARACTERISTICS.RED_SPAWN_STAGE_COORD.getY(), 
-    Constants.STAGE_CHARACTERISTICS.RED_SPAWN_STAGE_COORD.getDegrees(), ENEMY_DEF_SPEED, Constants.ENEMY_HUE[0], Constants.ENEMY[type]);
+    Constants.STAGE_CHARACTERISTICS.RED_SPAWN_STAGE_COORD.getDegrees(), ENEMY_DEF_SPEED, Constants.ENEMY_HUE[0], Constants.ENEMY_HUE[4], Constants.WEAKENED_ENEMY_SATURATION, Constants.ENEMY[type]);
+
     private Enemy enemy_yellow = new Enemy(Constants.STAGE_CHARACTERISTICS.YELLOW_SPAWN_STAGE_COORD.getX(), Constants.STAGE_CHARACTERISTICS.YELLOW_SPAWN_STAGE_COORD.getY(), 
-    Constants.STAGE_CHARACTERISTICS.YELLOW_SPAWN_STAGE_COORD.getDegrees(), ENEMY_DEF_SPEED, Constants.ENEMY_HUE[3], Constants.ENEMY[type]);
+    Constants.STAGE_CHARACTERISTICS.YELLOW_SPAWN_STAGE_COORD.getDegrees(), ENEMY_DEF_SPEED, Constants.ENEMY_HUE[3], Constants.ENEMY_HUE[4], Constants.WEAKENED_ENEMY_SATURATION, Constants.ENEMY[type]);
+
     private Enemy enemy_blue = new Enemy(Constants.STAGE_CHARACTERISTICS.BLUE_SPAWN_STAGE_COORD.getX(), Constants.STAGE_CHARACTERISTICS.BLUE_SPAWN_STAGE_COORD.getY(), 
-    Constants.STAGE_CHARACTERISTICS.BLUE_SPAWN_STAGE_COORD.getDegrees(), ENEMY_DEF_SPEED, Constants.ENEMY_HUE[2], Constants.ENEMY[type]);
+    Constants.STAGE_CHARACTERISTICS.BLUE_SPAWN_STAGE_COORD.getDegrees(), ENEMY_DEF_SPEED, Constants.ENEMY_HUE[2], Constants.ENEMY_HUE[4], Constants.WEAKENED_ENEMY_SATURATION, Constants.ENEMY[type]);
+
     private Enemy enemy_pink = new Enemy(Constants.STAGE_CHARACTERISTICS.PINK_SPAWN_STAGE_COORD.getX(), Constants.STAGE_CHARACTERISTICS.PINK_SPAWN_STAGE_COORD.getY(), 
-    Constants.STAGE_CHARACTERISTICS.PINK_SPAWN_STAGE_COORD.getDegrees(), ENEMY_DEF_SPEED, Constants.ENEMY_HUE[1], Constants.ENEMY[type]);
+    Constants.STAGE_CHARACTERISTICS.PINK_SPAWN_STAGE_COORD.getDegrees(), ENEMY_DEF_SPEED, Constants.ENEMY_HUE[1], Constants.ENEMY_HUE[4], Constants.WEAKENED_ENEMY_SATURATION, Constants.ENEMY[type]);
 
     private PlaceStageChain place_stage_chain = new PlaceStageChain(munch_man, stage, stage_chain);
     private PuppetMunchMan puppet_munch_man = new PuppetMunchMan(munch_man, left_puppet_munch_man, right_puppet_munch_man);
@@ -75,10 +78,10 @@ public class AppContainer extends AppBase
     private LevelBehavior pink_level = new LevelBehavior(enemy_pink_movement, stage, enemy_pink, munch_man, Constants.STAGE_CHARACTERISTICS.PINK_SPAWN_STAGE_COORD, 
     Constants.STAGE_CHARACTERISTICS.PINK_START_STAGE_COORD, Constants.STAGE_CHARACTERISTICS.PINK_HOME_STAGE_COORD, enemy_pink_behavior);
 
-    private EatPowerPellet eat_pellot_A = new EatPowerPellet(munch_man, A);
-    private EatPowerPellet eat_pellot_B = new EatPowerPellet(munch_man, B);
-    private EatPowerPellet eat_pellot_C = new EatPowerPellet(munch_man, C);
-    private EatPowerPellet eat_pellot_D = new EatPowerPellet(munch_man, D);
+    private EatPowerPellet eat_pellot_A = new EatPowerPellet(munch_man, A, enemy_red, enemy_yellow, enemy_blue, enemy_pink, Constants.POWER_PELLOT_DURATION_MILLIS);
+    private EatPowerPellet eat_pellot_B = new EatPowerPellet(munch_man, B, enemy_red, enemy_yellow, enemy_blue, enemy_pink, Constants.POWER_PELLOT_DURATION_MILLIS);
+    private EatPowerPellet eat_pellot_C = new EatPowerPellet(munch_man, C, enemy_red, enemy_yellow, enemy_blue, enemy_pink, Constants.POWER_PELLOT_DURATION_MILLIS);
+    private EatPowerPellet eat_pellot_D = new EatPowerPellet(munch_man, D, enemy_red, enemy_yellow, enemy_blue, enemy_pink, Constants.POWER_PELLOT_DURATION_MILLIS);
 
     private void configureButtonBindings() 
     {    

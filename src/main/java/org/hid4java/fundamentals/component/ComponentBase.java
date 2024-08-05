@@ -40,12 +40,7 @@ public class ComponentBase
     {
         current_animation = animations[0];
         coordinates.setCoordinates(x, y, degrees);
-
-        for(int i = 0; i < animations.length; i++)
-        {
-            this.animations.addLast(animations[i]);
-        }
-
+        importAnimations(animations);
         toggleActivity(true);
         ComponentScheduler.registerComponent(this);
     }
@@ -74,19 +69,16 @@ public class ComponentBase
         }
     }
 
-    /**
-     * Sets the current Animation to the Animation passed in. This Animation is recognized as a foreign instance that is not
-     * stored within an internal list class member. This external Animation is not instantiated by the component itself, and is
-     * not kept track of; unlike internal Animations passed into a component's addRequirments(...).
-     * 
-     * @param animation - The external Animation passed in.
-     * 
-     * @see Note: This method is useful when a temporary, and dispensable, visual representation of a component is needed, 
-     * where this representation/Animation may be deduced from means that are external to the component in question. 
-     */
-    public void setExternalAnimation(Animation animation)
+    public void importAnimations(Animation... animations) 
     {
-        current_animation = animation;
+        this.animations.clear();
+        for(int i = 0; i < animations.length; i++)
+        {
+            this.animations.addLast(animations[i]);
+        }
+
+        current_animation_index = 0;
+        current_animation = animations[0];
     }
 
     /**

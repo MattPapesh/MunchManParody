@@ -7,6 +7,7 @@ import org.hid4java.components.Stage;
 import org.hid4java.components.MunchMan;
 
 import org.hid4java.components.Enemy;
+import org.hid4java.fundamentals.Constants;
 import org.hid4java.fundamentals.Coordinates;
 
 public class EnemyBehaviorBase extends MechanicBase implements EnemyBehaviorInterface

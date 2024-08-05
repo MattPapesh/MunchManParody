@@ -4,6 +4,7 @@ import org.hid4java.components.Enemy;
 import org.hid4java.components.MunchMan;
 import org.hid4java.components.PowerPellet;
 import org.hid4java.components.Stage;
+import org.hid4java.fundamentals.Constants;
 import org.hid4java.fundamentals.Coordinates;
 import org.hid4java.mechanics.behavior.lowerlevel.advancedbehaviors.WeakenedEnemyBehavior;
 import org.hid4java.mechanics.behavior.lowerlevel.simplebehaviors.EnemyAnchorBehavior;
@@ -21,7 +22,7 @@ public class EnemyRedBehavior extends EnemyBehaviorGroup
         addBehaviors
         (
             new behavior(0, 10000, 0, true,
-            new WeakenedEnemyBehavior(enemy_movement, stage, enemy, munch_man, A, B, C, D, 10000)),
+            new WeakenedEnemyBehavior(enemy_movement, stage, enemy, munch_man, A, B, C, D, Constants.POWER_PELLOT_DURATION_MILLIS)),
 
             new behavior(0.5, 5000, 5000, false,
             new EnemyFlankHuntBehavior(enemy_movement, stage, enemy, munch_man, 

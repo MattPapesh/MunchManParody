@@ -9,9 +9,9 @@ import org.hid4java.mechanics.movement.EntityMovement;
 
 public class EnemyBehaviorGroup extends EnemyBehaviorBase
 {
-    private behavior overrider = null;
-    private LinkedList<behavior> behaviors = new LinkedList<behavior>();
-    private int scheduled_behavior_index = -1;
+    protected behavior overrider = null;
+    protected LinkedList<behavior> behaviors = new LinkedList<behavior>();
+    protected int scheduled_behavior_index = -1;
 
     public class behavior
     {

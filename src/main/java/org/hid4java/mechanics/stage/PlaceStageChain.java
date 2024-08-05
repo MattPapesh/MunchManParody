@@ -12,6 +12,7 @@ public class PlaceStageChain extends MechanicBase
 {
     private MunchMan munch_man = null;
     private StageChain stage_chain = null;
+    private int chain_count = 0; 
 
     public PlaceStageChain(MunchMan munch_man, Stage stage, StageChain stage_chain)
     {
@@ -33,7 +34,8 @@ public class PlaceStageChain extends MechanicBase
     {   
         stage_chain.update(munch_man.getCoordinates().getX(), munch_man.getCoordinates().getY());
         stage_chain.logChainPlacement(munch_man.getStageCoords().getX(), munch_man.getStageCoords().getY());
-        Constants.score = stage_chain.numOfChain();
+        Constants.score += Constants.PELLET_PTS * (stage_chain.numOfChain() - chain_count);
+        chain_count = stage_chain.numOfChain();
     }
 
     @Override
