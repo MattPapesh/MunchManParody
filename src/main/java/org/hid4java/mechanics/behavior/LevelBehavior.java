@@ -45,6 +45,7 @@ public class LevelBehavior extends EnemyBehaviorBase
         homed = false; 
         enemy.reset();
         behavior.cancel();
+        behavior.setEnemyTarget(1.0, enemy.getStageCoords().getX(), enemy.getStageCoords().getY());
     }
 
     public void nextLevel(int level) 
@@ -69,20 +70,13 @@ public class LevelBehavior extends EnemyBehaviorBase
         prev_gran_coords = current_gran_coords; 
         current_gran_coords = enemy.getGranularStageCoords();
 
-        if(!spawned) 
-        {
-            spawned = true;
-            setEnemyTarget(1.0, start_stage_coord.getX(), start_stage_coord.getY());
-        }
-        else if(GameMath.isCoordsEqual(enemy.getGranularStageCoords(), enemy.convertToGranularStageCoords(start_stage_coord)) && !started) 
-        {
-            started = true;
+        if(!spawned) {
+            spawned = true; 
             setEnemyTarget(1.0, home_stage_coord.getX(), home_stage_coord.getY());
         }
-        else if(GameMath.isCoordsEqual(enemy.getGranularStageCoords(), enemy.convertToGranularStageCoords(home_stage_coord)) && !homed) 
-        {
+        else if(GameMath.isCoordsEqual(enemy.getStageCoords(), home_stage_coord) && !homed) {
             homed = true;
-            setEnemyTarget(1, enemy.getStageCoords().getX(), enemy.getStageCoords().getY());
+            setEnemyTarget(1.0, enemy.getStageCoords().getX(), enemy.getStageCoords().getY());
             behavior.schedule();
         }
     }

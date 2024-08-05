@@ -36,7 +36,7 @@ public class MunchMan extends EntityBase
     public void reset() 
     {   
         importAnimations(munch_man);
-        if(movement != null && killed) {
+        if(movement != null) {
             killed = false; 
             Coordinates spawn = Constants.STAGE_CHARACTERISTICS.MUNCHMAN_SPAWN;
             movement.reset(spawn.getX(), spawn.getY(), spawn.getDegrees());

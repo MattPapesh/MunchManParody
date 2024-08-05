@@ -12,7 +12,7 @@ public class StageChain extends ComponentBase
     private Animation stage_chain = new Animation("chain.png");
     private LinkedList<Coordinates> logged_chain_data = new LinkedList<Coordinates>();
     private int coord_update_tolerance = 15; 
-    private final int MAX_NUM_OF_CHAIN = 384;
+    public final int MAX_NUM_OF_CHAIN = 384;
 
     public StageChain() 
     {   

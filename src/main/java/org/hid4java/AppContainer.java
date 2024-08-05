@@ -2,6 +2,8 @@ package org.hid4java;
 
 import org.hid4java.fundamentals.appbase.AppBase;
 import org.hid4java.fundamentals.mechanic.InstantMechanic;
+import org.hid4java.fundamentals.mechanic.MechanicBase;
+import org.hid4java.fundamentals.mechanic.MechanicScheduler;
 import org.hid4java.mechanics.EatPowerPellet;
 import org.hid4java.mechanics.KillMunchMan;
 import org.hid4java.mechanics.PuppetMunchMan;
@@ -138,7 +140,7 @@ public class AppContainer extends AppBase
         yellow_level.schedule();
         blue_level.schedule();
         pink_level.schedule();
-
+ 
         eat_pellot_A.schedule();
         eat_pellot_B.schedule();
         eat_pellot_C.schedule();
@@ -149,10 +151,18 @@ public class AppContainer extends AppBase
 
     public void periodic() 
     {
-        if(stage_chain.isAllChainPlaced()) {
-            Constants.level++;
-            stage_chain.reset();
+        if(stage_chain.isAllChainPlaced() || Constants.lives <= 0) {
+            if(Constants.lives > 0) { 
+                Constants.level++;
+            }
+            else {
+                Constants.high_score = (Constants.score > Constants.high_score) ? Constants.score : Constants.high_score;
+                Constants.score = 0;
+                Constants.level = 0;
+                Constants.lives = 3;
+            }
 
+            stage_chain.reset();
             A.reset();
             B.reset();
             C.reset();
@@ -162,6 +172,7 @@ public class AppContainer extends AppBase
             yellow_level.nextLevel(Constants.level);
             blue_level.nextLevel(Constants.level);
             pink_level.nextLevel(Constants.level);
+            munch_man.reset();
         }
     }
 }

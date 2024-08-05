@@ -197,8 +197,6 @@ public class EnemyBehaviorBase extends MechanicBase implements EnemyBehaviorInte
         }
     }
 
-    Coordinates c1 = new Coordinates(0, 0, 0), c2 = new Coordinates(0, 0, 0);
-
     @Override
     public void execute() 
     {
@@ -211,8 +209,8 @@ public class EnemyBehaviorBase extends MechanicBase implements EnemyBehaviorInte
 
         if(!enemy.isEnemyInitialized())
         {
-            enemy.initializeEnemy();
-            setEnemyTarget(1.0, enemy.getStageCoords().getX(), enemy.getStageCoords().getY(), enemy.getStageCoords().getDegrees());
+            //enemy.initializeEnemy();
+            //setEnemyTarget(1.0, enemy.getStageCoords().getX(), enemy.getStageCoords().getY(), enemy.getStageCoords().getDegrees());
         }
 
         if(!enemy.isWeakenedState() && GameMath.isCoordsEqual(enemy.getStageCoords(), munch_man.getStageCoords()))

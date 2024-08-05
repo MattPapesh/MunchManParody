@@ -79,9 +79,9 @@ public class Constants
         public static final Coordinates MUNCHMAN_SPAWN = new Coordinates(23, 15, 0);
 
         public static final Coordinates RED_SPAWN_STAGE_COORD = new Coordinates(14, 12, 0);
-        public static final Coordinates PINK_SPAWN_STAGE_COORD = new Coordinates(32, 12, 0);
+        public static final Coordinates PINK_SPAWN_STAGE_COORD = new Coordinates(32, 12, 180);
         public static final Coordinates YELLOW_SPAWN_STAGE_COORD = new Coordinates(14, 18, 0);
-        public static final Coordinates BLUE_SPAWN_STAGE_COORD = new Coordinates(32, 18, 00); 
+        public static final Coordinates BLUE_SPAWN_STAGE_COORD = new Coordinates(32, 18, 180); 
 
         public static final Coordinates RED_START_STAGE_COORD = new Coordinates(17, 12, 0);
         public static final Coordinates PINK_START_STAGE_COORD = new Coordinates(29, 12, 0);

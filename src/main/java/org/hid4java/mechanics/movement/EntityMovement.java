@@ -3,6 +3,8 @@ package org.hid4java.mechanics.movement;
 import org.hid4java.fundamentals.mechanic.MechanicBase;
 import org.hid4java.fundamentals.Constants;
 import org.hid4java.fundamentals.Coordinates;
+import org.hid4java.fundamentals.GameMath;
+import org.hid4java.components.Enemy;
 import org.hid4java.components.EntityBase;
 import org.hid4java.components.Stage;
 
@@ -129,6 +131,13 @@ public class EntityMovement extends MechanicBase
 
     private void updateCoords() 
     {
+        if(!enable_directional_animations) {
+            Enemy o = (Enemy)entity;
+            if(GameMath.isCoordsEqual(o.SPAWN_STAGE_COORD, Constants.STAGE_CHARACTERISTICS.YELLOW_SPAWN_STAGE_COORD)) {
+                System.out.println("(" + o.getStageCoords().getX() + ", " + o.getStageCoords().getY() + ")");
+            }
+        }
+
         entity.setCoordinates(current_gran_stage_coords.getX() + entity.getDisplacementCoords().getX(), 
         current_gran_stage_coords.getY() + entity.getDisplacementCoords().getY(), entity.getCoordinates().getDegrees());
 

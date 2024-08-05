@@ -19,7 +19,8 @@ public class Enemy extends EntityBase
     private EntityMovement enemy_movement = null; 
     public final Coordinates SPAWN_STAGE_COORD;
 
-    boolean initialized = false; 
+    private boolean initialized = false;
+    public boolean targeting = false; 
 
     public Enemy(int stage_x, int stage_y, int degrees, double speed, 
     double hue, double weakened_hue, Function<Integer, Double> weakened_saturation, Animation... enemy)
