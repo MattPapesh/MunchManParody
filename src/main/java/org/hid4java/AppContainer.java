@@ -15,6 +15,7 @@ import org.hid4java.mechanics.stage.PlaceStageChain;
 import org.hid4java.fundamentals.Constants;
 import org.hid4java.fundamentals.UI.*;
 import org.hid4java.app.audio.AppAudio;
+import org.hid4java.app.input.AppInput;
 import org.hid4java.app.input.NESControllerInput.Button;
 import org.hid4java.components.Enemy;
 import org.hid4java.components.MunchMan;
@@ -28,6 +29,7 @@ public class AppContainer extends AppBase
     private final double PLAYER_DEF_SPEED = 0.2;
     private final double ENEMY_DEF_SPEED = 0.2;
 
+    private AppInput app_input = null; 
     private NESController nes_controller = getNESController();
     private Controller controller = getController(Constants.CONTROLLER_IDS.LEFT_KEY, Constants.CONTROLLER_IDS.RIGHT_KEY, 
     Constants.CONTROLLER_IDS.UP_KEY, Constants.CONTROLLER_IDS.DOWN_KEY);
@@ -91,19 +93,20 @@ public class AppContainer extends AppBase
     private void configureButtonBindings() 
     {    
         // NES Controller Button Bindings:
-        nes_controller.whenPressed(Button.LEFT, new InstantMechanic(()->{ player_movement.setTickVelocity(-PLAYER_DEF_SPEED, 0); }));
-        nes_controller.whenPressed(Button.RIGHT, new InstantMechanic(()->{ player_movement.setTickVelocity(PLAYER_DEF_SPEED, 0); }));
-        nes_controller.whenPressed(Button.UP, new InstantMechanic(()->{ player_movement.setTickVelocity(0, -PLAYER_DEF_SPEED); }));
-        nes_controller.whenPressed(Button.DOWN, new InstantMechanic(()->{ player_movement.setTickVelocity(0, PLAYER_DEF_SPEED); }));
+        nes_controller.whenPressed(Button.LEFT, new InstantMechanic(()->{ if(Constants.game_start && !munch_man.isKilled()) player_movement.setTickVelocity(-PLAYER_DEF_SPEED, 0); }));
+        nes_controller.whenPressed(Button.RIGHT, new InstantMechanic(()->{ if(Constants.game_start && !munch_man.isKilled()) player_movement.setTickVelocity(PLAYER_DEF_SPEED, 0); }));
+        nes_controller.whenPressed(Button.UP, new InstantMechanic(()->{ if(Constants.game_start && !munch_man.isKilled()) player_movement.setTickVelocity(0, -PLAYER_DEF_SPEED); }));
+        nes_controller.whenPressed(Button.DOWN, new InstantMechanic(()->{ if(Constants.game_start && !munch_man.isKilled()) player_movement.setTickVelocity(0, PLAYER_DEF_SPEED); }));
         // Keyboard Controller Button Bindings:
-        controller.whenLeftPressed(new InstantMechanic(()->{ if(!munch_man.isKilled()) player_movement.setTickVelocity(-PLAYER_DEF_SPEED, 0); }));
-        controller.whenRightPressed(new InstantMechanic(()->{ if(!munch_man.isKilled()) player_movement.setTickVelocity(PLAYER_DEF_SPEED, 0); }));
-        controller.whenUpPressed(new InstantMechanic(()->{ if(!munch_man.isKilled()) player_movement.setTickVelocity(0, -PLAYER_DEF_SPEED); }));
-        controller.whenDownPressed(new InstantMechanic(()->{ if(!munch_man.isKilled()) player_movement.setTickVelocity(0, PLAYER_DEF_SPEED); }));
+        controller.whenLeftPressed(new InstantMechanic(()->{ if(Constants.game_start && !munch_man.isKilled()) player_movement.setTickVelocity(-PLAYER_DEF_SPEED, 0); }));
+        controller.whenRightPressed(new InstantMechanic(()->{ if(Constants.game_start && !munch_man.isKilled()) player_movement.setTickVelocity(PLAYER_DEF_SPEED, 0); }));
+        controller.whenUpPressed(new InstantMechanic(()->{ if(Constants.game_start && !munch_man.isKilled()) player_movement.setTickVelocity(0, -PLAYER_DEF_SPEED); }));
+        controller.whenDownPressed(new InstantMechanic(()->{ if(Constants.game_start && !munch_man.isKilled()) player_movement.setTickVelocity(0, PLAYER_DEF_SPEED); }));
     }
 
-    public AppContainer() 
+    public AppContainer(AppInput app_input) 
     {
+        this.app_input = app_input;
         configureButtonBindings();
         // Basic Mechanics:
         player_movement.schedule();
@@ -142,11 +145,40 @@ public class AppContainer extends AppBase
         eat_pellot_D.schedule();
 
         kill_munch_man.schedule();
-        AppAudio.playAudioFileLoopContinuously("Default.wav");
+        AppAudio.playAudioFileLoopContinuously("Menu.wav");
     }
 
     public void periodic() 
     {
+        boolean up = app_input.isKeyPressed(Constants.CONTROLLER_IDS.UP_KEY);
+        boolean down = app_input.isKeyPressed(Constants.CONTROLLER_IDS.DOWN_KEY);
+        boolean left = app_input.isKeyPressed(Constants.CONTROLLER_IDS.LEFT_KEY);
+        boolean right = app_input.isKeyPressed(Constants.CONTROLLER_IDS.RIGHT_KEY);
+
+        if(!Constants.game_start && up) {
+            Constants.select_start = true;
+            AppAudio.playAudioFile("Select.wav");
+            try {Thread.sleep(500);} catch(InterruptedException e) {}
+        }
+        else if(!Constants.game_start && down) {
+            Constants.select_start = false; 
+            AppAudio.playAudioFile("Select.wav");
+            try {Thread.sleep(500);} catch(InterruptedException e) {}
+        }
+
+        if(!Constants.game_start && Constants.select_start && (left || right)) {
+            Constants.game_start = true; 
+            AppAudio.playAudioFile("Confirm.wav");
+            try {Thread.sleep(500);} catch(InterruptedException e) {}
+        }
+        else if(!Constants.select_start && (left || right)) {
+            System.exit(0);  
+        }
+
+        if(!Constants.game_start) {
+            return;
+        }
+
         if(stage_chain.isAllChainPlaced() || Constants.lives <= 0) {
             if(Constants.lives > 0) { 
                 AppAudio.stopAllAudioFiles();
@@ -167,11 +199,13 @@ public class AppContainer extends AppBase
                 AppAudio.playAudioFile("GameOver.wav");
                 long millis = System.currentTimeMillis();
                 while(System.currentTimeMillis() - millis <= 4000) {}
+                AppAudio.playAudioFileLoopContinuously("Menu.wav");
 
                 Constants.high_score = (Constants.score > Constants.high_score) ? Constants.score : Constants.high_score;
                 Constants.score = 0;
                 Constants.level = 1;
                 Constants.lives = 3;
+                Constants.game_start = false;
                 stage.setAnimation(stage.getAnimation(0).getName());
                 kill_munch_man.reset();
                 A.fullReset();

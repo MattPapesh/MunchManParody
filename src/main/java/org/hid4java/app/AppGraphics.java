@@ -75,13 +75,18 @@ public class AppGraphics extends JPanel
         }
 
         float font_size = Constants.WINDOW_CHARACTERISTICS.FONT_SIZE;
+        float big_font_size1 = Constants.WINDOW_CHARACTERISTICS.BIG_FONT_SIZE1;
+        float big_font_size2 = Constants.WINDOW_CHARACTERISTICS.BIG_FONT_SIZE2;
         double width = Constants.WINDOW_CHARACTERISTICS.WINDOW_WIDTH; 
         double height = Constants.WINDOW_CHARACTERISTICS.WINDOW_HEIGHT;
+        Font font = null, big_font1 = null, big_font2 = null;
 
         // Custom font type:
         try { 
             File font_file = new File(Constants.WINDOW_CHARACTERISTICS.FONT);
-            Font font = Font.createFont(Font.TRUETYPE_FONT, font_file).deriveFont(font_size);
+            font = Font.createFont(Font.TRUETYPE_FONT, font_file).deriveFont(font_size);
+            big_font1 = Font.createFont(Font.TRUETYPE_FONT, font_file).deriveFont(big_font_size1);
+            big_font2 = Font.createFont(Font.TRUETYPE_FONT, font_file).deriveFont(big_font_size2);
             graphics_2d.setFont(font);
         } 
         catch(IOException | FontFormatException e) {System.out.println(e);} 
@@ -89,10 +94,28 @@ public class AppGraphics extends JPanel
         String score = "SCORE: " + Constants.score + "    HIGH SCORE: " + Constants.high_score;
         String lives = "LIVES: ";
         String level = "LVL: " + Constants.level;
+        String start = (!Constants.game_start) ? "START" : "";
+        String quit = (!Constants.game_start) ? "QUIT" : "";
 
         graphics_2d.drawString(score, (int)(width - (font_size * score.length())) / 2, (int)(height * 0.05));
         graphics_2d.drawString(lives, (int)(width * 0.8) - (font_size * (lives.length() / 2)), (int)(height * 0.05));
         graphics_2d.drawString(level, (int)(width * 0.1) - (font_size * (level.length() / 2)), (int)(height * 0.05));
+
+        if(!Constants.game_start && Constants.select_start) {
+            graphics_2d.setFont(big_font2);
+            graphics_2d.drawString(start, (int)(0.9 * (double)(width - (font_size * start.length())) / 2), (int)(height * 0.5));
+            graphics_2d.setFont(big_font1);
+            graphics_2d.drawString(quit, (int)(0.95* (double)(width - (font_size * quit.length())) / 2), (int)(height * 0.575));
+            graphics_2d.setFont(font);
+        }
+        else {
+            graphics_2d.setFont(big_font1);
+            graphics_2d.drawString(start, (int)(0.95 * (double)(width - (font_size * start.length())) / 2), (int)(height * 0.5));
+            graphics_2d.setFont(big_font2);
+            graphics_2d.drawString(quit, (int)(0.92 * (double)(width - (font_size * quit.length())) / 2), (int)(height * 0.575));
+            graphics_2d.setFont(font);
+        }
+
         repaint();
     }
 }

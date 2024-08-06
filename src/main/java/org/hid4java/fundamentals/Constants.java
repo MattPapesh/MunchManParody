@@ -35,7 +35,7 @@ public class Constants
         public static final String[] APP_ICON_IMAGES = {"icon.png", "icon.png"};
         public static final String APP_TITLE = "Munch Man";
         public static final String FONT = "src/main/java/org/hid4java/assets/fonts/PressStart2P-vaV7.ttf";
-        public static final float FONT_SIZE = 30f; 
+        public static final float FONT_SIZE = 30f, BIG_FONT_SIZE1 = 40f, BIG_FONT_SIZE2 = 60f; 
         public static final int WINDOW_WIDTH = (int)Toolkit.getDefaultToolkit().getScreenSize().getWidth();
         public static final int WINDOW_HEIGHT = (int)Toolkit.getDefaultToolkit().getScreenSize().getHeight();
         public static final long REFRESH_RATE_NANOS = 100;
@@ -131,6 +131,7 @@ public class Constants
     }
 
     public static int score = 0, high_score = 0, level = 1, lives = 3;
+    public static boolean game_start = false, select_start = true;
 
     public static final int PELLET_PTS = 10; 
     public static final int POWER_PELLET_PTS = 50; 

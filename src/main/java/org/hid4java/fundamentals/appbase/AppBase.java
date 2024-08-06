@@ -34,7 +34,7 @@ public class AppBase extends JFrame implements AppInterface
     private int current_icon_index = 0;
 
     private static AppGraphics app_graphics = new AppGraphics();
-    private static AppInput app_input = new AppInput();
+    protected static AppInput app_input = new AppInput();
     private static NESControllerInput nes_input = new NESControllerInput();
     private static AppAudio app_audio = new AppAudio();
     
@@ -269,7 +269,9 @@ public class AppBase extends JFrame implements AppInterface
             runControllers();
         }
         catch(NullPointerException e) {System.out.println("AppBase.java: Program Null Exception!");}
-        runMechanics();
+        if(Constants.game_start) {
+            runMechanics();
+        }
     }
 
     /**

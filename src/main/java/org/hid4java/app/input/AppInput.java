@@ -51,7 +51,7 @@ public class AppInput implements KeyListener
     /**
      * @return Whether or not the key associated with the key code passed in is currently pressed.
      */
-    protected boolean isKeyPressed(int key_id)
+    public boolean isKeyPressed(int key_id)
     {
         for(int i = 0; i < pressed_key_ids.size(); i++)
         {
@@ -67,7 +67,7 @@ public class AppInput implements KeyListener
     /**
      * @return Whether or not the key associated with the key code passed in is currently released. 
      */
-    protected boolean isKeyReleased(int key_id)
+    public boolean isKeyReleased(int key_id)
     {
         for(int i = 0; i < released_key_ids.size(); i++)
         {
