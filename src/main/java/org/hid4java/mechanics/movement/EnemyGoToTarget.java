@@ -22,7 +22,6 @@ public class EnemyGoToTarget extends EnemyPredeterminedRoute
     private double terminating_completion_pct = 0.0;
     private double turn_around_pct = -1.0;
     private boolean turn_around_status = false; 
-    private LinkedList<Coordinates> avoiding_stage_coords = new LinkedList<Coordinates>();
 
     public EnemyGoToTarget(EntityMovement enemy_movement, Stage stage, Enemy enemy, MunchMan munch_man, 
     double terminating_completion_pct)

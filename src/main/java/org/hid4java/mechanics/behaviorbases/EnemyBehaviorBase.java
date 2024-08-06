@@ -207,8 +207,7 @@ public class EnemyBehaviorBase extends MechanicBase implements EnemyBehaviorInte
             scheduled_enemy_targeting = false;
         }
 
-        if(!enemy.isEnemyInitialized())
-        {
+        if(!enemy.isEnemyInitialized()) {
             //enemy.initializeEnemy();
             //setEnemyTarget(1.0, enemy.getStageCoords().getX(), enemy.getStageCoords().getY(), enemy.getStageCoords().getDegrees());
         }

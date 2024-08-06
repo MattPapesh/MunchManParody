@@ -13,13 +13,11 @@ public class EnemyGoNearTarget extends EnemyGoToTarget
     private static int[][] stage_data = Constants.STAGE_CHARACTERISTICS.STAGE_DATA;
     private static int STAGE_WIDTH = stage_data[0].length;
     private static int STAGE_HEIGHT = stage_data.length;
-    private Enemy enemy = null;
 
     public EnemyGoNearTarget(EntityMovement enemy_movement, Stage stage, Enemy enemy, MunchMan munch_man, 
     double terminating_completion_pct, int target_stage_x, int target_stage_y) 
     {
         super(enemy_movement, stage, enemy, munch_man, terminating_completion_pct);
-        this.enemy = enemy;
         target_stage_x = Math.max(Math.min(target_stage_x, stage_data[0].length - 1), 0);
         target_stage_y = Math.max(Math.min(target_stage_y, stage_data.length - 1), 0);
         Coordinates target_stage_coords = getNearTargetStageCoords(target_stage_x, target_stage_y, enemy);
@@ -31,7 +29,6 @@ public class EnemyGoNearTarget extends EnemyGoToTarget
     double terminating_completion_pct, double turn_around_pct, int target_stage_x, int target_stage_y) 
     {
         super(enemy_movement, stage, enemy, munch_man, terminating_completion_pct, turn_around_pct);
-        this.enemy = enemy;
         target_stage_x = Math.max(Math.min(target_stage_x, stage_data[0].length - 1), 0);
         target_stage_y = Math.max(Math.min(target_stage_y, stage_data.length - 1), 0);
         Coordinates target_stage_coords = getNearTargetStageCoords(target_stage_x, target_stage_y, enemy);

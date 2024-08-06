@@ -9,7 +9,7 @@ import javax.sound.sampled.Clip;
  */
 public class AppAudio
 {
-    private LinkedList<AudioFile> audio_files = new LinkedList<AudioFile>();
+    private static LinkedList<AudioFile> audio_files = new LinkedList<AudioFile>();
 
     @Override
     protected void finalize() throws Throwable 
@@ -23,7 +23,7 @@ public class AppAudio
      * @param file_name
      * - The WAV file to play. 
      */
-    public void playAudioFile(String file_name)
+    public static void playAudioFile(String file_name)
     {
         audio_files.addLast(new AudioFile(file_name)); 
         audio_files.getLast().getAudioClip().start();
@@ -35,7 +35,7 @@ public class AppAudio
      * @param file_name
      * - The WAV file to indefinitely play. 
      */
-    public void playAudioFileLoopContinuously(String file_name)
+    public static void playAudioFileLoopContinuously(String file_name)
     {
         if(!containsAudioFile(file_name))
         {
@@ -54,7 +54,7 @@ public class AppAudio
      * @param count
      * - The amount of times the WAV file should be consecutively played. 
      */
-    public void playAudioFileLoop(String file_name, int count)
+    public static void playAudioFileLoop(String file_name, int count)
     {
         audio_files.addLast(new AudioFile(file_name));
         audio_files.getLast().getAudioClip().loop(count);
@@ -67,7 +67,7 @@ public class AppAudio
      * @param file_name
      * - The WAV file to stop playing. 
      */
-    public void stopAudioFile(String file_name)
+    public static void stopAudioFile(String file_name)
     {
         for(int i = 0; i < audio_files.size(); i++)
         {
@@ -85,7 +85,7 @@ public class AppAudio
      * Used to immediately stop all WAV files from playing while canceling all replays that any of the files were expected to play. Lastly, 
      * if any WAV files passed in are not currently playing, then nothing will happen to those specific files.  
      */
-    public void stopAllAudioFiles()
+    public static void stopAllAudioFiles()
     {
         for(int i = 0; i < audio_files.size(); i++)
         {
@@ -105,7 +105,7 @@ public class AppAudio
      * @return 
      *  Whether or not the WAV file in question is currently playing. 
      */
-    private boolean containsAudioFile(String file_name)
+    private static boolean containsAudioFile(String file_name)
     {
         for(int i = 0; i < audio_files.size(); i++)
         {

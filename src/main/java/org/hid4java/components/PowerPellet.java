@@ -36,6 +36,12 @@ public class PowerPellet extends EntityBase
         return eaten;
     }
 
+    public void fullReset() 
+    {
+        reset();
+        setAnimation(getAnimation(0).getName());
+    }
+
     public void reset() 
     {
         eaten = false;

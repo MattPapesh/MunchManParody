@@ -1,7 +1,6 @@
 package org.hid4java.mechanics.stage;
 
-import java.lang.invoke.ConstantCallSite;
-
+import org.hid4java.app.audio.AppAudio;
 import org.hid4java.components.MunchMan;
 import org.hid4java.components.Stage;
 import org.hid4java.components.StageChain;
@@ -34,8 +33,12 @@ public class PlaceStageChain extends MechanicBase
     {   
         stage_chain.update(munch_man.getCoordinates().getX(), munch_man.getCoordinates().getY());
         stage_chain.logChainPlacement(munch_man.getStageCoords().getX(), munch_man.getStageCoords().getY());
-        Constants.score += Constants.PELLET_PTS * (Math.max(stage_chain.numOfChain() - chain_count, 0));
+        int pts = Constants.PELLET_PTS * (Math.max(stage_chain.numOfChain() - chain_count, 0));
+        Constants.score += pts; 
         chain_count = stage_chain.numOfChain();
+        if(pts > 0) {
+            AppAudio.playAudioFile("Chain.wav");
+        }
     }
 
     @Override

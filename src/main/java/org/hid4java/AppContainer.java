@@ -2,8 +2,6 @@ package org.hid4java;
 
 import org.hid4java.fundamentals.appbase.AppBase;
 import org.hid4java.fundamentals.mechanic.InstantMechanic;
-import org.hid4java.fundamentals.mechanic.MechanicBase;
-import org.hid4java.fundamentals.mechanic.MechanicScheduler;
 import org.hid4java.mechanics.EatPowerPellet;
 import org.hid4java.mechanics.KillMunchMan;
 import org.hid4java.mechanics.PuppetMunchMan;
@@ -15,9 +13,8 @@ import org.hid4java.mechanics.behavior.LevelBehavior;
 import org.hid4java.mechanics.movement.EntityMovement;
 import org.hid4java.mechanics.stage.PlaceStageChain;
 import org.hid4java.fundamentals.Constants;
-import org.hid4java.fundamentals.GameMath;
 import org.hid4java.fundamentals.UI.*;
-import org.hid4java.fundamentals.animation.Animation;
+import org.hid4java.app.audio.AppAudio;
 import org.hid4java.app.input.NESControllerInput.Button;
 import org.hid4java.components.Enemy;
 import org.hid4java.components.MunchMan;
@@ -28,10 +25,10 @@ import org.hid4java.components.StageChain;
 
 public class AppContainer extends AppBase
 {
-    private final double PLAYER_DEF_SPEED = 0.1;
-    private final double ENEMY_DEF_SPEED = 0.1;
+    private final double PLAYER_DEF_SPEED = 0.2;
+    private final double ENEMY_DEF_SPEED = 0.2;
 
-    //private NESController nes_controller = getNESController();
+    private NESController nes_controller = getNESController();
     private Controller controller = getController(Constants.CONTROLLER_IDS.LEFT_KEY, Constants.CONTROLLER_IDS.RIGHT_KEY, 
     Constants.CONTROLLER_IDS.UP_KEY, Constants.CONTROLLER_IDS.DOWN_KEY);
 
@@ -94,10 +91,10 @@ public class AppContainer extends AppBase
     private void configureButtonBindings() 
     {    
         // NES Controller Button Bindings:
-        //nes_controller.whenPressed(Button.LEFT, new InstantMechanic(()->{ player_movement.setTickVelocity(-PLAYER_DEF_SPEED, 0); }));
-        //nes_controller.whenPressed(Button.RIGHT, new InstantMechanic(()->{ player_movement.setTickVelocity(PLAYER_DEF_SPEED, 0); }));
-        //nes_controller.whenPressed(Button.UP, new InstantMechanic(()->{ player_movement.setTickVelocity(0, -PLAYER_DEF_SPEED); }));
-        //nes_controller.whenPressed(Button.DOWN, new InstantMechanic(()->{ player_movement.setTickVelocity(0, PLAYER_DEF_SPEED); }));
+        nes_controller.whenPressed(Button.LEFT, new InstantMechanic(()->{ player_movement.setTickVelocity(-PLAYER_DEF_SPEED, 0); }));
+        nes_controller.whenPressed(Button.RIGHT, new InstantMechanic(()->{ player_movement.setTickVelocity(PLAYER_DEF_SPEED, 0); }));
+        nes_controller.whenPressed(Button.UP, new InstantMechanic(()->{ player_movement.setTickVelocity(0, -PLAYER_DEF_SPEED); }));
+        nes_controller.whenPressed(Button.DOWN, new InstantMechanic(()->{ player_movement.setTickVelocity(0, PLAYER_DEF_SPEED); }));
         // Keyboard Controller Button Bindings:
         controller.whenLeftPressed(new InstantMechanic(()->{ if(!munch_man.isKilled()) player_movement.setTickVelocity(-PLAYER_DEF_SPEED, 0); }));
         controller.whenRightPressed(new InstantMechanic(()->{ if(!munch_man.isKilled()) player_movement.setTickVelocity(PLAYER_DEF_SPEED, 0); }));
@@ -105,7 +102,6 @@ public class AppContainer extends AppBase
         controller.whenDownPressed(new InstantMechanic(()->{ if(!munch_man.isKilled()) player_movement.setTickVelocity(0, PLAYER_DEF_SPEED); }));
     }
 
-    long x = 0;
     public AppContainer() 
     {
         configureButtonBindings();
@@ -146,28 +142,45 @@ public class AppContainer extends AppBase
         eat_pellot_D.schedule();
 
         kill_munch_man.schedule();
+        AppAudio.playAudioFileLoopContinuously("Default.wav");
     }
 
     public void periodic() 
     {
         if(stage_chain.isAllChainPlaced() || Constants.lives <= 0) {
             if(Constants.lives > 0) { 
+                AppAudio.stopAllAudioFiles();
+                AppAudio.playAudioFile("Win.wav");
+                long millis = System.currentTimeMillis();
+                while(System.currentTimeMillis() - millis <= 3000) {}
+
                 Constants.level++;
+                stage.setNextAnimation();
+                kill_munch_man.reset();
+                A.reset();
+                B.reset();
+                C.reset();
+                D.reset();
             }
             else {
+                AppAudio.stopAllAudioFiles();
+                AppAudio.playAudioFile("GameOver.wav");
+                long millis = System.currentTimeMillis();
+                while(System.currentTimeMillis() - millis <= 4000) {}
+
                 Constants.high_score = (Constants.score > Constants.high_score) ? Constants.score : Constants.high_score;
                 Constants.score = 0;
                 Constants.level = 1;
                 Constants.lives = 3;
+                stage.setAnimation(stage.getAnimation(0).getName());
+                kill_munch_man.reset();
+                A.fullReset();
+                B.fullReset();
+                C.fullReset();
+                D.fullReset();
             }
 
-            stage.setNextAnimation();
             stage_chain.reset();
-            A.reset();
-            B.reset();
-            C.reset();
-            D.reset();
-
             red_level.nextLevel(Constants.level);
             yellow_level.nextLevel(Constants.level);
             blue_level.nextLevel(Constants.level);

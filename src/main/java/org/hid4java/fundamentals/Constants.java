@@ -38,7 +38,7 @@ public class Constants
         public static final float FONT_SIZE = 30f; 
         public static final int WINDOW_WIDTH = (int)Toolkit.getDefaultToolkit().getScreenSize().getWidth();
         public static final int WINDOW_HEIGHT = (int)Toolkit.getDefaultToolkit().getScreenSize().getHeight();
-        public static final long REFRESH_RATE_NANOS = 0;
+        public static final long REFRESH_RATE_NANOS = 100;
         public static final double GRAPHICS_X_SCALER_COEFF = (Toolkit.getDefaultToolkit().getScreenSize().getWidth() / 1302.0) * 1.03;
         public static final double GRAPHICS_Y_SCALER_COEFF = (Toolkit.getDefaultToolkit().getScreenSize().getHeight() / 975.0) * 0.975;
         public static final int GRAPHICS_X_TRANSLATION = 0;
@@ -136,7 +136,7 @@ public class Constants
     public static final int POWER_PELLET_PTS = 50; 
     public static final int EAT_ENEMY_PTR = 500; 
 
-    public static final int POWER_PELLOT_DURATION_MILLIS = 10000;
+    public static final int POWER_PELLOT_DURATION_MILLIS = 8000;
 
     public static final float[] ENEMY_HUE = 
     {

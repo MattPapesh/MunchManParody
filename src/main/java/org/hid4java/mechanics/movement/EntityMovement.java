@@ -3,8 +3,6 @@ package org.hid4java.mechanics.movement;
 import org.hid4java.fundamentals.mechanic.MechanicBase;
 import org.hid4java.fundamentals.Constants;
 import org.hid4java.fundamentals.Coordinates;
-import org.hid4java.fundamentals.GameMath;
-import org.hid4java.components.Enemy;
 import org.hid4java.components.EntityBase;
 import org.hid4java.components.Stage;
 

@@ -1,5 +1,6 @@
 package org.hid4java.mechanics;
 
+import org.hid4java.app.audio.AppAudio;
 import org.hid4java.components.Enemy;
 import org.hid4java.components.MunchMan;
 import org.hid4java.components.PowerPellet;
@@ -43,6 +44,8 @@ public class EatPowerPellet extends MechanicBase
             Constants.score += Constants.POWER_PELLET_PTS;
             eaten_millis = System.currentTimeMillis();
 
+            AppAudio.stopAudioFile("Default.wav");
+            AppAudio.playAudioFile("Weakened.wav");
             other_0.enableWeakenedState(true);
             other_1.enableWeakenedState(true);
             other_2.enableWeakenedState(true);
@@ -51,6 +54,8 @@ public class EatPowerPellet extends MechanicBase
         }
         else if(pellet.getEaten() && is_reset && System.currentTimeMillis() - eaten_millis >= power_delay_millis) {
             is_reset = false;
+            AppAudio.playAudioFileLoopContinuously("Default.wav");
+            AppAudio.stopAudioFile("Weakened.wav");
             other_0.enableWeakenedState(false);
             other_1.enableWeakenedState(false);
             other_2.enableWeakenedState(false);

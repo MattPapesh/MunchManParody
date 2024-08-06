@@ -5,7 +5,6 @@ import org.hid4java.components.MunchMan;
 import org.hid4java.components.PowerPellet;
 import org.hid4java.components.Stage;
 import org.hid4java.fundamentals.GameMath;
-import org.hid4java.fundamentals.mechanic.MechanicScheduler;
 import org.hid4java.mechanics.movement.EntityMovement;
 
 public class WeakenedEnemyBehavior extends EnemyRetreatingWanderBehavior

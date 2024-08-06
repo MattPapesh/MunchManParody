@@ -39,10 +39,6 @@ public class AppGraphics extends JPanel
         Graphics2D graphics_2d = (Graphics2D)graphics;
         graphics_2d.translate(Constants.WINDOW_CHARACTERISTICS.GRAPHICS_X_TRANSLATION, 
         Constants.WINDOW_CHARACTERISTICS.GRAPHICS_Y_TRANSLATION);
-        double x_scaler = (double)Constants.WINDOW_CHARACTERISTICS.WINDOW_WIDTH / 
-        Toolkit.getDefaultToolkit().getScreenSize().getWidth();
-        double y_scaler = (double)Constants.WINDOW_CHARACTERISTICS.WINDOW_HEIGHT /
-        Toolkit.getDefaultToolkit().getScreenSize().getHeight();
         for(int i = 0; i < ComponentScheduler.getComponents().size(); i++)
         {
             try

@@ -1,6 +1,5 @@
 package org.hid4java.components;
 
-import java.awt.image.BufferedImage;
 import java.util.LinkedList;
 import java.util.function.Function;
 
@@ -113,7 +112,7 @@ public class Enemy extends EntityBase
         initialized = false;
         if(enemy_movement != null) {
             enemy_movement.reset(stage_x, stage_y, degree);
-            enableWeakenedState(is_weakened_state);
+            //enableWeakenedState(is_weakened_state);
             importAnimations(getEnemyType(enemy_index));
         }
     } 

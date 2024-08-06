@@ -1,7 +1,6 @@
 package org.hid4java.fundamentals.component;
 
 import java.util.LinkedList;
-import java.awt.*;
 
 import org.hid4java.fundamentals.Coordinates;
 import org.hid4java.fundamentals.animation.Animation;

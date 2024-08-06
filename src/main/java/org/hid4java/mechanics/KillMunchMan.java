@@ -1,7 +1,6 @@
 package org.hid4java.mechanics;
 
-import java.util.logging.Level;
-
+import org.hid4java.app.audio.AppAudio;
 import org.hid4java.components.Enemy;
 import org.hid4java.components.MunchMan;
 import org.hid4java.components.MunchManLives;
@@ -15,6 +14,7 @@ public class KillMunchMan extends MechanicBase
     private MunchManLives lives = null;
     private Enemy other_0 = null, other_1 = null, other_2 = null, other_3 = null; 
     private LevelBehavior level_0 = null, level_1 = null, level_2 = null, level_3 = null;
+    private boolean init = false;
 
     public KillMunchMan(MunchMan munch_man, MunchManLives lives, Enemy other_0, 
     Enemy other_1, Enemy other_2, Enemy other_3, LevelBehavior level_0, 
@@ -34,10 +34,30 @@ public class KillMunchMan extends MechanicBase
         addRequirements(munch_man, lives, other_0, other_1, other_2, other_3);
     }    
 
+    public void reset() 
+    {
+        init = false;
+    }
+
     @Override
     public void execute() 
     {
-        if(munch_man.isKilled()) {
+        if(!init) {
+            init = true; 
+            AppAudio.stopAllAudioFiles();
+            AppAudio.playAudioFile("Start.wav");
+            long millis = System.currentTimeMillis();
+            while(System.currentTimeMillis() - millis <= 3000) {}
+            AppAudio.playAudioFileLoopContinuously("Default.wav");
+            
+        }
+
+        if(munch_man.isKilled()) {    
+            AppAudio.stopAllAudioFiles();
+            AppAudio.playAudioFile("Death.wav");
+            long millis = System.currentTimeMillis();
+            while(System.currentTimeMillis() - millis <= 3000) {}
+            
             other_0.reset();
             other_1.reset();
             other_2.reset();
@@ -50,6 +70,7 @@ public class KillMunchMan extends MechanicBase
             level_3.reset();
 
             lives.setNextAnimation();
+            init = false; 
             Constants.lives--;
         }
     }

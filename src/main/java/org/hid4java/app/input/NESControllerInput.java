@@ -1,8 +1,6 @@
 package org.hid4java.app.input;
 
 import java.util.BitSet;
-import java.util.List;
-
 import org.hid4java.event.HidDevice;
 import org.hid4java.event.HidManager;
 import org.hid4java.event.HidServices;
@@ -55,7 +53,6 @@ public class NESControllerInput
     // Raw controller data buffer
     private BitSet buffer_0 = null, buffer_1 = null;
     private byte[] hid_buffer = new byte[HID_BUFFER_SIZE]; 
-    private List<HidDevice> devices = null;
     // Calls of run() required to elapse before polling controller data. 
     private final int POLL_PERIOD_CALL_DELAY = 1;
     private int elapsed_poll_calls = 0;
