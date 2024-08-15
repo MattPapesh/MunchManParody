@@ -12,10 +12,10 @@ public class Constants
 {       
     public static final class CONTROLLER_IDS
     {
-        public static final int LEFT_KEY = 83;//65; S
-        public static final int RIGHT_KEY = 68; //D
-        public static final int UP_KEY = 69;//87; E
-        public static final int DOWN_KEY = 88;//83; X
+        public static final int LEFT_KEY = 37;//83;//65; S
+        public static final int RIGHT_KEY = 39;//68; //D
+        public static final int UP_KEY = 38;//69;//87; E
+        public static final int DOWN_KEY = 40;//88;//83; X
     };
 
     /*
@@ -38,7 +38,7 @@ public class Constants
         public static final float FONT_SIZE = 30f, BIG_FONT_SIZE1 = 40f, BIG_FONT_SIZE2 = 60f; 
         public static final int WINDOW_WIDTH = (int)Toolkit.getDefaultToolkit().getScreenSize().getWidth();
         public static final int WINDOW_HEIGHT = (int)Toolkit.getDefaultToolkit().getScreenSize().getHeight();
-        public static final long REFRESH_RATE_NANOS = 100;
+        public static final long REFRESH_RATE_NANOS = 1;
         public static final double GRAPHICS_X_SCALER_COEFF = (Toolkit.getDefaultToolkit().getScreenSize().getWidth() / 1302.0) * 1.03;
         public static final double GRAPHICS_Y_SCALER_COEFF = (Toolkit.getDefaultToolkit().getScreenSize().getHeight() / 975.0) * 0.975;
         public static final int GRAPHICS_X_TRANSLATION = 0;

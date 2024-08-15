@@ -26,8 +26,8 @@ import org.hid4java.components.StageChain;
 
 public class AppContainer extends AppBase
 {
-    private final double PLAYER_DEF_SPEED = 0.2;
-    private final double ENEMY_DEF_SPEED = 0.2;
+    private final double PLAYER_DEF_SPEED = 0.25;
+    private final double ENEMY_DEF_SPEED = 0.25;
 
     private AppInput app_input = null; 
     private NESController nes_controller = getNESController();
